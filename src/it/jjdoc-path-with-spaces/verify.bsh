@@ -1,0 +1,27 @@
+import java.io.*;
+import java.util.*;
+import org.codehaus.plexus.util.*;
+
+try
+{
+    File targetDir = new File( basedir, "target" );
+    if ( !targetDir.isDirectory() )
+    {
+        System.err.println( "Missing output directory: " + targetDir );
+        return false;
+    }
+
+    File file1 = new File( targetDir, "jj doc/jjdoc/BasicParser.html" );
+    if ( !file1.isFile() )
+    {
+        System.err.println( "Missing JJDoc output file: " + file1 );
+        return false;
+    }
+}
+catch( Throwable t )
+{
+    t.printStackTrace();
+    return false;
+}
+
+return true;

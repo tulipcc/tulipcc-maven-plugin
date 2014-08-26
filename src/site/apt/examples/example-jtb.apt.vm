@@ -1,0 +1,63 @@
+ ------
+ JTB Examples
+ ------
+ Paul Gier <pgier at redhat.com>
+ ------
+ January 04 2008
+ ------
+
+JTB Examples
+
+  If you want to use JavaCC in combination with JTB, simply copy the following snippet into your POM and adjust the
+  goal configuration where the default values do not fit your needs. A list of all configuration options can be seen on
+  the <<<{{{../jtb-javacc-mojo.html}jtb-javacc}}>>> goal page.
+
+-------------------
+<project>
+  ...
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>javacc-maven-plugin</artifactId>
+        <version>${project.version}</version>
+        <executions>
+          <execution>
+            <id>jtb-javacc</id>
+            <goals>
+              <goal>jtb-javacc</goal>
+            </goals>
+            <configuration>
+              <!-- options for JTB and JavaCC go here -->
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      ...
+    </plugins>
+    ...
+  </build>
+  ...
+</project>
+-------------------
+
+  If you know older versions of the plugin you might be glad to notice that you no longer need to setup two executions
+  to have JTB and JavaCC run in a pipeline. The <<<jtb-javacc>>> goal automatically runs both tools.
+
+  Once the plugin is properly configured, you can generate the parser along with the tree nodes files by executing the
+  <<<generate-sources>>> lifecycle phase:
+
++-----+
+mvn generate-sources
++-----+
+
+  Alternatively, you can invoke the <<<jtb-javacc>>> goal directly from the command line, i.e. without having any other
+  goals run that might be bound to lifecycle phases of your build:
+
++-----+
+mvn javacc:jtb-javacc
++-----+
+
+  <<Note:>> If you want to use the later call you need to put the <<<\<configuration\>>>> element directly into the
+  <<<\<plugin\>>>> element. That is because the configuration inside the <<<\<execution\>>>> element only applies if
+  the goal is run as part of a lifecycle phase.

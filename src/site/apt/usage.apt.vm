@@ -1,0 +1,93 @@
+ ------
+ Usage
+ ------
+ Paul Gier <pgier at redhat.com>
+ ------
+ January 04 2008
+ ------
+
+Usage
+
+  The JavaCC Plugin can both generate parsers from grammars and output a textual documentation of the grammars. The
+  sections below should help you to get started. If you have problems using the plugin, please feel free to post your
+  question to the {{{./mail-lists.html}user mailing list}}.
+
+* {Compiling Grammars into Parsers}
+
+  By default, the <<<{{{./javacc-mojo.html}javacc}}>>> goal will search for grammar files in the directory
+  <<<$\{basedir\}/src/main/javacc>>>. The <<<{{{./jjtree-javacc-mojo.html}jjtree-javacc}}>>> goal will expect to find
+  <<<*.jjt>>> files in <<<$\{basedir\}/src/main/jjtree>>> and the <<<{{{./jtb-javacc-mojo.html}jtb-javacc}}>>> goal will
+  expect to find <<<*.jtb>>> files in <<<$\{basedir\}/src/main/jtb>>>.  Each of these can be configured to search other
+  directories using the plugin configuration parameters as described in the respective goal documentation.
+
+  The next step is to configure your POM to call the plugin.  The goals will normally run during the
+  <<<generate-sources>>> phase of the build.  Examples of how to configure your POM can be found on the various examples
+  pages, reachable via the page menu. If you stick with the default values, the snippet below will suffice:
+
+-------------------
+<project>
+  ...
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>javacc-maven-plugin</artifactId>
+        <version>${project.version}</version>
+        <executions>
+          <execution>
+            <id>javacc</id>
+            <goals>
+              <goal>javacc</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+    ...
+  </build>
+  ...
+</project>
+-------------------
+
+  Next run your build:
+  
++-----+
+mvn generate-sources
++-----+
+    
+  For the <<<javacc>>> goal, Java source files will be generated to the directory <<<target/generated-sources/javacc>>>
+  and this path will be added to your build as a source folder and automatically picked up by the next steps of the
+  build (such as compilation).
+  
+* {Creating BNF Documentation from Grammars}
+
+  The <<<{{{./jjdoc-mojo.html}jjdoc}}>>> goal is a tool for generating a site report.  If the JavaCC Maven Plugin is added
+  to the reporting section of your POM, the <<<jjdoc>>> goal will automatically be run when generating the project site.
+  It will run the JJDoc tool once for each grammar file (<<<*.jj>>>) in your source directory.  Each of these files,
+  along with an index file containing a list of all the reports, will be created in the directory <<<target/site/jjdoc>>>.
+  A default configuration looks like this:
+
+-------------------
+<project>
+  ...
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>javacc-maven-plugin</artifactId>
+        <version>${project.version}</version>
+      </plugin>
+    </plugins>
+    ...
+  </reporting>
+  ...
+</project>
+-------------------
+  
+  After the plugin is added to the reporting section of the POM, just run the following command to create the BNF
+  documentation:
+  
++-----+
+mvn site
++-----+
+   

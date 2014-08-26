@@ -1,0 +1,36 @@
+ ------
+ JJDoc Examples
+ ------
+ Paul Gier <pgier at redhat.com>
+ ------
+ January 04 2008
+ ------
+
+JJDoc Examples
+
+  The following example can be used to create a JJDoc site report.  For a list of configuration
+  parameters, consult the <<<{{{../jjdoc-mojo.html}jjdoc}}>>> goal documentation.  The <<<jjdoc>>> goal does 
+  not need to be specified since it will automatically be used during site generation.
+
+-------------------
+<project>
+  ...
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>javacc-maven-plugin</artifactId>
+        <version>${project.version}</version>
+      </plugin>
+      ...
+    </plugins>
+  </reporting>
+  ...
+</project>
+-------------------
+
+  To generate the BNF documentation, simply execute the site lifecycle phase:
+
++-----+
+mvn site
++-----+

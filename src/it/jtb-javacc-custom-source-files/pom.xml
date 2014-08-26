@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.codehaus.mojo.javacc</groupId>
+  <artifactId>it-test</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <name>Integration Test</name>
+  <url>http://maven.apache.org</url>
+  <description>
+    Check handling of custom source files in existing compile source roots (MJAVACC-87).
+  </description>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>com.phloc.maven</groupId>
+        <artifactId>phlocjavacc-maven-plugin</artifactId>
+        <version>@pom.version@</version>
+        <executions>
+          <execution>
+            <id>jtb-javacc</id>
+            <goals>
+              <goal>jtb-javacc</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.0.2</version>
+        <configuration>
+          <!-- required for JTB -->
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

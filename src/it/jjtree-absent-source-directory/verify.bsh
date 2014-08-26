@@ -1,0 +1,20 @@
+import java.io.*;
+import java.util.*;
+import org.codehaus.plexus.util.*;
+
+try
+{
+    File outputFolder = new File( basedir, "target" );
+    if ( outputFolder.exists() )
+    {
+        System.err.println( "Found unexpected output folder: " + outputFolder );
+        return false;
+    }
+}
+catch( Throwable t )
+{
+    t.printStackTrace();
+    return false;
+}
+
+return true;

@@ -1,0 +1,66 @@
+PARSER_BEGIN(SubScheme)
+
+import visitor.DepthFirstVisitor;
+
+public class SubScheme {
+
+  public static void main(String args[]) {
+    SubScheme parser;
+
+    System.out.println("Reading from standard input. . .");
+    parser = new SubScheme(System.in);
+
+    try {
+      Node root = parser.Unit();
+      System.out.println("Parsed successfully.");
+      root.accept(new DepthFirstVisitor());
+    } catch (ParseException e) {
+      System.out.println(e.getMessage());
+      System.out.println("Encountered errors during parse.");
+    }
+  }
+
+}
+PARSER_END(SubScheme)
+
+SKIP : /* WHITE SPACE */
+{
+  " "
+| "\t"
+| "\n"
+| "\r"
+| "\f"
+}
+
+TOKEN : {
+   < LAMBDA : "lambda" >
+ |
+   < IDENT  : <LETTER> (<LETTER>|<DIGIT>)* >
+|
+   < #LETTER: ["_","a"-"z","A"-"Z"] >
+|
+   < #DIGIT : ["0"-"9"] >
+}
+
+void Unit() : {}
+{
+   ( Exp() )+ <EOF>
+}
+
+void Exp() : {}
+{
+   <IDENT>
+ |
+   LOOKAHEAD(2) LambdaDecl()
+ |
+   LOOKAHEAD(2) "(" Exp() ( Exp() )* ")"
+ |
+   "0"
+ |
+   "(" "+" Exp() "1" ")"
+}
+
+void LambdaDecl() : {}
+{
+   "(" "lambda" "(" ( <IDENT> )* ")" Exp() ")"
+}

@@ -1,0 +1,36 @@
+
+
+PARSER_BEGIN(BasicParser)
+
+package org.codehaus.javacc.test;
+
+public class BasicParser {
+
+  public static void main(String args[]) throws ParseException {
+    Simple2 parser = new Simple2(System.in);
+    parser.Input();
+  }
+
+}
+
+PARSER_END(BasicParser)
+
+SKIP :
+{
+  " "
+| "\t"
+| "\n"
+| "\r"
+}
+
+void Input() :
+{}
+{
+  MatchedBraces() <EOF>
+}
+
+void MatchedBraces() :
+{}
+{
+  "{" [ MatchedBraces() ] "}"
+}

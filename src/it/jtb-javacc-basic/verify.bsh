@@ -1,0 +1,51 @@
+import java.io.*;
+import java.util.*;
+import org.codehaus.plexus.util.*;
+
+try
+{
+    File javaccDir = new File( basedir, "target/generated-sources/javacc" );
+    File jtbDir = new File( basedir, "target/generated-sources/jtb" );
+    
+    File nodeFile = new File( jtbDir, "org/syntaxtree/Node.java");
+    if ( nodeFile.length() <= 0 )
+    {
+        System.err.println( "Could not find generated java file: " + nodeFile );
+        return false;
+    }
+    
+    File visitorFile = new File( jtbDir, "org/visitor/Visitor.java");
+    if ( visitorFile.length() <= 0 )
+    {
+        System.err.println( "Could not find generated java file: " + visitorFile );
+        return false;
+    }
+    
+    File parserFile = new File( javaccDir, "org/SubScheme.java");
+    if ( parserFile.length() <= 0 )
+    {
+        System.err.println( "Could not find generated java file: " + parserFile );
+        return false;
+    }
+
+    File customFile = new File( javaccDir, "org/Token.java" );
+    if ( customFile.length() <= 0 )
+    {
+        System.err.println( "Could not find generated java file: " + file );
+        return false;
+    }
+
+    String contents = FileUtils.fileRead( customFile, "UTF-8" );
+    if ( !contents.startsWith( "/* CUSTOMIZED PARSER FILE" ) )
+    {
+        System.err.println( "Custom java file has been ignored or replaced with generated file" );
+        return false;
+    }
+}
+catch( Throwable t )
+{
+    t.printStackTrace();
+    return false;
+}
+
+return true;

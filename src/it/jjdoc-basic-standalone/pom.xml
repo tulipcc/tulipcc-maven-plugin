@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.codehaus.mojo.javacc</groupId>
+  <artifactId>it-test</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <name>Integration Test</name>
+  <url>http://maven.apache.org</url>
+  <description>
+    Check report output during a standalone generation.
+  </description>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>com.phloc.maven</groupId>
+        <artifactId>phlocjavacc-maven-plugin</artifactId>
+        <version>@pom.version@</version>
+      </plugin>
+      <plugin>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>@sitePluginVersion@</version>
+      </plugin>
+    </plugins>
+  </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <artifactId>phlocjavacc-maven-plugin</artifactId>
+        <groupId>com.phloc.maven</groupId>
+        <version>@pom.version@</version>
+      </plugin>
+    </plugins>
+  </reporting>
+
+</project>

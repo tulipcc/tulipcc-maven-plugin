@@ -1,0 +1,34 @@
+import java.io.*;
+import java.util.*;
+import org.codehaus.plexus.util.*;
+
+try
+{
+    File targetDir = new File( basedir, "target" );
+    if ( !targetDir.isDirectory() )
+    {
+        System.err.println( "Missing output directory: " + targetDir );
+        return false;
+    }
+
+    File outFile = new File( targetDir, "jj tree/org/Simple.jj" );
+    if ( !outFile.isFile() )
+    {
+        System.err.println( "Missing JJTree output file: " + outFile );
+        return false;
+    }
+
+    File tsFile = new File( targetDir, "jj tree ts/Simple.jjt" );
+    if ( !tsFile.isFile() )
+    {
+        System.err.println( "Missing JJTree timestamp file: " + tsFile );
+        return false;
+    }
+}
+catch( Throwable t )
+{
+    t.printStackTrace();
+    return false;
+}
+
+return true;

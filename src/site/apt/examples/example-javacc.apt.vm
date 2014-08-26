@@ -1,0 +1,95 @@
+ ------
+ JavaCC Examples
+ ------
+ Paul Gier <pgier at redhat.com>
+ ------
+ January 04 2008
+ ------
+
+JavaCC Examples
+
+  This page provides examples of how to use the <<<javacc>>> goal.
+
+* Basic Example
+
+  This example shows how to pass parameters to JavaCC.  A list of all 
+  configuration options can be seen on the <<<{{{../javacc-mojo.html}javacc}}>>> goal page.
+  
+-------------------
+<project>
+  ...
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>javacc-maven-plugin</artifactId>
+        <version>${project.version}</version>
+        <executions>
+          <execution>
+            <id>javacc</id>
+            <goals>
+              <goal>javacc</goal>
+            </goals>
+            <configuration>
+              <lookAhead>2</lookAhead>
+              <isStatic>false</isStatic>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      ...
+    </plugins>
+    ...
+  </build>
+  ...
+</project>
+-------------------
+
+* Using Excludes and Includes
+
+  Sometimes you may want to process some grammar files before others.  In this case the <<<\<includes\>>>> and <<<\<excludes\>>>>
+  configuration options can be used.  In the example below, all files in the source directory that end 
+  with <<<-step-1.jj>>> will be processed by JavaCC, and then all other <<<.jj>>> files will be processed.
+
+-------------------
+<project>
+  ...
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>javacc-maven-plugin</artifactId>
+        <version>${project.version}</version>
+        <executions>
+          <execution>
+            <id>javacc-step-1</id>
+            <goals>
+              <goal>javacc</goal>
+            </goals>
+            <configuration>
+              <includes>
+                <include>**/*-step-1.jj</include>
+              </includes>
+            </configuration>
+          </execution>
+          <execution>
+            <id>javacc-step-2</id>
+            <goals>
+              <goal>javacc</goal>
+            </goals>
+            <configuration>
+              <excludes>
+                <exclude>**/*-step-1.jj</exclude>
+              </excludes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      ...
+    </plugins>
+    ...
+  </build>
+  ...
+</project>
+-------------------
+

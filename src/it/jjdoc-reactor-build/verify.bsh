@@ -1,0 +1,49 @@
+import java.io.*;
+import java.util.*;
+import org.codehaus.plexus.util.*;
+
+try
+{
+    {
+        File target = new File( basedir, "target" );
+        if ( target.exists() )
+        {
+            String[] files = target.list();
+            if ( files != null && ( files.length > 1 || !"site".equals( files[0] ) ) )
+            {
+                System.err.println( "Parent project has unexpected output: " + Arrays.asList( files ) );
+                return false;
+            }
+        }
+
+        File jjdoc = new File( target, "site/jjdoc" );
+        if ( jjdoc.exists() )
+        {
+            System.err.println( "Parent project has unexpected JJDoc output: " + jjdoc );
+            return false;
+        }
+    }
+
+    {
+        File target = new File( basedir, "module/target" );
+        if ( !target.isDirectory() )
+        {
+            System.err.println( "Sub module has no output folder: " + target );
+            return false;
+        }
+
+        File jjdoc = new File( target, "site/jjdoc/BasicParser.html" );
+        if ( !jjdoc.isFile() )
+        {
+            System.err.println( "Sub module has no JJDoc output: " + jjdoc );
+            return false;
+        }
+    }
+}
+catch( Throwable t )
+{
+    t.printStackTrace();
+    return false;
+}
+
+return true;

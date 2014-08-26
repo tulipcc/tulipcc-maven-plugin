@@ -1,0 +1,35 @@
+
+options {
+  LOOKAHEAD = 1;
+  CHOICE_AMBIGUITY_CHECK = 2;
+  OTHER_AMBIGUITY_CHECK = 1;
+  STATIC = true;
+  DEBUG_PARSER = false;
+}
+
+PARSER_BEGIN(SimpleParser)
+
+// use default package
+
+public class SimpleParser {
+
+  public static void main(String args[]) throws ParseException {
+    SimpleParser parser = new SimpleParser(System.in);
+    parser.Input();
+  }
+
+}
+
+PARSER_END(SimpleParser)
+
+void Input() :
+{}
+{
+  MatchedBraces() ("\n"|"\r")* <EOF>
+}
+
+void MatchedBraces() :
+{}
+{
+  "{" [ MatchedBraces() ] "}"
+}

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>module</artifactId>
+  <name>Module</name>
+  <url>http://maven.apache.org</url>
+
+  <parent>
+    <groupId>org.codehaus.mojo.javacc</groupId>
+    <artifactId>reactor-build</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>com.phloc.maven</groupId>
+        <artifactId>phlocjavacc-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>jtb</goal>
+            </goals>
+            <configuration>
+              <sourceDirectory>src/jtb</sourceDirectory>
+              <outputDirectory>target/jtb</outputDirectory>
+              <timestampDirectory>target/jtb-timestamps</timestampDirectory>
+              <packageName>org</packageName>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

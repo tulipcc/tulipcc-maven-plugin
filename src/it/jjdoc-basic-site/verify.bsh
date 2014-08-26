@@ -1,0 +1,37 @@
+import java.io.*;
+import java.util.*;
+import org.codehaus.plexus.util.*;
+
+try
+{
+    File mojoOutputDir = new File( basedir, "target/it-site" );
+    if ( mojoOutputDir.exists() )
+    {
+        System.err.println( "Report was generated into wrong output directory!" );
+        return false;
+    }
+
+    File siteOutputDir = new File( basedir, "target/site" );
+
+    File indexFile = new File( siteOutputDir, "jjdoc/index.html" );
+    if ( indexFile.length() <= 0 )
+    {
+        System.out.println( "File is empty: " + indexFile );
+        return false;
+    }
+
+    File jjdocFile = new File( siteOutputDir, "jjdoc/MyParser.html" );
+    if ( jjdocFile.length() <= 0 )
+    {
+        System.out.println( "File is empty: " + jjdocFile );
+        return false;
+    }
+    
+}
+catch( Throwable t )
+{
+    t.printStackTrace();
+    return false;
+}
+
+return true;

@@ -1,0 +1,45 @@
+import java.io.*;
+import java.util.*;
+import org.codehaus.plexus.util.*;
+
+try
+{
+    {
+        File target = new File( basedir, "target" );
+        if ( target.exists() )
+        {
+            System.err.println( "Parent project has unexpected output: " + Arrays.asList( files ) );
+            return false;
+        }
+    }
+
+    {
+        File target = new File( basedir, "module/target" );
+        if ( !target.isDirectory() )
+        {
+            System.err.println( "Sub module has no output folder: " + target );
+            return false;
+        }
+
+        File jjtree = new File( target, "jjtree/org/Simple.jj" );
+        if ( !jjtree.isFile() )
+        {
+            System.err.println( "Sub module has no JJTree output: " + jjtree );
+            return false;
+        }
+
+        File timestamp = new File( target, "jjtree-timestamps/Simple.jjt" );
+        if ( !timestamp.isFile() )
+        {
+            System.err.println( "Sub module has no JJTree timestamp: " + timestamp );
+            return false;
+        }
+    }
+}
+catch( Throwable t )
+{
+    t.printStackTrace();
+    return false;
+}
+
+return true;

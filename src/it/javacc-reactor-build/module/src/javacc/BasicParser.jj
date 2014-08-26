@@ -1,0 +1,36 @@
+
+options {
+  LOOKAHEAD = 1;
+  CHOICE_AMBIGUITY_CHECK = 2;
+  OTHER_AMBIGUITY_CHECK = 1;
+  STATIC = true;
+  DEBUG_PARSER = false;
+  DEBUG_LOOKAHEAD = false;
+}
+
+PARSER_BEGIN(BasicParser)
+
+package org.codehaus.javacc.simple;
+
+public class BasicParser {
+
+  public static void main(String args[]) throws ParseException {
+    BasicParser parser = new BasicParser(System.in);
+    parser.Input();
+  }
+
+}
+
+PARSER_END(BasicParser)
+
+void Input() :
+{}
+{
+  MatchedBraces() ("\n"|"\r")* <EOF>
+}
+
+void MatchedBraces() :
+{}
+{
+  "{" [ MatchedBraces() ] "}"
+}

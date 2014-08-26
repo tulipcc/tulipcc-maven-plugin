@@ -1,0 +1,26 @@
+PARSER_BEGIN(Parser)
+
+package org;
+
+public class Parser {
+
+  public static void main(String args[]) throws ParseException {
+    Parser parser = new Parser(System.in);
+    parser.Input();
+  }
+
+}
+
+PARSER_END(Parser)
+
+void Input() :
+{}
+{
+  MatchedBraces() ("\n"|"\r")* <EOF>
+}
+
+void MatchedBraces() :
+{}
+{
+  "{" [ MatchedBraces() ] "}"
+}

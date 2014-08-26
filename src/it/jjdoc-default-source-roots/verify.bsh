@@ -1,0 +1,35 @@
+import java.io.*;
+import java.util.*;
+import org.codehaus.plexus.util.*;
+
+try
+{
+    File file1 = new File( basedir, "target/site/jjdoc/BasicParser.html" );
+    if ( file1.length() <= 0 )
+    {
+        System.err.println( "Could not find generated jjdoc file: " + file1 );
+        return false;
+    }
+    
+    File file2 = new File( basedir, "target/site/jjdoc/Simple.html" );
+    if ( file2.length() <= 0 )
+    {
+        System.err.println( "Could not find generated jjdoc file: " + file2 );
+        return false;
+    }
+    
+    File file3 = new File( basedir, "target/site/jjdoc/SubScheme.html" );
+    if ( file3.length() <= 0 )
+    {
+        System.err.println( "Could not find generated jjdoc file: " + file3 );
+        return false;
+    }
+
+}
+catch( Throwable t )
+{
+    t.printStackTrace();
+    return false;
+}
+
+return true;

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.codehaus.mojo.javacc</groupId>
+  <artifactId>it-test</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <name>Integration Test</name>
+  <url>http://maven.apache.org</url>
+  <description>
+    Check detection of grammar files via default source directories.
+  </description>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.1</version>
+        <executions>
+          <execution>
+            <id>prepare-it</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <copy todir="${project.build.directory}/generated-sources/jjtree" overwrite="true">
+                  <fileset dir="${basedir}/src/main/jjtree" includes="*"/>
+                  <globmapper from="*.jjt" to="*.jj"/>
+                </copy>
+                <copy todir="${project.build.directory}/generated-sources/jtb" overwrite="true">
+                  <fileset dir="${basedir}/src/main/jtb" includes="*"/>
+                  <globmapper from="*.jtb" to="*.jj"/>
+                </copy>
+              </tasks>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>com.phloc.maven</groupId>
+        <artifactId>phlocjavacc-maven-plugin</artifactId>
+        <version>@pom.version@</version>
+      </plugin>
+      <plugin>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>@sitePluginVersion@</version>
+      </plugin>
+    </plugins>
+  </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>com.phloc.maven</groupId>
+        <artifactId>phlocjavacc-maven-plugin</artifactId>
+        <version>@pom.version@</version>
+      </plugin>
+      <plugin>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.0.1</version>
+        <reportSets>
+          <reportSet/>
+        </reportSets>
+      </plugin>
+    </plugins>
+  </reporting>
+ 
+</project>

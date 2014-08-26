@@ -1,0 +1,61 @@
+import java.io.*;
+import java.util.*;
+import org.codehaus.plexus.util.*;
+
+try
+{
+    File outputFolder = new File( basedir, "target/generated-sources/jtb" );
+
+    {
+        File nodeFile = new File( outputFolder, "parser1/ast/Node.java");
+        if ( !nodeFile.exists() || nodeFile.isDirectory() )
+        {
+            System.err.println( "Could not find generated node file: " + nodeFile );
+            return false;
+        }
+        
+        File visitorFile = new File( outputFolder, "parser1/visit/Visitor.java");
+        if ( !visitorFile.exists() || nodeFile.isDirectory() )
+        {
+            System.err.println( "Could not find generated visitor file: " + visitorFile );
+            return false;
+        }
+        
+        File parserFile = new File( outputFolder, "parser1/Parser1.jj");
+        if ( !parserFile.exists() || parserFile.isDirectory() )
+        {
+            System.err.println( "Could not find generated jj file: " + parserFile );
+            return false;
+        }
+    }    
+
+    {
+        File nodeFile = new File( outputFolder, "parser2/ast/Node.java");
+        if ( !nodeFile.exists() || nodeFile.isDirectory() )
+        {
+            System.err.println( "Could not find generated node file: " + nodeFile );
+            return false;
+        }
+        
+        File visitorFile = new File( outputFolder, "parser2/visit/Visitor.java");
+        if ( !visitorFile.exists() || nodeFile.isDirectory() )
+        {
+            System.err.println( "Could not find generated visitor file: " + visitorFile );
+            return false;
+        }
+        
+        File parserFile = new File( outputFolder, "parser2/Parser2.jj");
+        if ( !parserFile.exists() || parserFile.isDirectory() )
+        {
+            System.err.println( "Could not find generated jj file: " + parserFile );
+            return false;
+        }
+    }    
+}
+catch( Throwable t )
+{
+    t.printStackTrace();
+    return false;
+}
+
+return true;

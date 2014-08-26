@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.codehaus.mojo.javacc</groupId>
+  <artifactId>it-test</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <name>Integration Test</name>
+  <url>http://maven.apache.org</url>
+  <description>
+    Check handling of equal input and output directory.
+  </description>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.1</version>
+        <executions>
+          <execution>
+            <id>prepare-it</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <property name="src.dir" location="${basedir}/src/main/javacc"/>
+                <property name="out.dir" location="${project.build.directory}/generated-sources/javacc"/>
+                <copy todir="${out.dir}" overwrite="true">
+                  <fileset dir="${src.dir}" includes="*"/>
+                </copy>
+              </tasks>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>com.phloc.maven</groupId>
+        <artifactId>phlocjavacc-maven-plugin</artifactId>
+        <version>@pom.version@</version>
+        <executions>
+          <execution>
+            <id>it</id>
+            <goals>
+              <goal>javacc</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <sourceDirectory>${project.build.directory}/generated-sources/javacc</sourceDirectory>
+          <outputDirectory>${project.build.directory}/generated-sources/javacc</outputDirectory>
+          <jdkVersion>1.4</jdkVersion>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

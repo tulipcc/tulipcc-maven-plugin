@@ -1,0 +1,26 @@
+import java.io.*;
+import java.util.*;
+import org.codehaus.plexus.util.*;
+
+try
+{
+    File tokenFile = new File( basedir, "target/generated-sources/javacc/Token.java" );
+    if ( !tokenFile.exists() || tokenFile.isDirectory() )
+    {
+        System.err.println( "Could not find generated Token.java file: " + tokenFile );
+        return false;
+    }
+	if ( tokenFile.length() == 0 )
+	{
+	    System.out.println("File is empty: " + tokenFile);
+	    System.out.println("It is being overwritten by javacc");
+	    return false;
+	}
+}
+catch( Throwable t )
+{
+    t.printStackTrace();
+    return false;
+}
+
+return true;

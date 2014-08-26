@@ -1,0 +1,29 @@
+import java.io.*;
+import java.util.*;
+import org.codehaus.plexus.util.*;
+
+try
+{
+    File outputFolder = new File( basedir, "target/generated-sources/jjtree" );
+    
+    File nodeFile = new File( outputFolder, "Node.java");
+    if ( nodeFile.length() <= 0 )
+    {
+        System.err.println( "Could not find generated java file: " + nodeFile );
+        return false;
+    }
+    
+    File parserFile = new File( outputFolder, "Simple.jj");
+    if ( parserFile.length() <= 0 )
+    {
+        System.err.println( "Could not find generated jj file: " + parserFile );
+        return false;
+    }
+}
+catch( Throwable t )
+{
+    t.printStackTrace();
+    return false;
+}
+
+return true;
