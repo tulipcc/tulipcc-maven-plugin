@@ -189,7 +189,7 @@
       </plugin>
       <plugin>
         <groupId>com.helger.maven</groupId>
-        <artifactId>ph-phlocjavacc-maven-plugin</artifactId>
+        <artifactId>ph-javacc-maven-plugin</artifactId>
         <version>2.8.0</version>
         <executions>
           <execution>
