@@ -22,8 +22,8 @@
     <pluginManagement>
       <plugins>
         <plugin>
-          <groupId>com.phloc.maven</groupId>
-          <artifactId>phlocjavacc-maven-plugin</artifactId>
+          <groupId>com.helger.maven</groupId>
+          <artifactId>ph-javacc-maven-plugin</artifactId>
           <version>@pom.version@</version>
         </plugin>
         <plugin>
