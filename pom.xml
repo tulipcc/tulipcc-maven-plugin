@@ -239,6 +239,18 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>com.mycila</groupId>
+        <artifactId>license-maven-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <exclude>src/main/java/**</exclude>
+            <exclude>src/main/resources/**</exclude>
+            <exclude>src/test/java/**</exclude>
+            <exclude>src/test/resources/**</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 
