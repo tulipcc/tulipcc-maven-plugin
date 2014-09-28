@@ -69,3 +69,8 @@ Example with 3 executions (two javacc and one jjtree-javacc):
 # Developer info
 
   * To run the integration tests use the following commandline `mvn test -Dit=true`
+
+---
+
+On Twitter: <a href="https://twitter.com/philiphelger">Follow @philiphelger</a>
+  
