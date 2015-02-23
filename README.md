@@ -1,7 +1,10 @@
 ph-javacc-maven-plugin
 ======================
 
-An updated version of the javacc-maven-plugin using JavaCC 6.1.3
+An updated version of the [javacc-maven-plugin](http://mojo.codehaus.org/javacc-maven-plugin/) using JavaCC 6.1.3.
+The parameters etc. where not touched, so it should be a drop-in replacement for the old javacc-maven-plugin 2.6.
+
+I'm using it e.g. in [ph-css](https://github.com/phax/ph-css) for CSS parsing as well as in [ph-json](https://github.com/phax/ph-json) to build the JSON grammar parser.
 
 # Maven usage
 
