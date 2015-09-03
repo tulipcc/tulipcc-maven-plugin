@@ -69,7 +69,7 @@ Example with 3 executions (two javacc and one jjtree-javacc):
 
 Supported goals with the respective parameters are:
   * `javacc` - parses a JavaCC grammar file (`*.jj`) and transforms it to Java source files. Detailed information about the JavaCC options can be found on the [JavaCC website](https://javacc.dev.java.net/)
-    * File `sourceDirectory` - The directory where the JavaCC grammar files (`*.jj`) are located.
+    * `File` **sourceDirectory** - The directory where the JavaCC grammar files (`*.jj`) are located.
       Defaults to `${basedir}/src/main/javacc`.
   * `jjdoc` - [JJDoc](https://javacc.dev.java.net/doc/JJDoc.html) takes a JavaCC parser specification and produces documentation for the BNF grammar. This mojo will search the source directory for all `*.jj` files and run JJDoc once for each file it finds. Each of these output files, along with an `index.html` file will be placed in the site directory (`target/site/jjdoc`), and a link will be created in the "Project Reports" menu of the generated site.
   * `jjtree-javacc` - preprocesses decorated grammar files (`*.jjt`) with JJTree and passes the output to JavaCC in order to finally generate a parser with parse tree actions.
