@@ -788,7 +788,10 @@ public class ParseEngine
         // TODO :: I don't think we need to throw an Error/Exception to mark
         // that a return statement is missing as the compiler will flag this
         // error automatically
-        if (Options.isLegacyExceptionHandling ())
+
+        // [ph] commented, because of all the "if (true)" the compiler gets
+        // confused and requires some form of terminating exception :(
+        // if (Options.isLegacyExceptionHandling ())
         {
           codeGenerator.genCodeLine ("    throw new " +
                                      (Options.isLegacyExceptionHandling () ? "Error" : "RuntimeException") +
@@ -940,11 +943,13 @@ public class ParseEngine
             final Choice e_nrw = (Choice) e;
             conds = new Lookahead [e_nrw.getChoices ().size ()];
             actions = new String [e_nrw.getChoices ().size () + 1];
-            actions[e_nrw.getChoices ().size ()] = "\n" +
-                                                   "jj_consume_token(-1);\n" +
-                                                   (isJavaDialect ? "throw new ParseException();"
-                                                                 : ("errorHandler->handleParseError(token, getToken(1), __FUNCTION__, this), hasError = true;" + (Options.booleanValue (Options.USEROPTION__CPP_STOP_ON_FIRST_ERROR) ? "return __ERROR_RET__;\n"
-                                                                                                                                                                                                                                    : "")));
+            actions[e_nrw.getChoices ()
+                         .size ()] = "\n" +
+                                     "jj_consume_token(-1);\n" +
+                                     (isJavaDialect ? "throw new ParseException();"
+                                                    : ("errorHandler->handleParseError(token, getToken(1), __FUNCTION__, this), hasError = true;" +
+                                                       (Options.booleanValue (Options.USEROPTION__CPP_STOP_ON_FIRST_ERROR) ? "return __ERROR_RET__;\n"
+                                                                                                                           : "")));
 
             // In previous line, the "throw" never throws an exception since the
             // evaluation of jj_consume_token(-1) causes ParseException to be
@@ -1200,7 +1205,8 @@ public class ParseEngine
     {
       codeGenerator.genCodeLine ("    jj_done = false;");
       codeGenerator.genCodeLine ("    return !jj_3" + e.internal_name + "() || jj_done;");
-      // codeGenerator.genCodeLine("    catch(LookaheadSuccess ls) { return true; }");
+      // codeGenerator.genCodeLine(" catch(LookaheadSuccess ls) { return true;
+      // }");
     }
     if (Options.getErrorReporting ())
     {
@@ -1453,7 +1459,8 @@ public class ParseEngine
       {
         codeGenerator.genCodeLine ("    if (jj_scan_token(" + e_nrw.label + ")) " + genReturn (true));
       }
-      // codeGenerator.genCodeLine("    if (jj_la == 0 && jj_scanpos == jj_lastpos) "
+      // codeGenerator.genCodeLine(" if (jj_la == 0 && jj_scanpos == jj_lastpos)
+      // "
       // + genReturn(false));
     }
     else
@@ -1472,10 +1479,11 @@ public class ParseEngine
         else
         {
           final Expansion ntexp = ntprod.getExpansion ();
-          // codeGenerator.genCodeLine("    if (jj_3" + ntexp.internal_name +
+          // codeGenerator.genCodeLine(" if (jj_3" + ntexp.internal_name +
           // "()) " + genReturn(true));
           codeGenerator.genCodeLine ("    if (" + genjj_3Call (ntexp) + ") " + genReturn (true));
-          // codeGenerator.genCodeLine("    if (jj_la == 0 && jj_scanpos == jj_lastpos) "
+          // codeGenerator.genCodeLine(" if (jj_la == 0 && jj_scanpos ==
+          // jj_lastpos) "
           // + genReturn(false));
         }
       }
@@ -1530,13 +1538,15 @@ public class ParseEngine
               // codeGenerator.genCodeLine("jj_3" + nested_seq.internal_name +
               // "()) " + genReturn(true));
               codeGenerator.genCodeLine (genjj_3Call (nested_seq) + ") " + genReturn (true));
-              // codeGenerator.genCodeLine("    if (jj_la == 0 && jj_scanpos == jj_lastpos) "
+              // codeGenerator.genCodeLine(" if (jj_la == 0 && jj_scanpos ==
+              // jj_lastpos) "
               // + genReturn(false));
             }
           }
           for (int i = 1; i < e_nrw.getChoices ().size (); i++)
           {
-            // codeGenerator.genCodeLine("    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) "
+            // codeGenerator.genCodeLine(" } else if (jj_la == 0 && jj_scanpos
+            // == jj_lastpos) "
             // + genReturn(false));
             codeGenerator.genCodeLine ("    }");
           }
@@ -1579,17 +1589,19 @@ public class ParseEngine
                 }
                 final OneOrMore e_nrw = (OneOrMore) e;
                 final Expansion nested_e = e_nrw.expansion;
-                // codeGenerator.genCodeLine("    if (jj_3" +
+                // codeGenerator.genCodeLine(" if (jj_3" +
                 // nested_e.internal_name + "()) " + genReturn(true));
                 codeGenerator.genCodeLine ("    if (" + genjj_3Call (nested_e) + ") " + genReturn (true));
-                // codeGenerator.genCodeLine("    if (jj_la == 0 && jj_scanpos == jj_lastpos) "
+                // codeGenerator.genCodeLine(" if (jj_la == 0 && jj_scanpos ==
+                // jj_lastpos) "
                 // + genReturn(false));
                 codeGenerator.genCodeLine ("    while (true) {");
                 codeGenerator.genCodeLine ("      xsp = jj_scanpos;");
-                // codeGenerator.genCodeLine("      if (jj_3" +
+                // codeGenerator.genCodeLine(" if (jj_3" +
                 // nested_e.internal_name + "()) { jj_scanpos = xsp; break; }");
                 codeGenerator.genCodeLine ("      if (" + genjj_3Call (nested_e) + ") { jj_scanpos = xsp; break; }");
-                // codeGenerator.genCodeLine("      if (jj_la == 0 && jj_scanpos == jj_lastpos) "
+                // codeGenerator.genCodeLine(" if (jj_la == 0 && jj_scanpos ==
+                // jj_lastpos) "
                 // + genReturn(false));
                 codeGenerator.genCodeLine ("    }");
               }
@@ -1605,11 +1617,12 @@ public class ParseEngine
                   final Expansion nested_e = e_nrw.expansion;
                   codeGenerator.genCodeLine ("    while (true) {");
                   codeGenerator.genCodeLine ("      xsp = jj_scanpos;");
-                  // codeGenerator.genCodeLine("      if (jj_3" +
+                  // codeGenerator.genCodeLine(" if (jj_3" +
                   // nested_e.internal_name +
                   // "()) { jj_scanpos = xsp; break; }");
                   codeGenerator.genCodeLine ("      if (" + genjj_3Call (nested_e) + ") { jj_scanpos = xsp; break; }");
-                  // codeGenerator.genCodeLine("      if (jj_la == 0 && jj_scanpos == jj_lastpos) "
+                  // codeGenerator.genCodeLine(" if (jj_la == 0 && jj_scanpos ==
+                  // jj_lastpos) "
                   // + genReturn(false));
                   codeGenerator.genCodeLine ("    }");
                 }
@@ -1624,10 +1637,11 @@ public class ParseEngine
                     final ZeroOrOne e_nrw = (ZeroOrOne) e;
                     final Expansion nested_e = e_nrw.expansion;
                     codeGenerator.genCodeLine ("    xsp = jj_scanpos;");
-                    // codeGenerator.genCodeLine("    if (jj_3" +
+                    // codeGenerator.genCodeLine(" if (jj_3" +
                     // nested_e.internal_name + "()) jj_scanpos = xsp;");
                     codeGenerator.genCodeLine ("    if (" + genjj_3Call (nested_e) + ") jj_scanpos = xsp;");
-                    // codeGenerator.genCodeLine("    else if (jj_la == 0 && jj_scanpos == jj_lastpos) "
+                    // codeGenerator.genCodeLine(" else if (jj_la == 0 &&
+                    // jj_scanpos == jj_lastpos) "
                     // + genReturn(false));
                   }
     if (!recursive_call)
