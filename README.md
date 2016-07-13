@@ -5,6 +5,11 @@ It requires Java 1.5 or higher and Apache Maven 2.x or higher. It is licensed un
 
 I'm using it e.g. in [ph-css](https://github.com/phax/ph-css) for CSS parsing.
 
+# News and noteworthy
+
+  * Version 2.8.1 - 2017-07-13
+    * Fixed a problem with the code generation for "modern" Java template
+
 # Maven usage
 Example with 3 executions (two javacc and one jjtree-javacc):
 
@@ -14,7 +19,7 @@ Example with 3 executions (two javacc and one jjtree-javacc):
       <plugin>
         <groupId>com.helger.maven</groupId>
         <artifactId>ph-javacc-maven-plugin</artifactId>
-        <version>2.8.0</version>
+        <version>2.8.1</version>
         <executions>
           <execution>
             <id>jjc1</id>
