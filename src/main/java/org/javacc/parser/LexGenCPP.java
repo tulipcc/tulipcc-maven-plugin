@@ -52,8 +52,7 @@ import java.util.List;
 /**
  * Generate lexer.
  */
-public class LexGenCPP extends LexGen // CodeGenerator implements
-                                      // JavaCCParserConstants
+public class LexGenCPP extends LexGen
 {
   @Override
   void PrintClassHead ()
@@ -103,9 +102,10 @@ public class LexGenCPP extends LexGen // CodeGenerator implements
     genCodeLine ("");
     genCodeLine ("/** Token Manager. */");
     final String superClass = Options.stringValue (Options.USEROPTION__TOKEN_MANAGER_SUPER_CLASS);
-    genClassStart (null, tokMgrClassName, new String [] {}, new String [] { "public TokenManager" +
-                                                                            (superClass == null ? "" : ", public " +
-                                                                                                       superClass) });
+    genClassStart (null,
+                   tokMgrClassName,
+                   new String [] {},
+                   new String [] { "public TokenManager" + (superClass == null ? "" : ", public " + superClass) });
 
     if (token_mgr_decls != null && token_mgr_decls.size () > 0)
     {
@@ -350,7 +350,7 @@ public class LexGenCPP extends LexGen // CodeGenerator implements
             System.arraycopy (kinds, 0, tmp, 0, kinds.length);
             kinds = tmp;
           }
-          // System.out.println("   ordina : " + curRE.ordinal);
+          // System.out.println(" ordina : " + curRE.ordinal);
 
           kinds[curRE.ordinal] = kind;
 
@@ -750,12 +750,12 @@ public class LexGenCPP extends LexGen // CodeGenerator implements
     genCodeLine ("  for (;;)");
     genCodeLine ("  {");
     genCodeLine ("   EOFLoop: ");
-    // genCodeLine("   {");
-    // genCodeLine("      curChar = input_stream->BeginToken();");
-    // genCodeLine("   }");
+    // genCodeLine(" {");
+    // genCodeLine(" curChar = input_stream->BeginToken();");
+    // genCodeLine(" }");
     genCodeLine ("   if (input_stream->endOfInput())");
     genCodeLine ("   {");
-    // genCodeLine("     input_stream->backup(1);");
+    // genCodeLine(" input_stream->backup(1);");
 
     if (Options.getDebugTokenManager ())
       genCodeLine ("      fprintf(debugStream, \"Returning the <EOF> token.\\n\");");
@@ -886,10 +886,10 @@ public class LexGenCPP extends LexGen // CodeGenerator implements
 
       if (Options.getDebugTokenManager ())
       {
-        genCodeLine ("   fprintf(debugStream, "
-                     + "\"<%s>Current character : %c(%d) at line %d column %d\\n\","
-                     + "addUnicodeEscapes(lexStateNames[curLexState]).c_str(), curChar, (int)curChar, "
-                     + "input_stream->getEndLine(), input_stream->getEndColumn());");
+        genCodeLine ("   fprintf(debugStream, " +
+                     "\"<%s>Current character : %c(%d) at line %d column %d\\n\"," +
+                     "addUnicodeEscapes(lexStateNames[curLexState]).c_str(), curChar, (int)curChar, " +
+                     "input_stream->getEndLine(), input_stream->getEndColumn());");
       }
 
       genCodeLine (prefix + "curPos = jjMoveStringLiteralDfa0_" + i + "();");
@@ -957,8 +957,8 @@ public class LexGenCPP extends LexGen // CodeGenerator implements
 
       if (Options.getDebugTokenManager ())
       {
-        genCodeLine ("    fprintf(debugStream, "
-                     + "\"****** FOUND A %d(%s) MATCH (%s) ******\\n\", jjmatchedKind, addUnicodeEscapes(tokenImage[jjmatchedKind]).c_str(), addUnicodeEscapes(input_stream->GetSuffix(jjmatchedPos + 1)).c_str());");
+        genCodeLine ("    fprintf(debugStream, " +
+                     "\"****** FOUND A %d(%s) MATCH (%s) ******\\n\", jjmatchedKind, addUnicodeEscapes(tokenImage[jjmatchedKind]).c_str(), addUnicodeEscapes(input_stream->GetSuffix(jjmatchedPos + 1)).c_str());");
       }
 
       if (hasSkip || hasMore || hasSpecial)
@@ -1066,10 +1066,10 @@ public class LexGenCPP extends LexGen // CodeGenerator implements
 
           if (Options.getDebugTokenManager ())
           {
-            genCodeLine ("   fprintf(debugStream, "
-                         + "\"<%s>Current character : %c(%d) at line %d column %d\\n\","
-                         + "addUnicodeEscapes(lexStateNames[curLexState]).c_str(), curChar, (int)curChar, "
-                         + "input_stream->getEndLine(), input_stream->getEndColumn());");
+            genCodeLine ("   fprintf(debugStream, " +
+                         "\"<%s>Current character : %c(%d) at line %d column %d\\n\"," +
+                         "addUnicodeEscapes(lexStateNames[curLexState]).c_str(), curChar, (int)curChar, " +
+                         "input_stream->getEndLine(), input_stream->getEndColumn());");
           }
           genCodeLine (prefix + "   continue;");
           genCodeLine (prefix + " }");
@@ -1280,9 +1280,9 @@ public class LexGenCPP extends LexGen // CodeGenerator implements
           genCodeLine ("            if (jjbeenHere[" + lexStates[i] + "] &&");
           genCodeLine ("                jjemptyLineNo[" + lexStates[i] + "] == input_stream->getBeginLine() &&");
           genCodeLine ("                jjemptyColNo[" + lexStates[i] + "] == input_stream->getBeginColumn())");
-          genCodeLine ("               errorHandler->lexicalError(JAVACC_STRING_TYPE(\"Error: Bailing out of infinite loop caused by repeated empty string matches "
-                       + "at line \" + input_stream->getBeginLine() + \", "
-                       + "column \" + input_stream->getBeginColumn() + \".\"), this);");
+          genCodeLine ("               errorHandler->lexicalError(JAVACC_STRING_TYPE(\"Error: Bailing out of infinite loop caused by repeated empty string matches " +
+                       "at line \" + input_stream->getBeginLine() + \", " +
+                       "column \" + input_stream->getBeginColumn() + \".\"), this);");
           genCodeLine ("            jjemptyLineNo[" + lexStates[i] + "] = input_stream->getBeginLine();");
           genCodeLine ("            jjemptyColNo[" + lexStates[i] + "] = input_stream->getBeginColumn();");
           genCodeLine ("            jjbeenHere[" + lexStates[i] + "] = true;");
