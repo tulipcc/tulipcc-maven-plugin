@@ -199,12 +199,14 @@
               <goal>descriptor</goal>
             </goals>
           </execution>
+          <!-- fails with too many errors  
           <execution>
             <id>help-goal</id>
             <goals>
               <goal>helpmojo</goal>
             </goals>
           </execution>
+          -->
         </executions>
       </plugin>
       <!-- Eat your own stuff :) -->
