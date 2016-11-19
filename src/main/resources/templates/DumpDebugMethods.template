@@ -28,18 +28,18 @@
     {
      if (vec[i] == -1)
        continue;
-     int[] stateSet = statesForState[curLexState][vec[i]];
+     int[] stateSet = States.statesForState[curLexState][vec[i]];
      for (int j = 0; j < stateSet.length; j++)
      {
        int state = stateSet[j];
-       if (!kindDone[kindForState[lexState][state]])
+       if (!kindDone[Kinds.kindForState[lexState][state]])
        {
-          kindDone[kindForState[lexState][state]] = true;
+          kindDone[Kinds.kindForState[lexState][state]] = true;
           if (cnt++ > 0)
              retVal += ", ";
           if (cnt % 5 == 0)
              retVal += "\n     ";
-          retVal += tokenImage[kindForState[lexState][state]];
+          retVal += tokenImage[Kinds.kindForState[lexState][state]];
        }
      }
     }
