@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	    <title>Parsing in JavaCC</title>
+		<meta charset="UTF-8">
+		<meta name="description" content="Part 3 of my JavaCC tutorial: this part covers parsing">
+		<meta name="keywords" content="java,javacc,tutorial,parser,validation,jjtree">
+		<meta name="author" content="Erik Lievaart">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	    <link rel="shortcut icon" type="image/png" href="http://eriklievaart.com/blog/static/favicon.ico">
+	    <link rel="stylesheet" media="screen" href="Parsing%20in%20JavaCC-Dateien/style.css">
+    </head>
+	<body>
+    	<div id="header">
+    			<a href="http://eriklievaart.com/"><h1>Erik's Java Rants</h1></a>
+    			<div id="links">
+    				<a href="http://eriklievaart.com/blog/about.html">About</a>
+    			</div>
+    	</div>
+    	<div id="body"><h1>Parsing in JavaCC</h1>
+<span class="date">08 September 2014</span>
+<span class="author">Author: Erik Lievaart</span>
+
+In the previous installment, I explained how to chunk a stream of characters into Tokens in JavaCC.
+In this article I will discuss validating the stream of Tokens created by the lexer.
+The parser has a fundamentally different role than the lexer.
+The lexer attempts to convert a stream of characters into a stream of words (Token Objects).
+The parser is no longer concerned with syntax, but with structure.
+The parser verifies that Tokens that are valid in a language, occur in an order that is meaningful.
+<br>
+
+Also, I want to discuss the relationship the lexer and the parser have.
+When I started writing code in JavaCC, I wrote multiple conflicting 
+Token definitions.
+I expected the Token to be selected from the possibilities based on what
+ Token the parser is expecting. This is not how it works. 
+The lexer doesn't select its TOKENS depending on the current parser 
+rule, because it doen't even know the parser exists.
+In practice the lexer may have a reference to the parser, but 
+theoretically it doesn't.
+The lexer makes its decisions based on the characters it encounters, 
+nothing else.
+Understanding that the lexer is a standalone entity might help you avoid
+ some common mistakes.   
+<br>
+
+I will discuss writing code in parser rules, but not generating code as a result of the parsing process.
+My main focus is on understanding JavaCC. Typically with JavaCC we create an AST.
+AST's are node structures used to store Tokens.  It is a convenient format often used in compiler design.
+Generating your output format is highly application specific and out of the scope of this article.
+Examples of output include but are not limited to: assembly, bytecode and other programming languages. 
+I will not discuss JJTree in this article, I plan to write a follow up article for using JJTree.
+In the rest of this article we will take a look at how we create parsers in JavaCC.
+
+<h2>JavaCC Expansion Choices</h2>
+
+Let's have a look at how we define parser rules in JavaCC.
+I wil start with simple parser rules and make them progressively more complex.
+<br>
+
+The simplest parser rule I can think of verifies the presence of a single Token:
+
+<pre>void empty(): {} { &lt;EOF&gt; }</pre>
+I will discuss the rest of the syntactic sugar later.
+Right now, I am only interested in the expansion choices, which is the part between the last two braces:
+
+<pre>{ &lt;EOF&gt; }</pre>
+
+If the only Token in the InputStream is the end of file Token, the parser rule passes.
+For any other Token a ParseException is thrown.
+It is possible to specify an inline throwaway Token:
+
+<pre>void throwaway(): {} { "^" }</pre>
+
+This rule will pass if the next character in the input is a "^" and none of the other Tokens defined matches.
+I will not pay much attention to such inline Tokens, because I believe it is good style to define them separately.
+There is one remark I do want to make. 
+In the previous chapter I explained that the lexer will give higher priority to TOKENS defined first.
+Be aware that in extension inline TOKENS are of a lower priority than other TOKENS.
+<br>
+<br>
+
+Before we look at more complex examples, some Token definitions:
+
+<pre>SKIP : { " " | "\t" | "\r" | "\n" }
+
+TOKEN : { &lt;STRING: "\"" (~["\"", "\\"] | "\\\"" | "\\\\")* "\"" &gt; }
+TOKEN : { &lt;VARIABLE: (["a"-"z", "A" - "Z"])+&gt; }
+TOKEN : { &lt;ASSIGNMENT: "="&gt; }
+TOKEN : { &lt;OUTPUT: "&gt;"&gt; }</pre>
+
+You should be able to understand all of these after reading the previous installment of this tutorial.
+Otherwise, you can find it here:
+
+<span class="block"><a class="button" href="http://eriklievaart.com/blog/javacc2.html">Lexical Analysis in JavaCC</a></span>
+
+Using these TOKENS I will create a simple language that can only assign STRINGS to VARIABLES and OUTPUT them.
+We can refer to the defined TOKENS by using their name in angular brackets:
+
+<pre>void string() : {} { &lt;STRING&gt; }</pre>
+
+When you specify multiple TOKENS in a row, the parser requires them in sequential order.
+For example:
+
+<pre>void assignment() : {} { &lt;VARIABLE&gt; &lt;ASSIGNMENT&gt; &lt;STRING&gt; }</pre>
+
+This parser rule will require a VARIABLE TOKEN, and an ASSIGNMENT TOKEN followed by a STRING TOKEN.
+Just like in lexical rules, you can use the bar '|' character to define multiple possible matches.
+This is called a choice point:
+
+<pre>void assignmentOr() : {} { &lt;VARIABLE&gt; &lt;ASSIGNMENT&gt; (&lt;STRING&gt; | &lt;VARIABLE&gt;)  }</pre>
+
+Use parentheses to group expressions as illustrated.
+This example will match VARIABLE ASSIGNMENT STRING or VARIABLE ASSIGNMENT VARIABLE.
+Say we want to create a new non-terminal for the last part:
+
+<pre>(&lt;STRING&gt; | &lt;VARIABLE&gt;)</pre>
+
+We simply create a new rule containing this part of the expression:
+
+<pre>void assignable() : {} { &lt;STRING&gt; | &lt;VARIABLE&gt;  }</pre>
+
+Next we replace the last part in the original expression with a reference to the non-terminal:
+
+<pre>void assignmentOrReference() : {} { &lt;VARIABLE&gt; &lt;ASSIGNMENT&gt; assignable()  }</pre>
+
+We can specify multiplicity with the characters '?', '*', '+' in the same way as we we did in the lexer.
+The curly braces for n to m multiplicity '{n,m}' are not allowed.
+The following example specifies that a File should contain a series of statements.
+
+<pre>void parseFile() : {} { (statement())* &lt;EOF&gt; }</pre>
+
+Everything in the file must be a statement, right up until the end of the file.
+In the method we invoke on the parser it is useful to add the EOF TOKEN at the end of the rule.
+If we leave off the EOF TOKEN, then the parser might stop before the entire file is parsed.
+<br>
+
+Specifically, if the beginning of a statement does not match the rule of a statement, then parseFile would still complete.
+The following example would parse just fine:
+
+<pre>a=b</pre>
+
+The following example would throw an exception like we expect it to:
+
+<pre>a=^</pre>
+
+The parser enters the "statement" rule, but can't complete it because '^' doesn't match the last part of the rule.
+ The following example would silently complete, even though it should fail:
+
+<pre>a=b
+ "invalid"</pre>
+
+a=b is a valid match for (statement())* so without EOF at the end parseFile() will complete without error.
+If there are errors in the file, they will simply not be found.
+Adding EOF to the end of the rule forces the parser to keep parsing until the entire document is parsed.
+<br>
+<br>
+
+For completeness, here is the rest of the rules used for our imaginary language.
+A statement is either an assignment or an output expression:
+
+<pre>void statement() : {} { (assignmentOr() | output()) }</pre>
+
+And output is the OUTPUT Token followed by either a literal STRING or a VARIABLE:
+
+<pre>void output() : {} { &lt;OUTPUT&gt; (&lt;STRING&gt; | &lt;VARIABLE&gt;) }</pre>
+
+<h2>Nullable Choice Points</h2>
+
+Let's look at somewhat more adanced problems in validation.
+Then I will move on to adding code to the parser, just like we did with the lexer.
+<br>
+
+There is one problem to be aware of when specifying multiplicity.
+At any choice point, the parser chooses the first path that has a valid match.
+If the parser is trying a path and that path is valid for the empty set, then it is always chosen.
+Trailing options will never be invoked.
+For example, if the output rule were specified as follows:
+
+<pre>void output() : {} { &lt;OUTPUT&gt; ((&lt;STRING&gt;)* | &lt;VARIABLE&gt;) }</pre>
+
+Then the following input would fail:
+
+<pre>&gt; variable</pre>
+
+We want the input above to match &lt;OUTPUT&gt; &lt;VARIABLE&gt;, but that's not what happens.
+'&gt;' would match OUTPUT and then the (&lt;STRING&gt;)* part would match zero tokens.
+Next the output non terminal returns and the variable will be used as the start of the next statement.
+If such a problem is found, JavaCC will issue the following warning:
+
+<pre>This choice can expand to the empty token sequence 
+and will therefore always be taken in favor of the choices appearing later.</pre>
+
+So always make sure that a nullable terminal is the last in a choice point.
+Alternatively, make sure it is not nullable and make the whole choice point optional like so:
+
+<pre>void output() : {} { &lt;OUTPUT&gt; ((&lt;STRING&gt;)+ | &lt;VARIABLE&gt;)? }</pre>
+
+
+<h2>Lookahead</h2>
+
+By default JavaCC creates LL(1) parsers.
+In other words, when JavaCC decides which path to take at a decision point, it uses a single TOKEN to make the decision.
+Remember the assignmentOr non-terminal?
+
+<pre>void assignmentOr() : {} { &lt;VARIABLE&gt; &lt;ASSIGNMENT&gt; (&lt;STRING&gt; | &lt;VARIABLE&gt;)  }</pre>
+
+If this non-terminal were rewritten like so:
+
+<pre>void assignmentOr() : {} { &lt;VARIABLE&gt; &lt;ASSIGNMENT&gt; &lt;STRING&gt; | &lt;VARIABLE&gt; &lt;ASSIGNMENT&gt; &lt;VARIABLE&gt; }</pre>
+
+The grammar would still be correct, but it would not work in JavaCC.
+It would never choose the second path, because it only looks at the first Token.
+JavaCC will issue the following warning:
+
+<pre>Warning: Choice conflict involving two expansions at
+         line .., column .. and line .., column .. respectively.
+         A common prefix is: &lt;VARIABLE&gt; "="
+         Consider using a lookahead of 3 or more for earlier expansion.</pre>
+
+The amount of Tokens JavaCC reads before making a decision is called the lookahead.
+So the parser warns you that it needs to lookahead 3 tokens to make an appropriate decision.
+You can specify a global lookahead with the LOOKAHEAD option.
+I wouldn't recommend solving the problem this way. 
+There is a considerable performance overhead in doing so.
+If it is at all possible to factor out the problem and return to our original example:
+
+<pre>void assignmentOr() : {} { &lt;VARIABLE&gt; &lt;ASSIGNMENT&gt; (&lt;STRING&gt; | &lt;VARIABLE&gt;)  }</pre>
+
+Then that would be your best bet.
+There are problems where refactoring the grammar makes it complex to read.
+If there is code mixed in, then a different snippet of code might have to be executed.
+In either case, we have the option of specifying the lookahead at specific choice points. 
+There are various ways to do this:
+
+<ol>
+<li>Local LOOKAHEAD: we can specify the amount of tokens to look at at a choice point.</li>
+<li>Syntactic LOOKAHEAD: specify a set of tokens and or parser rules to check before making the decision.</li>
+<li>Semantic LOOKAHEAD: write Java code that evaluates to a boolean expression to make the decision.</li>
+<li>A combination of 2 or all of the above.</li>
+</ol>
+
+Don't worry if you didn't get that right away.
+I only wanted to illustrate the problem.
+There is a really good article on the topic in the official JavaCC documentation.
+It is accessible to read and should answer all of your questions:
+
+<a href="https://javacc.java.net/doc/lookahead.html">https://javacc.java.net/doc/lookahead.html</a>
+
+<h2>Adding custom code to the parser</h2>
+
+We can add our own custom Java code to the parser.
+This works similarly to how we added code to the TokenManager.
+We add the code in the beginning of the grammar file between the PARSER_BEGIN and PARSER_END blocks.
+For example, to add an attribute and a public getter to the grammar file:
+
+<pre>PARSER_BEGIN(DemoParser)
+package demo;
+
+public class DemoParser {
+	private Object attribute = new Object();
+
+	public Object getAttribute(){
+		return attribute;
+	}
+}
+PARSER_END(DemoParser)</pre>
+
+The public getAttribute method above can be called from the class creating and invoking the parser.
+We can interact with the variables and methods we add from every rule in the parser.
+For example, if we're creating a syntax tree manually, we can store it as an attribute and retrieve it with the getter.
+JavaCC ships with a tool called JJTree, which can create the AST for us.
+For now I will work without JJTree, in order to gain a better understanding of how everything works.
+Let's examine the syntax of a parser rule in JavaCC:
+
+<pre>[ACCESS_MODIFIER] [RETURN_TYPE] [NAME] ( [ARGUMENTS] ) : { JAVA_BLOCK } { EXPANSION_CHOICES }</pre>
+
+It is important to understand that a rule in the grammar maps 1 to 1 to a method on the created parser.
+The method created with get the ACCESS_MODIFIER, RETURN_TYPE and NAME specified in the grammar.
+The method will take the specified ARGUMENTS and start with the code in JAVA_BLOCK.
+Finally, the EXPANSION_CHOICES will be converted to Java code and added to the body of the method.
+A simple example:
+
+<pre>public void example(StringBuilder builder): 
+{ builder.append("Java Block"); } 
+{ &lt;STRING&gt; }</pre>
+
+Would generate the following method in the parser:
+
+<pre>final public void example(StringBuilder builder) throws ParseException {
+  builder.append("Java Block");
+    jj_consume_token(STRING);
+  }</pre>
+
+By the way, the ACCESS_MODIFIER is public by default when not specified.
+We can add code in the EXPANSION_CHOICES block as well, as long as we place it in curly braces '{', '}':
+
+<pre>void example(StringBuilder builder): 
+{ builder.append("Java Block"); } 
+{
+	{ builder.append("Before String"); } 
+	&lt;STRING&gt; 
+	{ builder.append("After String"); } 
+}</pre>
+
+The rule above would generate the following code:
+
+<pre>final public void example(StringBuilder builder) throws ParseException {
+        builder.append("Java Block");
+        builder.append("Before String");
+   	    jj_consume_token(STRING);
+        builder.append("After String");
+    }</pre>
+
+Typically the JAVA_BLOCK section is used to initialize a Token variable.
+We can assign the Token variable using the following syntax:
+
+<pre>[VARIABLE]=&lt;TOKEN_NAME&gt;</pre>
+
+Here is an example of a rule that initializes a Token variable assigns it to the Token parsed and then prints it:
+
+<pre>void printToken():
+{ Token token; } 
+{ token=&lt;STRING&gt; { System.out.println(token); } }</pre>
+
+Once again the generated code:
+
+<pre>final public void printToken() throws ParseException {
+    Token token;
+    token = jj_consume_token(STRING);
+    System.out.println(token);
+}</pre>
+
+We have already seen how we can refer to other parser rules from within a parser rule.
+If we put it in the method signature of the referred rule, it is possible to pass arguments to the rule we refer to.
+Here is an example of a rule that takes an argument:
+
+<pre>void takesArgument(Token token): 
+{} 
+{ {System.out.println(token); } }</pre>
+
+Here is an example that uses the rule above:
+
+<pre>void passesArgument():
+{ Token token; }
+{ token=&lt;STRING&gt; takesArgument(token) }</pre>
+
+By now, it should be pretty clear that the grammar is converted to java methods.
+It is possible to catch Exceptions that occur while parsing.
+The javacc grammar file allows us to insert try catch constructs.
+We don't need to add an extra pair of braces to go into java mode for this.
+It looks like this:
+
+<pre>void exceptionHandling():
+{} 
+{ 
+	try {
+		&lt;STRING&gt;
+	} catch (ParseException pe) {
+	}
+}</pre>
+
+This is useful when we want to keep parsing even when an Exception occurs.
+Normally JavaCC stops when it encounters its first Exception.
+Often it helps us when we can see multiple problems in the input at once.
+Catching the Exception, moving on to the next semicolon, newline or curly brace will help us achieve that.
+There is a section of error recovery in the official documentation which covers this and other problems:
+
+<a href="https://javacc.java.net/doc/errorrecovery.html">https://javacc.java.net/doc/errorrecovery.html</a>
+
+<span class="block"><a class="button" href="http://eriklievaart.com/blog/javacc2.html">Previous: Lexical Analysis</a></span>
+	<span class="block"><a class="button" href="http://eriklievaart.com/">Main Page</a></span>
+    	</div>
+	
+</body></html>
