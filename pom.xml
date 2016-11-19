@@ -189,6 +189,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-plugin-plugin</artifactId>
+        <version>3.4</version>
         <configuration>
           <goalPrefix>ph-javacc</goalPrefix>
         </configuration>
@@ -198,6 +199,9 @@
             <goals>
               <goal>descriptor</goal>
             </goals>
+            <configuration>
+              <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
+            </configuration>
           </execution>
           <!-- fails with too many errors  
           <execution>
