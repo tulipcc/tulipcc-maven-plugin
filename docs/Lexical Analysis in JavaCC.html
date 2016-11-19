@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	    <title>Lexical Analysis in JavaCC</title>
+		<meta charset="UTF-8">
+		<meta name="description" content="Part 2 of my JavaCC tutorial: this part covers lexical analysis">
+		<meta name="keywords" content="java,javacc,tutorial,lexer,lexical analysis">
+		<meta name="author" content="Erik Lievaart">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	    <link rel="shortcut icon" type="image/png" href="http://eriklievaart.com/blog/static/favicon.ico">
+	    <link rel="stylesheet" media="screen" href="Lexical%20Analysis%20in%20JavaCC-Dateien/style.css">
+    </head>
+	<body>
+    	<div id="header">
+    			<a href="http://eriklievaart.com/"><h1>Erik's Java Rants</h1></a>
+    			<div id="links">
+    				<a href="http://eriklievaart.com/blog/about.html">About</a>
+    			</div>
+    	</div>
+    	<div id="body"><h1>Lexical Analysis in JavaCC</h1>
+<span class="date">31 August 2014</span>
+<span class="author">Author: Erik Lievaart</span>
+
+In the previous installment, I showed the basics for getting a JavaCC compiler up and running.
+In this article, we will take a look at the nitty gritty of lexical analysis in JavaCC.  
+There will be a little bit of overlap with the previous article, but we will go into much greater depth here.
+Lexical Analysis is the process of breaking a stream of characters into chunks called tokens.
+Tokens are the smallest unit of information meaningful to the parser.
+
+<h2>Defining tokens</h2>
+
+Token declarations follow the format:
+
+<pre>[KREP] : { &lt;[NAME]: [EXPR]&gt; }</pre>
+
+And here is a rudimentary token declaration:
+
+<pre>TOKEN : { &lt;PUBLIC: "public"&gt; }</pre>
+The lexer uses the [EXPR] part to match chunks of characters in the input data.
+In a later section I will be discussing these expressions in depth. 
+The example [EXPR] above simply matches the word public.
+If the word public is encountered, then a Token instance is returned.
+The [NAME] part defines the type of the token to return.
+This type is accessible via the kind attribute of the Token object.
+As mentioned in the previous installment; 
+the lexer creates a constant named [NAME] for every token that has a name in the ...Constants.java file. 
+Technically, you are not required to give each token a name.
+You can define anonymous tokens like so:
+
+<pre>TOKEN : { "=" }</pre>
+
+The lexer will not create a constant for anonymous tokens.
+ Naming tokens is good practice and I recommend it.
+<br>
+<br>
+
+When a chunk of characters in the input is matched, the lexer has to decide what to do with it.
+This is determined by the so called "kind of regular expression production", which I will abbreviate to KREP.
+There are 4 different KREP's:
+
+<ol>
+<li>SKIP: Chunks to skip in the input data. SKIP characters are 
+typically not for the parser, but are used to make the input readable 
+(e.g. whitespace).</li>
+<li>TOKEN: Create a Token object and pass it to the parser.</li>
+<li>SPECIAL_TOKEN: Do not create a Token, but link it to the next Token matched using the specialToken field.</li>
+<li>MORE: Do not create a token, but buffer these characters. The next 
+KREP will determine what happens to the characters in the buffer.</li>
+</ol>
+
+Most of the tokens you will define will have the TOKEN (meaningful for 
+the parser) or SKIP (not meaningful to parser) KREP.
+If MORE is followed by a SKIP, the buffer will be trashed, in the other 
+cases the buffer will be prepended to the TOKEN / SPECIAL_TOKEN.
+MORE and SPECIAL_TOKEN are advanced features and I will illustrate their
+ use  at the end of this article.
+<br>
+
+You can group multiple tokens for a single KREP using the bar character '|':
+
+<pre>TOKEN : { &lt;PUBLIC: "public"&gt; | &lt;PRIVATE: "private"&gt; }</pre>
+
+Note that whitespace is not significant to JavaCC, so your definition 
+can span multiple lines. I just want to keep my examples compact. 
+Now that we know how to define tokens, let's examine what expressions we
+ have available for the EXPR part of the definition.
+
+<h2>Expressions for specifying Token contents</h2>
+
+In this section I will discuss the many different ways we have available to us, to specify tokens.
+Some of the examples in this section will require angular brackets to work: '&lt;' '&gt;'.
+As a rule: plain string literals never require angular brackets, quantifiers always do. 
+I will ignore this issue, because I expect you to give all tokens names.
+Naming them automatically encloses them in angular brackets.
+
+<h3>String Literals</h3>
+
+The simplest regex I can think of for defining a token, is a single character:
+
+<pre>"*"</pre>
+
+String definitions in JavaCC are delimited by double quotes. 
+Strings can have multiple characters:
+
+<pre>"goto"</pre>
+
+JavaCC supports javalike escape sequences using a backslash followed by  a letter. For example:
+
+<pre>"\t"</pre>
+
+To match a tab.
+Common escape sequences:
+
+<ul>
+<li>\t tab</li>
+<li>\r return character</li>
+<li>\n newline character</li>
+<li>\\ backslash</li>
+<li>\" double quotes</li>
+<li>\uxxxx unicode character xxxx</li>
+</ul>
+
+If there are alternatives to how a token is spelled, we can separate them with a bar.
+For example, some languages have multiple prefixes for single line comments:
+
+<pre>"//" | "#"</pre>
+
+For clarity, the whole definition with name would look like this:
+
+<pre>&lt;OPEN_COMMENT: "#" | "//"&gt;</pre>
+
+A bar between quotes is not the same as quotes between bars. For example:
+
+<pre>"public|private"</pre>
+
+Matches a single token with a bar inbetween the words public and private.
+
+<pre>"public"|"private"</pre>
+
+Matches a single token for the chunk public or the chunk private.
+Whitespace is not significant in the grammar file, but it is significant in String literals, so:
+
+<pre>"//"|"#"</pre>
+
+is the same as spaces between strings:
+
+<pre>"//" | "#"</pre>
+
+but not the same as strings with spaces in them:
+
+<pre>"// "|" #"</pre>
+
+<h3>Character sets</h3>
+
+In java regular expressions, we can use a character class for specifying a range of characters.
+For example, the regex for a single digit: [0-9]. The JavaCC counterpart is slightly more verbose:
+
+<pre>["0" - "9"]</pre>
+
+A lowercase character:
+
+<pre>["a" - "z"]</pre>
+
+A single alphanumeric character in any case:
+
+<pre>["0" - "9", "A" - "Z", "a" - "z"]</pre>
+
+You can invert a character class by placing a tilde '~' in front of it:
+
+<pre>~[" ", "\t", "\n", "\r"]</pre>
+
+Matches a single non-whitespace character.
+
+<pre>~[]</pre>
+
+Matches any single character (the inversion of nothing).
+This suggests [] is also valid, but the empty set is illegal.
+Note that square brackets denote character sets.
+Strings of more than one character are not allowed.
+
+<h3>quantifiers</h3>
+
+JavaCC supports the following wildcards for specifying multiplicity 
+
+<ul>
+<li>+ one or more occurrences</li>
+<li>* zero or more occurrences</li>
+<li>? zero or one occurrences</li>
+</ul>
+
+One or more string literals and or characters sets may be grouped in parentheses followed by wildcards.
+The wildcard has effect on the entire expression between parentheses.
+For example, the following expression matches any unsigned integer:
+
+<pre>&lt;UNSIGNED: (["0" - "9"])+&gt;</pre>
+
+We can turn these numbers into signed numbers by adding an optional dash:
+
+<pre>&lt;SIGNED: ("-")? (["0" - "9"])+&gt;</pre>
+
+One problem with the unsigned integers above, is that 00001 is a valid chunk.
+An integer is either 0, or is is a (possibly negative) digit from 1 to 9 followed by zero or more occurrences of any digit:
+
+<pre>&lt;SIGNED: "0" | ("-")? ["1" - "9"] (["0" - "9"])*&gt;</pre>
+
+The following expression will match everything from the current position in the input stream until the end of the file:
+
+<pre>&lt;GREED: (~[])+&gt;</pre>
+
+Note that using the ? or * wildcard on an entire token will generate warnings; a token should always be minimally 1 character.
+If a token is 0 length, then generating the token will not advance the lexer in the input stream.
+As a result it will get stuck and indefinitely generate the same empty token. JavaCC will give the following warning:
+
+<pre>Warning: Regular expression for ... can be matched by the empty string ("") in lexical state DEFAULT. 
+This can result in an endless loop of empty string matches.</pre>
+
+Apart from the generic wild cards, we can also specify the number of occurrences exactly using braces: '{' '}'.
+For example, let's say it is possible to specify colors using a pound sign '#' and exactly 6 hexidecimal numbers:
+
+<pre>&lt;HEX_COLOR: "#" (["0" - "9", "A" - "F"]){6}&gt;</pre>
+
+The braces can also be used to specify upper and lower bounds in an n:m fashion.
+For example, say we want to define the token decimal, which is a decimal number between 0 (inclusive) and 1 (non inclusive).
+Here is an example, which allows a maximum of 4 decimal digits.
+
+<pre>&lt;DECIMAL: "0." (["0" - "9"]){0,4}&gt;</pre>
+
+The lower bound is required, but for unbounded tokens, you can leave the upper bound blank.
+Here is an example, which allows a unlimited amount of decimal digits.
+
+<pre>&lt;DECIMAL: "0." (["0" - "9"]){0,}&gt;</pre>
+
+The example above is contrived. It doesn't make sense to use braces here, because the '*' wildcard is more readable.
+Use unbounded braces if there is a lower bound of 2 or larger.
+
+<h2>Token matching order</h2>
+
+Sometimes there will be multiple token definitions that can be matched against the current position in the InputStream.
+It is useful to have an understanding of how JavaCC resolves these conflicts.
+Let's say you have a language that allows the following assignment:
+
+<pre>cookies = true</pre>
+
+The language specifies booleans using the literal strings "true" and "false".
+In that same language it is possible to denote variables using the letters a to z.
+You have already written the following token for VARIABLE:
+
+<pre>TOKEN : { &lt;VARIABLE: (["a"-"z", "A" - "Z"])+&gt; }</pre>
+
+And a token definition for the assignment operator:
+
+<pre>TOKEN : { &lt;ASSIGNMENT: "="&gt; }</pre>
+
+Now all that's left is to add a token for the boolean literal:
+
+<pre>TOKEN : { &lt;BOOLEAN: "true" | "false"&gt; }</pre>
+
+You can add this token to the end of the file and JavaCC will compile, but the code does not work.
+For the cookies = true example, the input is parsed as 
+&lt;VARIABLE&gt; &lt;ASSIGNMENT&gt; &lt;VARIABLE&gt;
+In other words, our boolean literal "true' is parsed as a VARIABLE, rather than as a BOOLEAN.
+Here are two main rules you need to know about how the lexer matches tokens
+
+<ol>
+<li>The lexer is eager; longer matches have priority over shorter matches.</li>
+<li>Amongst the longest matches, take the one declared first.</li>
+</ol>
+
+So, the first rule has priority over the second rule.
+If you have the following token declared:
+
+<pre>&lt;GREED (~[])+&gt;</pre>
+
+Then it is unlikely that any other token will match.
+The only case where this is possible, is if another token is declared 
+before the GREED token and it also matches the rest of the input.
+<br>
+
+Let's revisit the cookie example.
+The cookie variable is only matched by the VARIABLE token definition.
+Next the ASSIGNMENT token definition is the only possiblity.
+Lastly, both the VARIABLE and the BOOLEAN token definitions match.
+We decided to put the BOOLEAN definition at the end of the file, so VARIABLE wins.
+If we had put BOOLEAN before VARIABLE, then the problem is solved and the code works.
+<br>
+<br>
+
+Now what if the variable isn't called cookie, but is called trueManShow?
+
+<pre>trueManShow = true;</pre>
+
+In this case BOOLEAN matches the first 4 characters; VARIABLE matches the whole word.
+trueManShow is longer than true, so a variable is returned for trueManShow.
+This is how things work in Java and it is typically how we want things to work.
+Now, as a thought experiment, let's say we want to be able give a variable the name true?
+
+<pre>true = true</pre>
+
+There is no way for the lexer to distinguish between variables and boolean literals.
+One way would be to have the parser deal with it. 
+Return the BOOLEAN and depending on the placement of the Token deal with it differently.
+Or, alternatively, remove the BOOLEAN token and let the parser inspect the token image.
+Clearly, that is not a well designed parser. 
+Parsers should be enforcing semantic rules, not doing the work of lexical analysis.
+<br>
+
+Then how about having the lexer keep track of which tokens have been matched?
+This way depending on the context it can create a different kind of Token.
+Generally, we try to avoid this, because context free grammars are more efficient.
+<br>
+
+The real problem I have been ignoring, is that this is bad language design.
+If there is no way to duistinguish between a variable and a boolean literal syntactically, then we need to revisit our language.
+For instance, we could give booleans a prefix:
+
+<pre>true = :true</pre>
+
+or a suffix
+
+<pre>true = true?</pre>
+
+Now, sometimes the lexer's conflict resolution mechanism is not enough.
+Sometimes when we encounter a particular Token, the lexical rules change.
+Consider the following HTML snippet:
+
+<pre>&lt;script&gt;alert('&lt;br&gt;');&lt;/script&gt;</pre>
+
+&lt;br&gt; is perfectly valid HTML, but the &lt;script&gt; Token changes the rules of the game.
+Everything inside the script tag should be parsed as Javascript and not as HTML.
+To solve this and other problems, we need lexical states.
+
+<h2>Lexical States</h2>
+
+JavaCC ALWAYS uses lexical states. We just haven't been aware of it.
+You can specify a lexical state using a prefix in angular brackets:
+
+<pre>&lt;MY_STATE&gt; TOKEN: { &lt;DOT: "."&gt; }</pre>
+
+If no state is specified, then the DEFAULT state is used. In other words, this:
+
+<pre>&lt;DEFAULT&gt; TOKEN: { &lt;DOT: "."&gt; }</pre>
+
+is the same as this:
+
+<pre>TOKEN: { &lt;DOT: "."&gt; }</pre>
+
+All of the tokens I created before this chapter are present in the DEFAULT lexical space.
+The lexer will only evaluate Token definitions matching the lexical state the lexer is in.
+So lexical spaces are like sub-grammars in the grammar.
+The lexer starts in the DEFAULT state (makes sense right?).
+When we expect a different collection of tokens that conflict with our other tokens, we need to switch lexical states.
+Lexical spaces can be used with all KREP's. 
+For instance, the MORE KREP can be used in other lexical spaces as well:
+
+<pre>&lt;MY_STATE&gt; MORE: { &lt;DOT: "."&gt; }</pre>
+
+Of course, defining states is nice, but we also need a way to switch to a different state.
+Simply add a colon and a state name after a Token.
+Whenever the Token is found, the state is changed for the input following the token.
+Here we have an example of a double quote moving us into the STRING state.
+
+<pre>TOKEN: { &lt;OPEN_STRING: "\""&gt;: STRING }</pre>
+
+Anything that is not a double quote will be part of the string body:
+
+<pre>&lt;STRING&gt; TOKEN: { &lt;STRING_BODY: (~["\""])+&gt; }</pre>
+
+The Token definition above will consume anything until a quote is encountered.
+You might want to add newline characters to the character set as well, otherwise strings may span multiple lines.
+We still need to add a closing quote and return to the DEFAULT state:
+
+<pre>&lt;STRING&gt; TOKEN: { &lt;CLOSE_STRING: "\""&gt;: DEFAULT }</pre>
+
+There are two problems with the code above.
+First of all, no STRING_BODY token is generated for the empty string.
+This can easily be dealt with in the parser.
+Alternatively, we could make a single token for the whole string with opening and closing quotes.
+More importantly, it is not possible to specify strings containing double quotes, a common occurrence.
+This can be solved with a slightly more complex expression:
+
+<pre>&lt;STRING&gt; TOKEN: { &lt;STRING_BODY: ("\\\\" | "\\\"" | ~["\"", "\\"])+&gt; }</pre>
+
+This slightly hard to read expression specifies that the body of a string consists of characters and escape sequences.
+A backslash or a double quote can be part of the string if it is escaped with a backslash.
+Any character that is not a double quote or a backslash is valid. 
+Note that the STRING_BODY has to be in a separate lexical state.
+If STRING_BODY were in the same lexical state as the VARIABLE and ASSIGNMENT operators above, they would rarely work.
+Remember the cookie example?
+
+<pre>cookie = true</pre>
+
+This whole chunk would be returned with a single STRING_BODY token if STRING_BODY was in the same lexical space.
+In the STRING example, the case for using lexical states is not very strong yet.
+We could drop the whole STRING state and simply create a single token for a quoted String:
+
+<pre>TOKEN: { &lt;QUOTED_STRING: "\"" (~["\"", "\\"] | "\\\"" | "\\\\")* "\"" &gt; }</pre>
+
+This is roughly the same expression as the STRING_BODY token above, but we added the quotes to the definition of the token.
+Of course, in the HTML example I gave earlier, the rules for the contents of the script tag would be much more complex.
+In the HTML example, it makes a lot more sense to use lexical states.
+<br>
+
+Lastly, we have the option of defining a Token that will be added to all lexical states.
+This is known as a universal Token block. We specify a universal Token block with &lt;*&gt;:
+
+<pre>&lt;*&gt; TOKEN : { &lt;UNKNOWN: ~[]&gt; }</pre>
+
+Adding the listed UNKNOWN universal Token at the end of your grammar 
+file will return tokens for any data the lexer doesn't understand.
+This effectively prevents the lexer from creating any TokenMgrErrors. 
+This sounds bad, but is actually a good thing.
+The parser is handed the UNKNOWN Token, but it is expecting something 
+else.
+As a result, it throws a ParseException instead of the TokenMgrError 
+that would have been thrown otherwise.
+The reason this is a good thing, is because the TokenMgr would say: "I 
+can't do anything with the following character: ...",
+while the parser would say: "I am expecting a String literal or a 
+variable here, but I got this unknown character ...".
+The second message is clearly more helpful.
+
+<h2>Working with MORE</h2>
+
+Let us inspect an example of how to work with the MORE KREP specified at the start of this article.
+I am going to continue the STRING example from the previous heading and rebuild it using the MORE KREP.
+
+<pre>MORE: { &lt;OPEN_STRING: "\""&gt;: STRING_BODY }</pre>
+
+Opening the string and changing the lexical state remains largely unchanged. I did change the KREP from TOKEN to MORE. 
+MORE will append the characters found to the internal StringBuffer. No Token Object is created.
+I am going to call the resulting Token STRING, so I had to change the name of the state to STRING_BODY.
+Names of lexical states cannot match token names, because both will generate constants in the ...TokenManager file. 
+
+<pre>&lt;STRING_BODY&gt; MORE: { "\\\\" }</pre>
+
+If we find an escaped backslash, append it to the buffer.
+
+<pre>&lt;STRING_BODY&gt; MORE: { "\\\"" }</pre>
+
+Do the same for an escaped double quote,
+
+<pre>&lt;STRING_BODY&gt; MORE: { "\\n" }</pre>
+
+the newline escape sequence
+
+<pre>&lt;STRING_BODY&gt; MORE: { "\\r" }</pre>
+
+and the carriage return sequence.
+
+<pre>&lt;STRING_BODY&gt; MORE: { &lt;~["\"", "\\", "\r", "\n"]&gt; }</pre>
+
+Lastly append anything other than a quote, backslash, carriage return or line feed.
+This verbose option is apparently faster then the previous examples.
+Complex regular expressions generate less efficient code than simple string literals:
+
+<a href="https://javacc.java.net/doc/lexertips.html">https://javacc.java.net/doc/lexertips.html</a>
+
+<pre>&lt;STRING_BODY&gt; TOKEN: { &lt;STRING: "\""&gt; : DEFAULT }</pre>
+
+The closing quote will generate the Token Object.
+All previously buffered characters will be part of the Token. 
+The resulting String will be placed in the Token.image field.
+The opening and closing quotes are part of the token, 
+just like they were in the QUOTED_STRING example from the previous section.
+<br>
+
+Since the MORE KREP does not generate Tokens, we can't just ignore the quotes. 
+They are automatically added to the Token.
+We do have the option of removing them from the image before returning the Token to the parser.
+This could be achieved using lexical actions, but first I will discuss the last KREP: 
+
+
+<h2>Working with SPECIAL_TOKEN</h2>
+
+Sometimes the file we parse contains metadata in addition to the tokens 
+the parser needs.
+Let's say we are parsing Java. Examples of such metadata are comments, 
+javadoc and annotations.
+We could choose to specify the SKIP KREP for comments, but what about 
+JavaDoc comments?
+If we skip the JavaDoc comments, then we can't use our parser for 
+generating the JavaDoc html files.
+We would have to duplicate our definition of the whole structure of a 
+Java file for our JavaDoc generator. 
+We could process them as normal Tokens, but the normal parser has no use
+ for them, so it unnecessarily complicates our parser rules.
+<br>
+
+In this case, we might decide to use the SPECIAL_TOKEN KREP.
+When the parser encounters a SPECIAL_TOKEN, like MORE it doesn't return 
+the token immediately.
+For SPECIAL_TOKEN, a Token object is created (unlike MORE).
+It is linked to the next TOKEN or SPECIAL_TOKEN it finds.
+The Token class has a field named specialToken for this purpose.
+If the parser encounters multiple SPECIAL_TOKEN's in a row, then it will
+ chain them together.
+Essentially SPECIAL_TOKEN's are accessed in the reverse order from their
+ definition in the input.
+Accessing the specialToken field from a Token will return the last 
+SEPCIAL_TOKEN that was found since the last Token (or null if there was 
+none).
+This SPECIAL_TOKEN holds a reference to the SPECIAL_TOKEN before that 
+and so on.
+<br>
+
+Let's look at a (artificial) example I created for demonstrating this.
+I created a JavaCC file for a made up ini-file or property-file like format:
+
+	<span class="source">
+		ini.jj
+	</span>
+	<pre>options {
+STATIC = false;
+}
+
+PARSER_BEGIN(DemoParser)
+package demo;
+public class DemoParser {
+}
+PARSER_END(DemoParser)
+
+SKIP: {
+" " | "\t" | "\r" | "\n"
+}
+
+TOKEN : { &lt;KEY: (["a"-"z", "A" - "Z"])+&gt; }
+TOKEN : { &lt;ASSIGNMENT: "="&gt;: VALUE_STATE }
+&lt;VALUE_STATE&gt; TOKEN : { &lt;VALUE: (~["\n"])+&gt;: DEFAULT }
+
+SPECIAL_TOKEN: { &lt;COMMENT: "#" (~["\n"])+ &gt; }</pre>
+
+Every line in the ini file has a KEY consisting of letters, an ASSIGNMENT operator '=' and a VALUE.
+Once we hit the assignment operator, we switch to the VALUE_STATE.
+In the VALUE_STATE we simply grab everything until the end of the line.
+This way even the assignment operator is valid as part of the value.
+<br>
+
+In the ini format, it is also possible to specify comments using the SPECIAL_TOKEN COMMENT.
+Comments will precede the KEY on the next line, so we can read our COMMENT from the specialToken field of the KEY.
+Let us revisit the Tokens class from the previous article and add some code for printing the SPECIAL_TOKEN's:
+
+	<span class="source">
+		Tokens.java
+			[18:32]
+	</span>
+	<pre>		for (Token token : tokenize(parser)) {
+			String name = DemoParserConstants.tokenImage[token.kind];
+			System.out.println(token.beginLine + ":" + name + " =&gt; " + token.image);
+
+			Token special = token.specialToken;
+			for (int tabs = 1; special != null; tabs++) {
+				StringBuilder sb = new StringBuilder();
+				for (int i = 0; i &lt; tabs; i++) {
+					sb.append('\t');
+				}
+				sb.append(special.image);
+				special = special.specialToken;
+				System.out.println(sb);
+			}
+		}</pre>
+
+As I loop over the Tokens, I added a nested loop which follows the specialToken chain and prints the Token.
+I added tabs to illustrate the indentation. Now all we need is an input file to show the results:
+
+<pre># This file contains the configuration for something
+# the following entry configures something for something
+something=value
+# the following entry configures something else for the same something
+other=other value</pre>
+
+Here is the output generated:
+
+	<span class="source">
+		output
+	</span>
+	<pre>3:&lt;KEY&gt; =&gt; something
+	# the following entry configures something for something
+		# This file contains the configuration for something
+3:"=" =&gt; =
+3:&lt;VALUE&gt; =&gt; value
+5:&lt;KEY&gt; =&gt; other
+	# the following entry configures something else for the same something
+5:"=" =&gt; =
+5:&lt;VALUE&gt; =&gt; other value</pre>
+
+It generated 3 Token objects on line 3 and 3 Token objects on line 5.
+In both cases the KEY refers to the COMMENT before it.
+On line 3 we can also see that the referenced COMMENT refers to the COMMENT preceding it.
+
+<h2>Generating code in the lexer</h2>
+
+Up until now we've treated JavaCC as a black box. Feed it a grammar file and out comes a parser.
+Somehow the grammar file is turned into Java code, but we never influenced what that code does.
+JavaCC actually blurs the line between grammar and code.
+It is possible to write code throughout the grammar file (in specified places).
+This way it becomes possible to insert code snippets into the lexer and parser.
+One way of specifying code to invoke is through the use of lexical actions.
+
+<h3>Lexical Actions</h3>
+
+Lexical actions are code snippets that have to be executed for every occurrence of a Token.
+Simply place curly braces after a token and enter custom code.
+The code will be inserted into the ...TokenManager class.
+It will be run every time the lexer encounters the token. 
+The following example prints to the System.out every time it encounters a NERD:
+
+<pre>TOKEN : { &lt;NERD: (["a"-"z", "A" - "Z"])+&gt;{ System.out.println("Found one!"); } }</pre>
+
+Admittedly, this is a contrived example. Useful for debugging at most.
+If we are going to add code to the lexer, we want to interact with more than just System.out.
+Here are some variables (and one method) accessible to you:
+
+<ul>
+<li>StringBuffer image (READ/WRITE): This StringBuffer contains all the 
+characters that have been matched since the last SKIP, TOKEN, or 
+SPECIAL_TOKEN.</li>
+<li>int lengthOfMatch (READ ONLY): the length of the current match</li>
+<li>int curLexState (READ ONLY): the index of the current lexical state</li>
+<li>inputStream (READ ONLY):  The stream is currently at the last character consumed for this match.</li>
+<li>Token matchedToken (READ/WRITE): The Token that is set to be returned to the parser.</li>
+<li>void SwitchTo(int): This method switches you to the specified lexical state (discussed above).</li>
+</ul>
+
+The official JavaCC documentation has a nice section on these variables: 
+<br>
+<a href="https://javacc.java.net/doc/tokenmanager.html">https://javacc.java.net/doc/tokenmanager.html</a>
+<br>
+<br>
+
+The Token object created for the matched chunk is made available under the name matchedToken.
+Remember the pattern for an unsigned integer?
+
+<pre>&lt;NUMBER: "0" | ["1" - "9"] (["0" - "9"])*&gt;</pre>
+
+Let's say that the number is not allowed to be larger than 
+Integer.MAX_VALUE (2147483647).
+Writing an expression for this is a pain, because the values allowed for
+ a digit depends on the preceding digits.
+If there are less than 10 digits, then all digits may have any number as
+ long as there are no leading zeroes.
+If it is 10 digits, then the first digit may not be larger than 2, the 
+second digit may not be larger than one if the first is a 2 and so on.
+Conversely, This can easily be tested using a lexical action:
+
+	<span class="source">
+		maxValue.jj
+			[15:21]
+	</span>
+	<pre>TOKEN: { 
+    &lt;NUMBER: "0" | ["1" - "9"] (["0" - "9"]){0,9}&gt; { 
+        if(lengthOfMatch == 10 &amp;&amp; Long.valueOf(matchedToken.image) &gt; Integer.MAX_VALUE) { 
+            throw new TokenMgrError(matchedToken.image + " &gt; Integer.MAX_VALUE", TokenMgrError.LEXICAL_ERROR);
+        }
+    }
+}</pre>
+
+
+We can put the code in a static method in a utility class, so we can unit test it and keep the grammar file legible.
+You can even change the image of the token. The parser will see the changes.
+Let us return to the STRING example where the quotes were part of the token:
+
+<pre>TOKEN: { &lt;QUOTED_STRING: "\"" (~["\"", "\\"] | "\\\"" | "\\\\")* "\"" &gt; }</pre>
+
+Say we want to strip the opening and closing quotes before returning the Token to the parser:
+
+	<span class="source">
+		quotes.jj
+			[15:21]
+	</span>
+	<pre>TOKEN: { 
+    &lt;NUMBER: "0" | ["1" - "9"] (["0" - "9"]){0,9}&gt; { 
+        if(lengthOfMatch == 10 &amp;&amp; Long.valueOf(matchedToken.image) &gt; Integer.MAX_VALUE) { 
+            throw new TokenMgrError(matchedToken.image + " &gt; Integer.MAX_VALUE", TokenMgrError.LEXICAL_ERROR);
+        }
+    }
+}</pre>
+
+
+SwitchTo(int state) changes the lexical state so:
+
+<pre>TOKEN : { &lt;EVANGELION: (["zankoku na tenshi"])+&gt; : ANIME_STATE }</pre>
+
+is the same as:
+
+<pre>TOKEN : { &lt;EVANGELION: (["zankoku na tenshi"])+&gt; : { SwitchTo(ANIME_STATE); } }</pre>
+
+Using it here doesn't make much sense, because the first alternative is clearer.
+The Java version, however, does make it possible to do more complex checks for changing the state:
+
+<pre>TOKEN : { &lt;EVANGELION: (["zankoku na tenshi"])+&gt; : { if(otaku) { SwitchTo(NERD_STATE); } } }</pre>
+
+The NERD_STATE constant appears to magically appear in the Java Snippet.
+ No imports or nothing.
+The state and token constants are available in the lexer (and parser), 
+because the lexer (and parser) implement the ...Constants interface.
+<br>
+<br>
+
+If you look at the generated code, then you will see that the lexical 
+action is inserted right in the middle of the TokenLexicalActions 
+method.
+For example if our grammar file only has the following lexical action:
+
+<pre>TOKEN: { 
+	&lt;QUOTED_STRING: "\"" (~["\"", "\\"] | "\\\"" | "\\\\")* "\"" &gt; 
+	{ matchedToken.image = image.substring(1, lengthOfMatch-1); } 
+}</pre>
+
+
+Then the TokenLexicalActions method would look something like this:
+
+	<span class="source">
+		DemoParserTokenManager.java
+			[259:270]
+	</span>
+	<pre>void TokenLexicalActions(Token matchedToken)
+{
+   switch(jjmatchedKind)
+   {
+      case 1 :
+        image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
+          matchedToken.image = image.substring(1, lengthOfMatch-1);
+         break;
+      default :
+         break;
+   }
+}</pre>
+
+The reason I am putting emphasis on where the code ends up, is that it has an important implication.
+We cannot declare instance variables in lexical actions. We need to use a TOKEN_MGR_DECLS block for that.
+There can only be one TOKEN_MGR_DECLS block in a grammar file and we declare it like so:
+
+<pre>TOKEN_MGR_DECLS : {
+	// TODO: Code goes here
+}</pre>
+
+Variables and methods declared here are accessible from all lexical actions.
+For example, say we need to keep track of the nesting depth:
+
+<pre>TOKEN_MGR_DECLS : {
+    private int depth = 0;
+} 
+
+TOKEN: { 
+	&lt;OPEN_BLOCK: "{"&gt; { System.out.println( ++depth + " '{' blocks"); }
+	|
+	&lt;CLOSE_BLOCK: "}"&gt; { System.out.println(--depth + " '{' blocks"); } 
+}</pre>
+
+Up until now, I have shown lexical actions concerned with a single Token.
+In some cases, you will have cross cutting concerns that address all Tokens or at the very least a sub set. 
+This can be achieved with common token actions.
+
+<h3>Common Token Actions</h3>
+
+Common token actions allow us to specify cross cutting concerns for the lexer in a AOP like fashion.
+First we need to set the COMMON_TOKEN_ACTION option to true on either the command line or in the grammar file:
+
+	<span class="source">
+		common.jj
+			[1:4]
+	</span>
+	<pre>options {
+	STATIC = false;
+	COMMON_TOKEN_ACTION = true;
+}</pre>
+
+This option lets JavaCC know that there is code that needs to be run for ALL Tokens.
+Next we need to specify a TOKEN_MGR_DECLS block which contains the code to invoke:
+
+<pre>TOKEN_MGR_DECLS : {
+    void CommonTokenAction(Token token) {
+    	// TODO: code goes here
+    } 
+}</pre>
+
+The CommonTokenAction method is invoked for every Token that has the TOKEN KREP.
+Make sure that CommonTokenAction method is defined and has the signature as specified above.
+Here is an example that keeps track of the longest Token found:
+
+	<span class="source">
+		common.jj
+			[14:22]
+	</span>
+	<pre>TOKEN_MGR_DECLS : {
+	private int max = 0;
+	
+	void CommonTokenAction(Token token) {
+		if(token.image.length() &gt; max) {
+			max = token.image.length();
+			System.out.println("Longer token found: " + max);
+		}
+	}</pre>
+
+That rounds up my tutorial of lexical analysis in JavaCC.
+I will post my next installment when I have written up an article on parsing in JavaCC.
+
+<span class="block"><a class="button" href="http://eriklievaart.com/blog/javacc1.html">Previous: Getting Started</a></span>
+<span class="block"><a class="button" href="http://eriklievaart.com/blog/javacc3.html">Next: Parsing</a></span>
+	<span class="block"><a class="button" href="http://eriklievaart.com/">Main Page</a></span>
+    	</div>
+</body></html>
