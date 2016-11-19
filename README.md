@@ -7,7 +7,9 @@ I'm using it e.g. in [ph-css](https://github.com/phax/ph-css) for CSS parsing.
 
 # News and noteworthy
 
-  * Version 2.8.1 - 2017-07-13
+  * Version 2.8.2 - 2016-11-19
+    * Fixing https://github.com/javacc/javacc/issues/2 locally
+  * Version 2.8.1 - 2016-07-13
     * Fixed a problem with the code generation for "modern" Java template
 
 # Maven usage
