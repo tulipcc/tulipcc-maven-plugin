@@ -1,0 +1,4262 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><meta name="GENERATOR" content="TtHgold 4.00">
+ <style type="text/css"> div.p { margin-top: 7pt;}</style>
+ <style type="text/css"><!--
+ td div.comp { margin-top: -0.6ex; margin-bottom: -1ex;}
+ td div.comb { margin-top: -0.6ex; margin-bottom: -.6ex;}
+ td div.hrcomp { line-height: 0.9; margin-top: -0.8ex; margin-bottom: -1ex;}
+ td div.norm {line-height:normal;}
+ span.roman {font-family: serif; font-style: normal; font-weight: normal;} 
+ span.overacc2 {position: relative;  left: .8em; top: -1.2ex;}
+ span.overacc1 {position: relative;  left: .6em; top: -1.2ex;} --></style>
+
+  
+<title> The JavaCC FAQ</title>
+ 
+</head><body><h1 align="center">The JavaCC FAQ </h1>
+
+<h3 align="center">Maintained by Theodore S. Norvell<br>Computer and Electrical Engineering<br>Memorial University of Newfoundland<br>Email: theo at mun dot ca </h3>
+
+<h3 align="center">Typeset on Feb 07, 2011
+. </h3>
+
+
+<h1>Contents </h1><a href="#tth_chAp1">1&nbsp; General Information on JavaCC and Parsing</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc1.1">1.1&nbsp; Recent changes to the FAQ</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc1.2">1.2&nbsp; What is JavaCC?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc1.3">1.3&nbsp; Could you explain that in more detail?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc1.4">1.4&nbsp; What does JavaCC not do?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc1.5">1.5&nbsp; What can JavaCC be used for?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc1.6">1.6&nbsp; Where can I get JavaCC?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc1.7">1.7&nbsp; Are there other implementations?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc1.8">1.8&nbsp; What legal restrictions are there on JavaCC?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc1.9">1.9&nbsp; Is the source code for JavaCC publicly available?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc1.10">1.10&nbsp; Is there any documentation?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc1.11">1.11&nbsp; Are there books, articles, or tutorials on JavaCC?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc1.12">1.12&nbsp; Are there publicly available grammars?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc1.13">1.13&nbsp; Are there books or tutorials on parsing theory?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc1.14">1.14&nbsp; Is there a newsgroup or mailing list?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc1.15">1.15&nbsp; Should I&nbsp;send my question to the newsgroup or mailing list?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc1.16">1.16&nbsp; Who wrote JavaCC and who maintains it?</a><br>
+<a href="#tth_chAp2">2&nbsp; Common Issues</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc2.1">2.1&nbsp; What files does JavaCC produce?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc2.2">2.2&nbsp; Can I modify the generated files?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc2.3">2.3&nbsp; I changed option <i>x</i>; why am I having trouble?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc2.4">2.4&nbsp; How do I&nbsp;put the generated classes in a package?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc2.5">2.5&nbsp; How do I&nbsp;use JavaCC with ANT?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc2.6">2.6&nbsp; Can I use JavaCC with my favourite IDE?</a><br>
+<a href="#tth_chAp3">3&nbsp; The Token Manager</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc3.1">3.1&nbsp; What is a token manager?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc3.2">3.2&nbsp; How do I read from a string instead of a file?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc3.3">3.3&nbsp; What if more than one regular expression matches a prefix of the remaining input?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc3.4">3.4&nbsp; What if the chosen regular expression matches more than one prefix?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc3.5">3.5&nbsp; What if no regular expression matches a prefix of the remaining input?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc3.6">3.6&nbsp; How do I make a character sequence match more than one token kind?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc3.7">3.7&nbsp; How do I match any character?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc3.8">3.8&nbsp; Should I use (~ [])+ to match an arbitrarily long sequence of characters?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc3.9">3.9&nbsp; How do I match exactly <i>n</i> repetitions of a regular expression?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc3.10">3.10&nbsp; What are <font face="helvetica"><b>TOKEN</b></font>, <font face="helvetica"><b>SKIP</b></font>, and <font face="helvetica"><b>SPECIAL_TOKEN</b></font>?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc3.11">3.11&nbsp; What are lexical states all about?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc3.12">3.12&nbsp; Can the parser force a switch to a new lexical state?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc3.13">3.13&nbsp; Is there a way to make SwitchTo safer?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc3.14">3.14&nbsp; What is <font face="helvetica">MORE</font>?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc3.15">3.15&nbsp; Why do the example Java and C++ token managers report an error when the last line of a file is a single line comment?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc3.16">3.16&nbsp; What is a lexical action?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc3.17">3.17&nbsp; How do I tokenize nested comments?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc3.18">3.18&nbsp; What is a common token action?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc3.19">3.19&nbsp; How do I throw a ParseException instead of a TokenMgrError?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc3.20">3.20&nbsp; Why are line and column numbers not recorded?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc3.21">3.21&nbsp; How can I process Unicode?</a><br>
+<a href="#tth_chAp4">4&nbsp; The Parser and Lookahead</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc4.1">4.1&nbsp; Where should I draw the line between lexical analysis and parsing?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc4.2">4.2&nbsp; What is recursive descent parsing?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc4.3">4.3&nbsp; What is left-recursion and why can't I use it?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc4.4">4.4&nbsp; How do I&nbsp;match an empty sequence of tokens?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc4.5">4.5&nbsp; What is "lookahead"?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc4.6">4.6&nbsp; I get a message saying "Warning: Choice Conflict ... "; what should I do?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc4.7">4.7&nbsp; I&nbsp;added a LOOKAHEAD specification and the warning went away; does that mean I&nbsp;fixed the problem?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc4.8">4.8&nbsp; Are nested syntactic lookahead specifications evaluated during syntactic lookahead?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc4.9">4.9&nbsp; Are parameters passed during syntactic lookahead?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc4.10">4.10&nbsp; Are semantic actions executed during syntactic lookahead?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc4.11">4.11&nbsp; Is semantic lookahead evaluated during syntactic lookahead?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc4.12">4.12&nbsp; Can local&nbsp;variables (including parameters) be used in semantic lookahead?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc4.13">4.13&nbsp; How does JavaCC differ from standard LL(1) parsing?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc4.14">4.14&nbsp; How do I communicate from the parser to the token manager?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc4.15">4.15&nbsp; How do I communicate from the token manager to the parser?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc4.16">4.16&nbsp; What does it mean to put a regular expression within a BNF&nbsp;production?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc4.17">4.17&nbsp; When should regular expressions be put directly into a BNF&nbsp;production?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc4.18">4.18&nbsp; How do I parse a sequence without allowing duplications?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc4.19">4.19&nbsp; How do I&nbsp;deal with keywords that aren't reserved?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc4.20">4.20&nbsp; There's an error in the input, so why doesn't my parser throw a ParseException?</a><br>
+<a href="#tth_chAp5">5&nbsp; Semantic Actions</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc5.1">5.1&nbsp; I've written/found a parser, but it doesn't do anything?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc5.2">5.2&nbsp; How do I capture and traverse a sequence of tokens?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc5.3">5.3&nbsp; Why does my parser use so much space?</a><br>
+<a href="#tth_chAp6">6&nbsp; JJTree and JTB</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc6.1">6.1&nbsp; What are JJTree and JTB?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc6.2">6.2&nbsp; Where can I&nbsp;find JJTree?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc6.3">6.3&nbsp; Where can I find JTB?</a><br>
+<a href="#tth_chAp7">7&nbsp; Applications of JavaCC</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc7.1">7.1&nbsp; Where can I find a parser for <i>x</i>?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc7.2">7.2&nbsp; How do I parse arithmetic expressions?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc7.3">7.3&nbsp; I'm writing a programming language interpreter; how do I deal with loops?</a><br>
+<a href="#tth_chAp8">8&nbsp; Comparing JavaCC with other tools</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc8.1">8.1&nbsp; Since <i>LL</i>(1) &#8834; <i>LALR</i>(1), wouldn't a tool based on LALR&nbsp;parsing be better?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc8.2">8.2&nbsp; How does JavaCC compare with Lex and Flex?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#tth_sEc8.3">8.3&nbsp; How does JavaCC compare with other Yacc and Bison?</a><br>
+
+
+<div class="p"><!----></div>
+<b>Acknowledgments</b>: Your maintainer would like to thank the following
+for help with the FAQ:&nbsp;Ken Beesley, Leonardo Bueno, Paul Cager, Tom Copeland,
+Tom Davies, Brian Goetz, Roedy Green, John Kristian, Tony LaPaso, Eric
+Nickell, Andreas Papasalouros, Phil Robare, Alan Rooks, David Rosenstrauch,
+Sreeni Viswanadha, and Michael Welle. Much of the material is based on
+documentation by Sriram Sankar and Sreeni Viswanadha. This FAQ is prepared and
+published with the help of Scientific Workplace, PDFTeX, pdfscreen, TTH, Visio
+and other software, and uses data formats LaTeX, TeX, HTML, PDF, and PNG; I'd
+like to thank the creators of these tools and formats. Above all, I'd like to
+thank the creators of JavaCC, JJTree, and JTB for creating such useful
+tools.
+<div class="p"><!----></div>
+<br><br>The latest copy of this FAQ can be found at
+<a href="http://www.engr.mun.ca/%7Etheo/JavaCC-FAQ/">The JavaCC FAQ</a>.
+<div class="p"><!----></div>
+In citing or linking to this FAQ, please use the following URI:
+<div class="p"><!----></div>
+
+<br clear="all"><table width="100%" border="0"><tbody><tr><td>
+<table cellspacing="0" cellpadding="2" align="center"><tbody><tr><td nowrap="nowrap" align="center">
+<i>http</i>://<i>www</i>.<i>engr</i>.<i>mun</i>.<i>ca</i>/~<i>theo</i>/<i>JavaCC</i>&#8722;<i>FAQ</i></td></tr></tbody></table>
+</td></tr></tbody></table>
+
+
+
+<div class="p"><!----></div>
+ <h1><a name="tth_chAp1">
+Chapter 1 </a><br>General Information on JavaCC and Parsing</h1>
+
+<div class="p"><!----></div>
+
+<center><em>"DRAGONS&nbsp;DREAD</em>
+
+<div class="p"><!----></div>
+<em>GO&nbsp;BACK TO&nbsp;BED!!"</em>
+
+<div class="p"><!----></div>
+Sheree Fitch, <em>Sleeping Dragons All Around.
+<div class="p"><!----></div>
+<br><br></em></center> <h2><a name="tth_sEc1.1">
+1.1</a>&nbsp;&nbsp;Recent changes to the FAQ</h2>
+
+<div class="p"><!----></div>
+
+<ul>
+<li> The JavaCC&nbsp;grammar repository has moved.
+<div class="p"><!----></div>
+</li>
+
+<li> Other than changes relating to the JavaCC&nbsp;grammar repository moving,
+the FAQ&nbsp;hasn't been updated recently and hence is a bit out out date.
+I&nbsp;think the technical information is mostly still fine, but a number of the
+links are to defunct web pages.
+<div class="p"><!----></div>
+</li>
+</ul>
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc1.2">
+1.2</a>&nbsp;&nbsp;What is JavaCC?</h2>
+
+<div class="p"><!----></div>
+JavaCC stands for
+"the Java Compiler Compiler"; it is a parser generator and lexical analyzer generator. JavaCC will read a
+description of a language and generate code, written in Java, that will read
+and analyze that language. JavaCC is particularly useful when you have to
+write code to deal with an input language has a complex structure; in that
+case, hand-crafting an input module without the help of a parser generator can
+be a difficult job.
+
+<div class="p"><!----></div>
+This technology originated to make programming language implementation easier
+-hence the term
+"compiler compiler"- but make no mistake that JavaCC is of use only to programming language implementors.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc1.3">
+1.3</a>&nbsp;&nbsp;Could you explain that in more detail?</h2>
+<div class="p"><!----></div>
+Figures 1.1 and 1.2&nbsp;show the relationship between a JavaCC generated lexical analyzer (called a
+"token manager"&nbsp;in JavaCC parlance) and a JavaCC generated parser. The figures show C&nbsp;as
+the input language, but JavaCC can handle any language -and not only
+programming languages- if you can describe the rules of the language to JavaCC.
+
+<div class="p"><!----></div>
+The token manager reads in a sequence of characters and produces a sequence of
+objects called
+"tokens". The rules used to break the sequence of characters into a sequence of tokens
+obviously depend on the language; they are supplied by the programmer as a
+collection of
+"regular expressions".
+
+<div class="p"><!----></div>
+The parser consumes the sequence of tokens, analyses its structure, and
+produces ... . Well what the parser produces is up to you; JavaCC is
+completely flexible in this regard<a href="#tthFtNtAAB" name="tthFrefAAB"><sup>1</sup></a>. The figure shows an
+"abstract syntax tree", but you might want to produce, say, a number (if you are writing a
+calculator), a file of assembly language (if you were writing a one-pass
+compiler), a modified sequence of characters (if you were writing a text
+processing application), and so on. The programmer supplies a collection of
+"Extended BNF&nbsp;production rules"; JavaCC uses these productions to generate the parser as a Java&nbsp;class. These
+production rules can be annotated with snippets of Java code, which is how the
+programmer tells the parser what to produce.
+<div class="p"><!----></div>
+
+<table><tbody><tr><td><img src="The%20JavaCC%20FAQ-Dateien/token-manager.png" alt="picture of token manager" align="left"></td></tr>
+<tr><td>Figure 1.1 The token manager converts a sequence of characters to a sequence of
+Token objects.</td></tr></tbody></table>
+
+
+<div class="p"><!----></div>
+
+<table><tbody><tr><td><img src="The%20JavaCC%20FAQ-Dateien/parser.png" alt="picture of a parser" align="left"></td></tr>
+<tr><td>Figure 1.2 The parser analyzes the sequence of tokens.</td></tr></tbody></table>
+
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc1.4">
+1.4</a>&nbsp;&nbsp;What does JavaCC not do?</h2>
+
+<div class="p"><!----></div>
+JavaCC does not automate the building of trees (or any other specific parser
+output). There are at least two tree building tools
+JJTree and JTB (see Chapter <a href="#jjtree-and-jtb">6</a>.)
+&nbsp;based on JavaCC, and building trees
+"by hand"with a JavaCC based parser is easy.
+
+<div class="p"><!----></div>
+JavaCC&nbsp;does not build symbol-tables, although if you want a symbol table for
+a language, then a JavaCC based parser may provide a good framework.
+
+<div class="p"><!----></div>
+JavaCC does not generate output languages. However once you have a tree, it is
+easy to generate string output from it.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc1.5">
+1.5</a>&nbsp;&nbsp;What can JavaCC be used for?</h2>
+
+<div class="p"><!----></div>
+JavaCC has been used to create parsers for: RTF, Visual Basic, Python,
+Rational Rose mdl files, XML, XML DTDs, HTML, C, C++, Java, JavaScript,
+Oberon, SQL, VHDL, VRML, ASN1, email headers, and lots of proprietary
+languages. It also gets used for configuration file readers, calculators, and
+on and on.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc1.6">
+1.6</a>&nbsp;&nbsp;Where can I get JavaCC?<a name="where-is-javacc"></a></h2>
+
+<div class="p"><!----></div>
+JavaCC is available from
+<a href="http://javacc.dev.java.net/">java.net</a>&nbsp;as a free download.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc1.7">
+1.7</a>&nbsp;&nbsp;Are there other implementations?</h2>
+
+<div class="p"><!----></div>
+FreeCC is a derivitive of JavaCC 4. It should translate most JavaCC 4 and
+JJTree 4 grammars. FreeCC adds some new features. FreeCC is at
+<a href="http://code.google.com/p/freecc/">code.google.com/p/freecc</a>.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc1.8">
+1.8</a>&nbsp;&nbsp;What legal restrictions are there on JavaCC?</h2>
+
+<div class="p"><!----></div>
+There are essentially no restrictions on the use of JavaCC. In particular you
+may use the Java files that JavaCC produces in any way, including
+incorporating them into a product that you sell.
+
+<div class="p"><!----></div>
+JavaCC is freely redistributable under the its open source licence. &nbsp;See the
+licence for details.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc1.9">
+1.9</a>&nbsp;&nbsp;Is the source code for JavaCC publicly available?</h2>
+
+<div class="p"><!----></div>
+Yes. As of June 2003, JavaCC&nbsp;is open source. The source code can be found at
+<a href="http://javacc.dev.java.net/">java.net</a>.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc1.10">
+1.10</a>&nbsp;&nbsp;Is there any documentation?<a name="javacc-doc"></a></h2>
+
+<div class="p"><!----></div>
+Yes.
+<a href="https://javacc.dev.java.net/doc/docindex.html">Follow this link</a>.
+
+<div class="p"><!----></div>
+The on-line documentation is currently a bit out of date. <em>You should
+also read the release notes that come with the JavaCC download.</em>
+
+<div class="p"><!----></div>
+The documentation is rather terse and is much easier to read if you already
+know a bit about parsing theory. Nevertheless, the documentation is an
+indispensable resource that is in no way superceded by this FAQ.
+
+<div class="p"><!----></div>
+It used to be possible to download the documentation in a big ZIP file. At the
+moment your maintainer does not know where the documentation can be downloaded
+from, but you can currently view it on-line.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc1.11">
+1.11</a>&nbsp;&nbsp;Are there books, articles, or tutorials on JavaCC?</h2>
+
+<div class="p"><!----></div>
+Book:
+
+<div class="p"><!----></div>
+
+<ul>
+<li> Tom Copeland,
+<a href="http://generatingparserswithjavacc.com/">Generating Parsers with JavaCC</a>., Centennial Books, Alexandria, VA. 2007. ISBN 0-9762214-3-8.
+<div class="p"><!----></div>
+</li>
+</ul>
+
+<div class="p"><!----></div>
+Tutorials and articles:
+
+<div class="p"><!----></div>
+
+<ul>
+<li> There are mini-tutorials in the documentation. (See
+Question <a href="#javacc-doc">1.10</a>, "Is there any
+documentation?"
+.)
+<div class="p"><!----></div>
+</li>
+
+<li> Viswanathan Kodaganallur, `Incorporating Language Processing into Java
+Applications: A JavaCC Tutorial.' <em>IEEE Software,</em> 21(4): 70-77 (2004).
+<div class="p"><!----></div>
+</li>
+
+<li>
+<a href="http://www.engr.mun.ca/%7Etheo/JavaCC-Tutorial/">A draft tutorial by Theodore Norvell</a>.
+<div class="p"><!----></div>
+</li>
+
+<li>
+<a href="http://www.cs.albany.edu/%7Esreeni/JavaCC/lexertips.html">A lexer tutorial by Sreeni Viswanadha</a>.
+<div class="p"><!----></div>
+</li>
+
+<li>
+<a href="http://www-106.ibm.com/developerworks/xml/library/x-javacc1/">A tutorial that involves JJTree.</a>.
+<div class="p"><!----></div>
+</li>
+
+<li>
+<a href="http://www.fatdog.com/Extreme.html">A related but different tutorial that involves JJTree.</a>.
+<div class="p"><!----></div>
+</li>
+
+<li>
+<a href="http://www.j-paine.org/jjtree.html">A short tutorial on JJTree by Jocelyn Paine.</a>.
+<div class="p"><!----></div>
+</li>
+
+<li> A couple of articles have been published in JavaWorld.
+ See <a href="http://www.javaworld.com/javaworld/jw-12-1996/jw-12-jack.html">article by Chuck McManis</a>
+and <a href="http://www.javaworld.com/javaworld/jw-12-2000/jw-1229-cooltools.html">article by Oliver Enseling</a>.
+<div class="p"><!----></div>
+
+<div class="p"><!----></div>
+</li>
+</ul>
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc1.12">
+1.12</a>&nbsp;&nbsp;Are there publicly available grammars?</h2>
+
+<div class="p"><!----></div>
+Yes. Roedy Green maintains the
+<a href="http://mindprod.com/jgloss/javacc.html">JavaCC Grammar Repository</a>, which was originally created by Donwon Lee. There used to be a repository at
+java.net, but I can't find it any more.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc1.13">
+1.13</a>&nbsp;&nbsp;Are there books or tutorials on parsing theory?</h2>
+
+<div class="p"><!----></div>
+Yes many. Most text-books on compiler technology contain more than enough
+background on parsing theory. Here are some suggestions
+
+<div class="p"><!----></div>
+
+<ul>
+<li> Alfred V. Aho, Monica S.&nbsp;Lam, Ravi Sethi and Jeffrey D. Ullman,
+<em>Compilers: Principles, Techniques, and Tools</em>, 2nd Edition,
+Addison-Wesley, 2006.
+<div class="p"><!----></div>
+</li>
+
+<li> Charles N. Fischer and Richard J. Leblanc, Jr., <em>Crafting a
+Compiler With C</em>, Addison-Wesley, 1991.
+<div class="p"><!----></div>
+</li>
+</ul>
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc1.14">
+1.14</a>&nbsp;&nbsp;Is there a newsgroup or mailing list?</h2>
+
+<div class="p"><!----></div>
+comp.compilers.tools.javacc is a usenet newsgroup for discussing the JavaCC
+and related technologies, like JJTree and JTB.
+
+<div class="p"><!----></div>
+There is also a mail-list at
+<a href="http://javacc.dev.java.net/">java.net</a>. To sign up for this list you must first register as a java.net user, second
+join the JavaCC project, and then request to be added to the "
+users"&nbsp;mail-list.
+
+<div class="p"><!----></div>
+The mailing list and comp.compilers.tools.javacc are not currently gatewayed.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc1.15">
+1.15</a>&nbsp;&nbsp;Should I&nbsp;send my question to the newsgroup or mailing list?</h2>
+
+<div class="p"><!----></div>
+Yes, but only if your question relates in some way to JavaCC, JJTree, or JTB.
+
+<div class="p"><!----></div>
+The newsgroup and mailing list are not suitable fora for discussing the Java
+programming language or javac, which is Sun's Java compiler, or any other
+topic that does not relate directly to the Java Compiler Compiler.
+
+<div class="p"><!----></div>
+Questions on parsing theory or parser generation in general might be better
+addressed to comp.compilers.
+
+<div class="p"><!----></div>
+Questions directly answered in the FAQ need not be asked again in the newgroup
+or mailing list.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc1.16">
+1.16</a>&nbsp;&nbsp;Who wrote JavaCC and who maintains it?</h2>
+
+<div class="p"><!----></div>
+JavaCC was created by Sreeni Viswanadha and Sriram Sankar when they worked for
+Sun. They are continuing to improve it.
+
+<div class="p"><!----></div>
+Since JavaCC is now open source, it is being maintained by its developer
+community. Luckly this includes the original authors.
+
+<div class="p"><!----></div>
+ <h1><a name="tth_chAp2">
+Chapter 2 </a><br>Common Issues</h1>
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc2.1">
+2.1</a>&nbsp;&nbsp;What files does JavaCC produce?<a name="what-files"></a></h2>
+
+<div class="p"><!----></div>
+JavaCC is a program generator. It reads a .jj file and, if that .jj file is
+error free, produces a number of Java source files. With the default options,
+it generates the following files:
+
+<div class="p"><!----></div>
+
+<ul>
+<li> Boiler-plate files
+
+<div class="p"><!----></div>
+
+<ul>
+<li> <tt>SimpleCharStream.java</tt> - represent the stream of input characters.
+<div class="p"><!----></div>
+</li>
+
+<li> <tt>Token.java</tt> - represents a single input token
+<div class="p"><!----></div>
+</li>
+
+<li> <tt>TokenMgrError.java</tt> - an error thrown from the token manager.
+<div class="p"><!----></div>
+</li>
+
+<li> <tt>ParseException.java</tt> - an exception indicating that the input
+did not conform to the parser's grammar.
+<div class="p"><!----></div>
+</li>
+</ul>
+<div class="p"><!----></div>
+</li>
+
+<li> Custom files (<em>XXX</em> is whatever name you choose).
+
+<div class="p"><!----></div>
+
+<ul>
+<li> <em>XXX</em><tt>.java</tt> - the parser class
+<div class="p"><!----></div>
+</li>
+
+<li> <em>XXX</em><tt>TokenManager.java</tt> - the token manager class.
+<div class="p"><!----></div>
+</li>
+
+<li> <em>XXX</em><tt>Constants.java</tt> - an interface associating token
+classes with symbolic names.
+<div class="p"><!----></div>
+</li>
+</ul>
+<div class="p"><!----></div>
+</li>
+</ul>
+
+<div class="p"><!----></div>
+If you use the option <font face="helvetica">JAVA_UNICODE_ESCAPE</font> then
+<tt>SimpleCharStream.java</tt> will not be produced, but rather
+<tt>JavaCharStream.java</tt>. &nbsp;(Prior to version 2.1, one of four possible
+files was generated: <tt>ASCII_CharStream.java</tt>
+<tt>ASCII_UCodeESC_CharStream.java</tt>, <tt>UCode_CharStream.java</tt>, or
+<tt>UCode_UCodeESC_CharStream.java</tt>).
+
+<div class="p"><!----></div>
+If you use the option <font face="helvetica">USER_CHAR_STREAM</font>, then
+<tt>CharStream.java</tt> (an interface) will be produced instead of the class
+<tt>SimpleCharStream.java</tt>. Similarly the option
+<font face="helvetica">USER_TOKEN_MANAGER</font> will cause the generation of an interface
+<tt>TokenManager.java</tt>, rather than a concrete token manager.
+
+<div class="p"><!----></div>
+The boiler-plate files will only be produced if they don't already exist.
+There are two important consequences:&nbsp;First, you should delete them prior to
+running JavaCC, if you make any changes that might require changes to these
+files. (See
+Question <a href="#option-changed">2.3</a>, "I changed option <i>x</i>; why am
+I having trouble?"
+.) Second, if you really want to, you can modify these files and be sure that
+JavaCC won't overwrite them. (See
+Question <a href="#modifying">2.2</a>, "Can I modify the generated
+files?"
+.)
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc2.2">
+2.2</a>&nbsp;&nbsp;Can I modify the generated files?<a name="modifying"></a></h2>
+
+<div class="p"><!----></div>
+Modifying any generated files should be generally avoided, since some day you
+will likely want to regenerate them and then you'll have to re-modify them.
+
+<div class="p"><!----></div>
+That said, modifying the <tt>Token.java</tt>, <tt>ParserException.java</tt>
+and <tt>TokenManagerError.java</tt> files is a fairly safe thing to do as the
+contents of these files do not depend on the options, or the contents of the
+specification file, other than the package declaration. Modifying the
+<tt>SimpleCharStream.java</tt> (or <tt>JavaCharStream.java</tt>) file should
+not be done until you are certain of your options, especially the
+<font face="helvetica">STATIC</font> and <font face="helvetica">JAVA_UNICODE_ESCAPE</font>&nbsp;options.
+
+<div class="p"><!----></div>
+The custom files (<tt>XXX.java</tt>, <tt>XXXTokenManager.java</tt>, and
+<tt>XXXConstants.java</tt>)&nbsp;are produced every time you run JavaCC. Modifying
+any of the custom files is generally a very bad idea, as you'll have to modify
+them again after any change to the specification. Some people have written
+scripts (in, say, Perl) to do the modifications for them. I&nbsp;would regard this
+as a very last resort.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc2.3">
+2.3</a>&nbsp;&nbsp;I changed option <i>x</i>; why am I having trouble?<a name="option-changed"></a></h2>
+
+<div class="p"><!----></div>
+Try deleting <b>all</b> files generated by JavaCC (see
+Question <a href="#what-files">2.1</a>, " What files does JavaCC produce?"
+) and then rerunning JavaCC. This issue usually comes up when the
+<font face="helvetica">STATIC</font> option is changed; JavaCC needs to generate new files, but it
+will not generate boiler-plate files unless they aren't there already.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc2.4">
+2.4</a>&nbsp;&nbsp;How do I&nbsp;put the generated classes in a package?</h2>
+
+<div class="p"><!----></div>
+Put a <font face="helvetica">package</font> declaration right after the <font face="helvetica">PARSER_BEGIN(</font><em>XXX</em><font face="helvetica">)</font> declaration in the .jj file.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc2.5">
+2.5</a>&nbsp;&nbsp;How do I&nbsp;use JavaCC with ANT?</h2>
+
+<div class="p"><!----></div>
+First, of course, download and install ANT from the Apache project's website
+(go to http://jakarta.apache.org/builds/jakarta-ant/release/ and choose the
+largest release number). This comes with a prebuilt JavaCC step documented
+under the
+"Optional Tasks"
+category.
+
+<div class="p"><!----></div>
+The ANT task only invokes JavaCC if the grammar file is newer than the
+generated Java files. The ANT&nbsp;task assumes that the Java class name of the
+generated parser is the same as the name of the grammar file, ignoring the
+.jj. If this is not the case, the <font face="helvetica">javacc</font> task will still work, but it
+will always generate the output files.
+
+<div class="p"><!----></div>
+Next, create a <tt>build.xml</tt> file which calls the step named
+<font face="helvetica">javacc</font>. Note that capitalization is important and that the ANT
+documentation for this step is titled JavaCC although the step name is
+<font face="helvetica">javacc</font> (the example in the documentation is right). I assume for this
+example that you have installed JavaCC in /usr/local on a Unix or GNU Linux
+box. A simple step will look like:
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td> &lt; javacc
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>target="${sampleDir}/SimpleExamples/Simple1.jj"</dd>
+ <dt><b></b></dt>
+	<dd>outputdirectory="${sampleDir}/SimpleExamples/java"</dd>
+ <dt><b></b></dt>
+	<dd>javacchome="/usr/local/javacc2.1"
+<div class="p"><!----></div>
+</dd>
+</dl>/ &gt; 
+<div class="p"><!----></div>
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+ANT makes it easy to put the generated files in a separate directory. The
+<font face="helvetica">javacchome</font> attribute defines where you installed JavaCC.
+
+<div class="p"><!----></div>
+This will need to be followed by a javac step to compile the generated files.
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td> &lt; javac
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>srcdir="${sampleDir}/SimpleLevels/java"</dd>
+ <dt><b></b></dt>
+	<dd>destdir="${sampleDir}/SimpleLevels/classes"
+/ &gt; 
+<div class="p"><!----></div>
+</dd>
+</dl></td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+Before running ANT you must add the JavaCC .zip file to your class path. The
+JavaCC step does not take a
+ &lt; classpath &gt; 
+modifier, so adding it to the global classpath is the only way to get this
+information into the step.
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+CLASSPATH=$CLASSPATH:/usr/local/javacc2.1/bin/lib/JavaCC.zip
+
+<div class="p"><!----></div>
+export CLASSPATH
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+Now all you have to do is issue the command
+"ant".
+
+<div class="p"><!----></div>
+A complete <tt>build.xml</tt> file is available at
+<a href="http://www.engr.mun.ca/%7Etheo/JavaCC-FAQ/build.xml">http://www.engr.mun.ca/~theo/JavaCC-FAQ/build.xml</a>.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc2.6">
+2.6</a>&nbsp;&nbsp;Can I use JavaCC with my favourite IDE?<a name="eclipse"></a></h2>
+
+<div class="p"><!----></div>
+For Eclipse see
+<a href="http://perso.wanadoo.fr/eclipse_javacc/">http://perso.wanadoo.fr/eclipse_javacc/</a>.
+
+<div class="p"><!----></div>
+For Netbeans see
+<a href="http://plugins.netbeans.org/PluginPortal/faces/PluginDetailPage.jsp?pluginid=5402">http://plugins.netbeans.org/PluginPortal/faces/PluginDetailPage.jsp?pluginid=5402</a>.
+
+<div class="p"><!----></div>
+ <h1><a name="tth_chAp3">
+Chapter 3 </a><br>The Token Manager</h1>
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc3.1">
+3.1</a>&nbsp;&nbsp;What is a token manager?</h2>
+
+<div class="p"><!----></div>
+In conventional compiling terms, a token manager is a lexical analyzer. If
+that is Greek to you, here is an explanation. The token manager analyzes the
+input stream of characters breaking it up into chunks called tokens and
+assigning each token a
+"token kind". For example suppose the input is a C&nbsp;file
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+<tt>int main() {</tt>
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd><tt>/*a short program */</tt></dd>
+ <dt><b></b></dt>
+	<dd><tt>return 0 ; }</tt></dd>
+</dl>
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+Then the token manager might break this into chunks as follows:
+
+<div class="p"><!----></div>
+
+<center>"<tt>int</tt>",
+"&nbsp;",
+"<tt>main</tt>",
+"<tt>(</tt>",
+"<tt>)</tt>",
+"&nbsp;",
+"<tt>{</tt>",
+"\n",
+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;",
+"<tt>/*a short program */</tt>", ...
+</center>
+
+<div class="p"><!----></div>
+White space and comments are typically discarded, so the chunks are then
+
+<div class="p"><!----></div>
+
+<center>"<tt>int</tt>",
+"<tt>main</tt>",
+"<tt>(</tt>",
+"<tt>)</tt>",
+"<tt>{</tt>",
+"<tt>return</tt>",
+"<tt>0</tt>",
+"<tt>;</tt>",
+"<tt>}</tt>"
+<div class="p"><!----></div>
+</center>Each chunk of text is classified as one of a finite set of
+"token kinds".<a href="#tthFtNtAAC" name="tthFrefAAC"><sup>2</sup></a>
+For example the chunks above could be classified as, respectively,
+
+<div class="p"><!----></div>
+
+<center><font face="helvetica">KWINT</font>,<font face="helvetica"> ID</font>,<font face="helvetica"> LPAR</font>,<font face="helvetica"> RPAR</font>,<font face="helvetica">
+LBRACE</font>,<font face="helvetica"> KWRETURN</font>,<font face="helvetica"> OCTALCONST</font>,<font face="helvetica"> SEMICOLON</font>,<font face="helvetica">&nbsp;RBRACE</font>
+</center>
+
+<div class="p"><!----></div>
+Each chunk of text is represented by an object of class Token, each with the
+following attributes:
+
+<div class="p"><!----></div>
+
+<ul>
+<li> <font face="helvetica">.kind</font> the token kind encoded as an int,
+<div class="p"><!----></div>
+</li>
+
+<li> <font face="helvetica">.image</font> the chunk of input text as a string,
+<div class="p"><!----></div>
+</li>
+</ul>
+
+<div class="p"><!----></div>
+ and a few others.
+
+<div class="p"><!----></div>
+This sequence of Token objects is produced based on regular expressions
+appearing in the .jj file.
+
+<div class="p"><!----></div>
+The sequence is usually sent on to a parser object for further processing.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc3.2">
+3.2</a>&nbsp;&nbsp;How do I read from a string instead of a file?</h2>
+
+<div class="p"><!----></div>
+Here is one way
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+java.io.StringReader sr = <b>new</b> java.io.StringReader( str );
+
+<div class="p"><!----></div>
+java.io.Reader r = <b>new</b> java.io.BufferedReader( sr );
+
+<div class="p"><!----></div>
+XXX parser = <b>new</b> XXX( r );
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc3.3">
+3.3</a>&nbsp;&nbsp;What if more than one regular expression matches a prefix of the
+remaining input?<a name="more-than-one"></a></h2>
+
+<div class="p"><!----></div>
+First a definition: If a sequence <i>x</i> can be constructed by catenating two
+other sequences <i>y</i> and <i>z</i>, i.e., <i>x</i>=<i>yz</i>, then <i>y</i> is called a
+"prefix"&nbsp;of <i>x</i>. (Either <i>y</i> or <i>z</i> can be empty squences.)
+
+<div class="p"><!----></div>
+There are three golden rules for picking which regular expression to use to
+identify the next token:
+
+<div class="p"><!----></div>
+
+<ol type="1">
+<li> The regular expression must describe a prefix of the remaining input stream.
+<div class="p"><!----></div>
+</li>
+
+<li> If more than one regular expression describes a prefix, then a regular
+expression that describes the longest prefix of the input stream is used.
+(This is called the
+"maximal munch rule".)
+<div class="p"><!----></div>
+</li>
+
+<li> If more than one regular expression describes the longest possible
+prefix, then the regular expression that comes first in the .jj file is used.
+<div class="p"><!----></div>
+</li>
+</ol>
+
+<div class="p"><!----></div>
+<b>Example:&nbsp;</b>For example, suppose you are parsing Java, C, or C++. The
+following three regular expression productions might appear in the .jj file
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+<b>TOKEN</b> :&nbsp;{&nbsp; &lt; PLUS :
+"+" &gt; }
+
+<div class="p"><!----></div>
+<b>TOKEN</b> :&nbsp;{&nbsp; &lt; ASSIGN :
+"=" &gt; }
+
+<div class="p"><!----></div>
+<b>TOKEN</b>&nbsp;:&nbsp;{
+ &lt; PLASSIGN :
+"+="&nbsp; &gt; }
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+ Suppose the remaining input stream starts with
+
+<div class="p"><!----></div>
+
+<center>"<tt>+=1; </tt>..."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.
+</center>
+
+<div class="p"><!----></div>
+ Rule 1 rules out the second production. Rule 2 says that the third
+production is preferred over the first. The order of the productions has no
+effect on this example.
+
+<div class="p"><!----></div>
+<b>Example:</b>&nbsp;Sticking with Java, C, or C++, suppose you have regular
+expression productions
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+<b>TOKEN</b> :&nbsp;{&nbsp; &lt; KWINT :&nbsp;"int" &gt; }
+
+<div class="p"><!----></div>
+<b>TOKEN</b> :&nbsp;{&nbsp; &lt; IDENT : ["a"-"z","A"-"Z",
+"_"] (["a"-"z","A"-"Z","0"-"9","_"])*
+ &gt; }
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+ Suppose the remaining input steams starts with
+
+<div class="p"><!----></div>
+
+<center>"<tt>integer i; </tt>..."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,
+</center>
+
+<div class="p"><!----></div>
+ then the second production would be preferred by the maximal munch
+rule (rule 2). But if the remaining input stream starts with
+
+<div class="p"><!----></div>
+
+<center>"<tt>int i; </tt>..."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,
+</center>
+
+<div class="p"><!----></div>
+ then the maximal munch rule is no help, since both rules match a
+prefix of length 3. In this case the <font face="helvetica">KWINT</font> production is preferred
+(by rule 3) because it comes first in the .jj file.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc3.4">
+3.4</a>&nbsp;&nbsp;What if the chosen regular expression matches more than one
+prefix?<a name="more-than-one-way"></a></h2>
+
+<div class="p"><!----></div>
+Then the longest prefix is used. That is, the token's image will be the
+longest prefix of the input that matches the chosen regular expression.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc3.5">
+3.5</a>&nbsp;&nbsp;What if no regular expression matches a prefix of the remaining
+input?</h2>
+
+<div class="p"><!----></div>
+If the remaining input is empty, an EOF&nbsp;token is generated. Otherwise, a
+TokenMgrError is thrown.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc3.6">
+3.6</a>&nbsp;&nbsp;How do I make a character sequence match more than one token
+kind?<a name="char-seq-matches-multi-tokens"></a></h2>
+
+<div class="p"><!----></div>
+A common misapprehension of beginners is that the token manager will make its
+decisions based on what the parser expects. They write a couple of token
+definitions such as
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+<b>TOKEN</b> :&nbsp;{&nbsp; &lt; A :&nbsp;"x"
+|&nbsp;"y"
+ &gt; 
+}
+
+<div class="p"><!----></div>
+<b>TOKEN</b> :&nbsp;{&nbsp; &lt; B :
+"y"
+|&nbsp;"z"
+ &gt; 
+}
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+ and expect the token manager to interpret "
+y"&nbsp;as an <font face="helvetica">A</font> if the parser "
+expects"&nbsp;an <font face="helvetica">A</font> and as a <font face="helvetica">B</font> if the parser
+"expects"&nbsp;a <font face="helvetica">B</font>. This is an
+interesting idea, but it isn't how JavaCC works<a href="#tthFtNtAAD" name="tthFrefAAD"><sup>3</sup></a>. As discussed in
+Question <a href="#more-than-one">3.3</a>, "&nbsp;What if more than one regular
+expression matches a prefix of the remaining input?"
+, the first match wins.
+
+<div class="p"><!----></div>
+So what do you do. Let's consider the more general situation where <i>a</i> and <i>b</i>
+are regular expressions. And we have token definitions
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+<b>TOKEN</b> :&nbsp;{&nbsp; &lt; A :&nbsp;<i>a</i>
+ &gt; 
+}
+
+<div class="p"><!----></div>
+<b>TOKEN</b> :&nbsp;{&nbsp; &lt; B : <i>b</i>
+ &gt; 
+}
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+Suppose that <i>a</i> describes a set <i>A</i> and <i>b</i> describes a set <i>B</i>. Then
+(ignoring other regular expressions) <font face="helvetica">A</font> matches <i>A</i> but <font face="helvetica">B</font>
+matches <i>B</i>&#8722;<i>A</i>.
+
+<div class="p"><!----></div>
+You want to the parser to be able to request a member of set <i>B</i>. If <i>A</i> is a
+subset of <i>B</i> there is a simple solution; create a nonterminal
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+Token b()&nbsp;:&nbsp;{Token t ; }{&nbsp;(t= &lt; A &gt; &nbsp;|&nbsp;t= &lt; B &gt; )&nbsp;{return t;} }
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+ Now use <font face="helvetica">b()</font> instead of <font face="helvetica"> &lt; B &gt; </font> when you want a token in the set <i>B</i>.
+
+<div class="p"><!----></div>
+If <i>A</i> is not a subset of <i>B</i>, there is more work to do. Create regular
+expressions <i>a</i>&#8242;, <i>b</i>&#8242;, and <i>c</i>&#8242; matching sets <i>A</i>&#8242;, <i>B</i>&#8242;, <i>C</i>&#8242; such that
+<br clear="all"><table width="100%" border="0"><tbody><tr><td>
+<table cellspacing="0" cellpadding="2" align="center"><tbody><tr><td nowrap="nowrap" align="center">
+<i>A</i>=<i>C</i>&#8242;&#8746;<i>A</i>&#8242;</td></tr></tbody></table>
+</td></tr></tbody></table>
+
+
+and
+<br clear="all"><table width="100%" border="0"><tbody><tr><td>
+<table cellspacing="0" cellpadding="2" align="center"><tbody><tr><td nowrap="nowrap" align="center">
+<i>B</i>=<i>C</i>&#8242;&#8746;(<i>B</i>&#8242;&#8722;<i>A</i>&#8242;)</td></tr></tbody></table>
+</td></tr></tbody></table>
+
+
+Now you can write the following productions
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+<b>TOKEN</b> :&nbsp;{&nbsp; &lt; C :&nbsp;<i>c</i>&#8242;
+ &gt; 
+}
+
+<div class="p"><!----></div>
+<b>TOKEN</b> :&nbsp;{&nbsp; &lt; A :&nbsp;<i>a</i>&#8242;
+ &gt; 
+<div class="p"><!----></div>
+<b>TOKEN</b> :&nbsp;{&nbsp; &lt; B : <i>b</i>&#8242;
+ &gt; 
+}
+
+<div class="p"><!----></div>
+Token a()&nbsp;:&nbsp;{Token t ; } {&nbsp;(t= &lt; C &gt; &nbsp;|&nbsp;t= &lt; A &gt; )&nbsp;{return t;} }
+
+<div class="p"><!----></div>
+Token b()&nbsp;:&nbsp;{Token t ; } {&nbsp;(t= &lt; C &gt; &nbsp;|&nbsp;t= &lt; B &gt; )&nbsp;{return t;} }
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+ Use <font face="helvetica">a()</font> when you need a member of set <i>A</i> and <font face="helvetica">b()</font>
+when you need a member of set <i>B</i>. Applied to the motivating example, we have
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+<b>TOKEN</b> :&nbsp;{&nbsp; &lt; C :&nbsp;"y"
+ &gt; 
+}
+
+<div class="p"><!----></div>
+<b>TOKEN</b> :&nbsp;{&nbsp; &lt; A :&nbsp;"x"
+ &gt; 
+}
+
+<div class="p"><!----></div>
+<b>TOKEN</b> :&nbsp;{&nbsp; &lt; B :
+"z"
+ &gt; 
+}
+
+<div class="p"><!----></div>
+Token a()&nbsp;:&nbsp;{Token t ; } {&nbsp;(t= &lt; C &gt; &nbsp;|&nbsp;t= &lt; A &gt; )&nbsp;{return t;} }
+
+<div class="p"><!----></div>
+Token b()&nbsp;:&nbsp;{Token t ; } {&nbsp;(t= &lt; C &gt; &nbsp;|&nbsp;t= &lt; B &gt; )&nbsp;{return t;} }
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+Of course this idea can be generalized to any number of overlapping sets.
+
+<div class="p"><!----></div>
+There are two other approaches that might also be tried:&nbsp;One involves lexical
+states and the other involves semantic actions. All three approaches are
+discussed in
+Question <a href="#keywords">4.19</a>, "How do I&nbsp;deal with keywords that
+aren't reserved?"
+,&nbsp;which considers a special case of the problem discussed in this question.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc3.7">
+3.7</a>&nbsp;&nbsp;How do I match any character?</h2>
+
+<div class="p"><!----></div>
+Use ~[] .
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc3.8">
+3.8</a>&nbsp;&nbsp;Should I use (~[])+ to match an arbitrarily long sequence
+of characters?</h2>
+
+<div class="p"><!----></div>
+You might be tempted to use (~[])+. This will match all characters
+up to the end of the file, provided there are more than zero, which is likely
+not what you want. (See
+Question <a href="#more-than-one-way">3.4</a>, "&nbsp;What if the chosen
+regular expression matches a prefix in more than one way?"
+.) Usually what you really want is to match all characters up to either the
+end of the file or some stopping point.
+
+<div class="p"><!----></div>
+Consider, for example, a scripting language in which scripts are embedded in
+an otherwise uninterpreted text file set off by
+" &lt;  &lt; "
+and
+" &gt;  &gt; "
+tokens. Between the start of the file or a
+" &gt;  &gt; "
+and the next
+" &lt;  &lt; "
+or the end of file we need to match an arbitrarily long sequence that does not
+contain two
+" &lt; "
+characters in a row. We could use a regular expression
+<br clear="all"><table width="100%" border="0"><tbody><tr><td>
+<table cellspacing="0" cellpadding="2" align="center"><tbody><tr><td nowrap="nowrap" align="center">
+(~[" &lt; "]|&nbsp;" &lt; "~[" &lt; "])+</td></tr></tbody></table>
+</td></tr></tbody></table>
+
+
+Of course we don't want to match this regular expression within a script and
+so we would use lexical states to separate tokenizing within scripts from
+tokenizing outside of scripts (see
+Question <a href="#states">3.11</a>, "What are lexical states all
+about?"
+).
+
+<div class="p"><!----></div>
+A simpler method uses ~[] and moves the repetition up to the
+grammar level. Note that the TEXT&nbsp;tokens are all exactly one character long.
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td> &lt; DEFAULT &gt; 
+TOKEN : {
+ &lt; STARTSCRIPT :
+" &lt;  &lt; "
+ &gt; 
+: SCRIPT }
+<div class="p"><!----></div>
+ &lt; DEFAULT &gt; &nbsp;TOKEN&nbsp;:&nbsp;{&nbsp; &lt; 
+TEXT : ~[]
+ &gt; 
+}
+
+<div class="p"><!----></div>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<div class="p"><!----></div>
+ &lt; SCRIPT &gt; 
+TOKEN : {
+ &lt; ENDSCRIPT :
+" &gt;  &gt; "
+ &gt; 
+: DEFAULT }
+<div class="p"><!----></div>
+ &lt; SCRIPT &gt; &nbsp;... other TOKEN and SKIP&nbsp;productions for the SCRIPT&nbsp;state
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+Then the grammar is, in part,
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+void start()&nbsp;:&nbsp;{}
+<div class="p"><!----></div>
+{
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>text()</dd>
+ <dt><b></b></dt>
+	<dd>(&nbsp;(
+ &lt; STARTSCRIPT &gt; 
+script()&nbsp; &lt; ENDSCRIPT &gt; )* text() )</dd>
+
+	<dd>
+ &lt; EOF &gt; 
+<div class="p"><!----></div>
+</dd>
+</dl>}
+
+<div class="p"><!----></div>
+void text()&nbsp;:&nbsp;{} {&nbsp;( &lt; TEXT &gt; )*&nbsp;}
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc3.9">
+3.9</a>&nbsp;&nbsp;How do I match exactly <i>n</i> repetitions of a regular expression?</h2>
+
+<div class="p"><!----></div>
+If <i>X</i> is the regular expression and <i>n</i> is an integer constant, write
+<br clear="all"><table width="100%" border="0"><tbody><tr><td>
+<table cellspacing="0" cellpadding="2" align="center"><tbody><tr><td nowrap="nowrap" align="center">
+(<i>X</i>){<i>n</i>}</td></tr></tbody></table>
+</td></tr></tbody></table>
+
+
+You can also give a lower and upper bound on the number of repetitions:
+<br clear="all"><table width="100%" border="0"><tbody><tr><td>
+<table cellspacing="0" cellpadding="2" align="center"><tbody><tr><td nowrap="nowrap" align="center">
+(<i>X</i>){<i>l</i>,<i>u</i>}</td></tr></tbody></table>
+</td></tr></tbody></table>
+
+
+This syntax applies only to the tokenizer, it can't be used for parsing.
+
+<div class="p"><!----></div>
+Note that this syntax is implemented essentially as a macro, so (<i>X</i>){3} is
+implemented the same as (<i>X</i>)(<i>X</i>)(<i>X</i>) is. Thus you should use it with
+discretion, aware that it can lead to a big generated tokenizer, if used
+without care.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc3.10">
+3.10</a>&nbsp;&nbsp;What are <font face="helvetica"><b>TOKEN</b></font>, <font face="helvetica"><b>SKIP</b></font>, and
+<font face="helvetica"><b>SPECIAL_TOKEN</b></font>?<a name="token-skip-special"></a></h2>
+
+<div class="p"><!----></div>
+Regular expression productions are classified as one of four kinds:
+
+<div class="p"><!----></div>
+
+<ul>
+<li> <font face="helvetica"><b>TOKEN</b></font> means that when the production is applied, a
+<font face="helvetica">Token</font> object should be created and passed to the parser.
+<div class="p"><!----></div>
+</li>
+
+<li> <font face="helvetica"><b>SKIP</b></font> means that when the production is applied, no
+<font face="helvetica">Token</font> object should be constructed.
+<div class="p"><!----></div>
+</li>
+
+<li> <font face="helvetica"><b>SPECIAL_TOKEN</b></font> means that when the production is
+applied a <font face="helvetica">Token</font> object should be created but it should not be passed
+to the parser. Each of these
+"special tokens"&nbsp;can be accessed from the next <font face="helvetica">Token</font> produced&nbsp;(whether special or
+not), via its <font face="helvetica">specialToken</font> field.
+<div class="p"><!----></div>
+</li>
+
+<li> <font face="helvetica"><b>MORE</b></font> is discussed in
+Question <a href="#more">3.14</a>, "What is <font face="helvetica"><b>MORE</b>?</font>"
+.
+<div class="p"><!----></div>
+</li>
+</ul>
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc3.11">
+3.11</a>&nbsp;&nbsp;What are lexical states all about?<a name="states"></a></h2>
+
+<div class="p"><!----></div>
+Lexical states allow you to bring different sets of regular expression
+productions in-to and out-of effect.
+
+<div class="p"><!----></div>
+Suppose you wanted to write a JavaDoc processor. Most of Java is tokenized
+according to regular ordinary Java rules. But between a
+"<tt>/**</tt>"&nbsp;and the next
+"<tt>*/</tt>"&nbsp;a different set of rules applies in which keywords like
+"<tt>@param</tt>"&nbsp;must be recognized and where newlines are significant. To solve this
+problem, we could use two lexical states. One for regular Java tokenizing and
+one for tokenizing within JavaDoc comments. We might use the following productions:
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+<em>// When a /** is seen in the DEFAULT&nbsp;state, switch to the
+IN_JAVADOC_COMMENT&nbsp;state</em>
+
+<div class="p"><!----></div>
+<b>TOKEN</b> : {
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+
+	<dd> &lt; STARTDOC&nbsp;:&nbsp;"/**"
+ &gt; &nbsp;:&nbsp;IN_JAVADOC_COMMENT }</dd>
+</dl>
+
+<div class="p"><!----></div>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<div class="p"><!----></div>
+<em>// When @param is seen in the IN_JAVADOC_COMMENT&nbsp;state, it is a
+token.</em>
+
+<div class="p"><!----></div>
+<em>// Stay in the same state.</em>
+<div class="p"><!----></div>
+ &lt; IN_JAVADOC_COMMENT &gt; 
+<b>TOKEN</b> : {
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+
+	<dd> &lt; PARAM&nbsp;:&nbsp;"@param"
+ &gt; }</dd>
+</dl>
+
+<div class="p"><!----></div>
+...
+
+<div class="p"><!----></div>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<div class="p"><!----></div>
+<em>// When a */ is seen in the IN_JAVADOC_COMMENT&nbsp;state, switch</em>
+
+<div class="p"><!----></div>
+<em>// back to the DEFAULT state</em>
+<div class="p"><!----></div>
+ &lt; IN_JAVADOC_COMMENT &gt; 
+<b>TOKEN</b> : {
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+
+	<dd> &lt; ENDDOC:&nbsp;"*/" &gt; : DEFAULT }</dd>
+</dl>
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+Productions that are prefixed by <font face="helvetica"> &lt; IN_JAVADOC_COMMENT &gt; </font> apply when the lexical analyzer is in the <font face="helvetica">IN_JAVADOC_COMMENT</font>
+state. Productions that have no such prefix apply in the <font face="helvetica">DEFAULT</font>
+state. It is&nbsp;possible to list any number of states (comma separated) before a
+production. The special prefix <font face="helvetica"> &lt; * &gt; </font> indicates that the production can apply in all states.
+
+<div class="p"><!----></div>
+Lexical states are also useful for avoiding complex regular expressions.
+Suppose you want to skip C style comments. You could write a regular
+expression production:
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+<b>SKIP</b>&nbsp;:&nbsp;{&nbsp; &lt; "/*"(~["*"])*
+"*"(~["/"] (~["*"])*
+"*")*
+"/" &gt; }
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+ But how confident are you that this is right?<a href="#tthFtNtAAE" name="tthFrefAAE"><sup>4</sup></a>&nbsp;The following version uses a lexical state called <font face="helvetica">IN_COMMENT</font> to
+make things much clearer:
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+<em>// When a /* is seen in the DEFAULT&nbsp;state, skip it and switch to the
+IN_COMMENT&nbsp;state</em>
+
+<div class="p"><!----></div>
+<b>SKIP</b>&nbsp;: {
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+
+	<dd>"/*":&nbsp;IN_COMMENT }</dd>
+</dl>
+
+<div class="p"><!----></div>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<div class="p"><!----></div>
+<em>// When any other character is seen in the IN_COMMENT&nbsp;state, skip it.</em>
+<div class="p"><!----></div>
+ &lt; IN_COMMENT &gt; <b>SKIP</b> : {
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+
+	<dd> &lt; &nbsp;~[]
+ &gt; }</dd>
+</dl>
+
+<div class="p"><!----></div>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<div class="p"><!----></div>
+<em>// When a */ is seen in the IN_COMMENT&nbsp;state, skip it and switch back
+to the DEFAULT state</em>
+<div class="p"><!----></div>
+ &lt; IN_COMMENT &gt; <b>SKIP</b> : {
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+
+	<dd>"*/": DEFAULT }</dd>
+</dl>
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+The previous example also illustrates a subtle behavioural difference between
+using lexical states and performing the same task with a single, apparently
+equivalent, regular expression. Consider tokenizing the C&nbsp;"statement":
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+<tt>i = j/*p ;</tt>
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+ Assuming that there are no occurrences of <font face="helvetica">*/</font> later in the
+file, this is an error (since a comment starts, but doesn't end) and should be
+diagnosed. If we use a single, complex, regular expression to find comments,
+then the lexical error will be missed and, in this example at least, a
+syntactically correct sequence of seven tokens will be found. If we use the
+lexical states approach then the behaviour is different, though again
+incorrect; the comment will be skipped; an EOF token will be produced after
+the token for
+"<tt>j</tt>"<a href="#tthFtNtAAF" name="tthFrefAAF"><sup>5</sup></a>; no error will be reported by
+the token manager. We can correct the lexical states approach, however, with
+the use of <font face="helvetica"><b>MORE</b></font>; see
+Question <a href="#more">3.14</a>, "What is <font face="helvetica"><b>MORE</b>?</font>"
+.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc3.12">
+3.12</a>&nbsp;&nbsp;Can the parser force a switch to a new lexical state?<a name="switchto"></a></h2>
+
+<div class="p"><!----></div>
+Yes, but it is very easy to create bugs by doing so. You can call the token
+manager's method <font face="helvetica">SwitchTo</font> from within a semantic action in the parser
+like this
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+{&nbsp;token_source.SwitchTo(<em>name_of_state</em>) ; }
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+However, owing to look-ahead, the token manager may be well ahead of the
+parser. Take a look at
+Figure 1.2; at any point in the parse, there are a number of tokens on the conveyer
+belt, waiting to be used by the parser; technically the conveyer belt is a
+queue of tokens held within the parser object. Any change of state will take
+effect for the first token not yet in the queue. Usually there is one token in
+the queue, but because of syntactic look-ahead there may be many more.
+
+<div class="p"><!----></div>
+If you are going to force a state change from the parser be sure that, at that
+point in the parsing, the token manager is a known and fixed number of tokens
+ahead of the parser, and that you know what that number is.
+
+<div class="p"><!----></div>
+If you ever feel tempted to call <font face="helvetica">SwitchTo</font> from the parser, stop and
+try to think of an alternative method that is harder to get wrong.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc3.13">
+3.13</a>&nbsp;&nbsp;Is there a way to make SwitchTo safer?<a name="safer-switchto"></a></h2>
+
+<div class="p"><!----></div>
+Brian Goetz submitted the following code to make sure that, when a SwitchTo is
+done, any queued tokens are removed from the queue. There are three parts to
+the solution:
+
+<div class="p"><!----></div>
+
+<ul>
+<li> In the parser add a subroutine <font face="helvetica">SetState</font> to change the state.
+This subroutine can be found at
+<a href="http://www.engr.mun.ca/%7Etheo/JavaCC-FAQ/SetState.txt">http://www.engr.mun.ca/~theo/JavaCC-FAQ/SetState.txt</a>. Use this subroutine to change states within semantic actions of the parser.
+<div class="p"><!----></div>
+</li>
+
+<li> In the token manager add a subroutine:
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+TOKEN_MGR_DECLS : {
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>// Required by SetState</dd>
+ <dt><b></b></dt>
+	<dd>void backup(int n) { input_stream.backup(n); }
+</dd>
+</dl>
+
+<div class="p"><!----></div>
+}
+</td></tr></tbody></table></font>
+<div class="p"><!----></div>
+</li>
+
+<li> Use the <font face="helvetica">USER_CHAR_STREAM</font> option and use
+<font face="helvetica">BackupCharStream</font> as the <font face="helvetica">CharStream</font> class.
+<font face="helvetica">BackupCharStream</font> can be found at
+<a href="http://www.engr.mun.ca/%7Etheo/JavaCC-FAQ/">http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/webmacro/webmacro/src/org/webmacro/parser/BackupCharStream.java</a>
+<div class="p"><!----></div>
+</li>
+</ul>
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc3.14">
+3.14</a>&nbsp;&nbsp;What is <font face="helvetica">MORE</font>?<a name="more"></a></h2>
+
+<div class="p"><!----></div>
+Regular expression productions are classified as one of four kinds:
+
+<div class="p"><!----></div>
+
+<ul>
+<li> <font face="helvetica"><b>TOKEN</b></font>, <font face="helvetica"><b>SKIP</b></font>, and
+<font face="helvetica"><b>SPECIAL_TOKEN</b></font> are discussed in
+Question <a href="#token-skip-special">3.10</a>, "What are
+<font face="helvetica"><b>TOKEN</b></font>, <font face="helvetica"><b>SKIP</b></font>, and
+<font face="helvetica"><b>SPECIAL_TOKEN</b></font>?"
+.
+<div class="p"><!----></div>
+</li>
+
+<li> <font face="helvetica"><b>MORE</b></font>.
+<div class="p"><!----></div>
+</li>
+</ul>
+
+<div class="p"><!----></div>
+<font face="helvetica"><b>MORE</b></font> means that no token should be produced yet. Rather the
+characters matched will form part of the next token to be recognized.
+<font face="helvetica"><b>MORE</b></font> means that there will be more to the token. After a
+sequence of one or more <font face="helvetica"><b>MORE</b></font> productions have been applied,
+we must reach a production that is marked <font face="helvetica"><b>TOKEN</b></font>,
+<font face="helvetica"><b>SKIP</b></font>, <font face="helvetica"><b>SPECIAL_TOKEN</b></font>. The token produced
+(or not produced in the case of <font face="helvetica"><b>SKIP</b></font>) will contain the saved
+up characters from the preceding <font face="helvetica"><b>MORE</b></font> productions. Note that
+if the end of the input is encountered when the token manager is looking for
+more of a token, then a <font face="helvetica">TokenMgrError</font> is thrown. The assumption made
+by JavaCC is that the <font face="helvetica">EOF</font> token should correspond exactly to the end
+of the input, not to some characters leading up to the end of the input.
+
+<div class="p"><!----></div>
+Let's revisit and fix the comment example from
+Question <a href="#states">3.11</a>, "What are lexical states all
+about?"
+. The problem was that unterminated comments were simply skipped rather than
+producing an error. We can correct this problem using <font face="helvetica"><b>MORE</b></font>
+productions to combine the entire comment into a single token.
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+<em>// When a /* is seen in the DEFAULT&nbsp;state, skip it and switch to the
+IN_COMMENT&nbsp;state</em>
+
+<div class="p"><!----></div>
+<b>MORE</b>&nbsp;: {
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+
+	<dd>"/*":&nbsp;IN_COMMENT }</dd>
+</dl>
+
+<div class="p"><!----></div>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<div class="p"><!----></div>
+<em>// When any other character is seen in the IN_COMMENT&nbsp;state, skip it.</em>
+<div class="p"><!----></div>
+ &lt; IN_COMMENT &gt; <b>MORE</b> : {
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+
+	<dd> &lt; &nbsp;~[]
+ &gt; }</dd>
+</dl>
+
+<div class="p"><!----></div>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<div class="p"><!----></div>
+<em>// When a */ is seen in the IN_COMMENT&nbsp;state, skip it and switch back
+to the DEFAULT state</em>
+<div class="p"><!----></div>
+ &lt; IN_COMMENT &gt; <b>SKIP</b> : {
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+
+	<dd>"*/": DEFAULT }</dd>
+</dl>
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+Suppose that a file ends with
+"<tt>/*a</tt>". Then no token can be recognized, because the end of file is found when the
+token manager only has a partly recognized token. Instead a
+<font face="helvetica">TokenMgrError</font> will be thrown.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc3.15">
+3.15</a>&nbsp;&nbsp;Why do the example Java and C++ token managers report an error when
+the last line of a file is a single line comment?</h2>
+
+<div class="p"><!----></div>
+The file is likely missing a newline character (or the equivalent)&nbsp;at the end
+of the last line.
+
+<div class="p"><!----></div>
+These parsers use lexical states and <b>MORE</b> type regular expression
+productions to process single line comments thusly:
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+<b>MORE</b> : {
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+
+	<dd>"//": IN_SINGLE_LINE_COMMENT }</dd>
+</dl>
+
+<div class="p"><!----></div>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<div class="p"><!----></div>
+ &lt; IN_SINGLE_LINE_COMMENT &gt; <b>SPECIAL_TOKEN</b> : {
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+
+	<dd> &lt; SINGLE_LINE_COMMENT:
+"\n"|"\r"|"\r\n" &gt; : DEFAULT }</dd>
+</dl>
+
+<div class="p"><!----></div>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<div class="p"><!----></div>
+ &lt; IN_SINGLE_LINE_COMMENT &gt; <b>MORE</b>&nbsp;:&nbsp;{
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+
+	<dd> &lt; &nbsp;~[]
+ &gt; }</dd>
+</dl>
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+Clearly if an EOF is encountered while the token manager is still looking for
+more of the current token, there should be a TokenMgrError thrown.
+
+<div class="p"><!----></div>
+Both the Java and the C++ standards agree with the example .jj files, but some
+compilers are more liberal and do not insist on that final newline. If you
+want the more liberal interpretation, try
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+<b>SPECIAL_TOKEN</b> : {
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+
+	<dd> &lt; SINGLE_LINE_COMMENT:
+"//"(~["\n","\r"])* ("\n"|"\r"|"\r\n")?
+ &gt; }</dd>
+</dl>
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc3.16">
+3.16</a>&nbsp;&nbsp;What is a lexical action?<a name="lexical-action"></a></h2>
+
+<div class="p"><!----></div>
+Sometimes you want some piece of Java code to be executed immediately after a
+token is matched. Lexical actions are placed immediately after the regular
+expression in a regular expression production. For example:
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+TOKEN :&nbsp;{
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+
+	<dd> &lt; TAB&nbsp;:&nbsp;"\t" &gt; &nbsp;{ tabcount+=1; }
+</dd>
+</dl>
+
+<div class="p"><!----></div>
+}
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+The Java statement <font face="helvetica">{ tabcount+=1; }</font> will be executed after the
+production is applied.
+
+<div class="p"><!----></div>
+Keep in mind that the token manager may be significantly ahead of the parser
+(owing to syntactic lookahead), so using lexical actions to communicate from
+the token manager to the parser requires care. See
+Question <a href="#CommunicateLexerToParser">4.15</a>, "How do I
+communicate from the token manager to the parser?"
+for more on this.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc3.17">
+3.17</a>&nbsp;&nbsp;How do I tokenize nested comments?</h2>
+
+<div class="p"><!----></div>
+The answer lies in the fact that you can use <font face="helvetica">SwitchTo</font> in a lexical
+action (See
+Question <a href="#switchto">3.12</a>. "Can the parser force a switch to a
+new lexical state?"
+and
+Question <a href="#lexical-action">3.16</a>. "&nbsp;What is a lexical
+action?"
+). This technique might be useful for a number of things, but the example that
+keeps coming up is nested comments. For example consider a language where
+comment start with
+"<tt>(*</tt>"
+and end with
+"<tt>*)</tt>", but can be nested so that
+<br clear="all"><table width="100%" border="0"><tbody><tr><td>
+<table cellspacing="0" cellpadding="2" align="center"><tbody><tr><td nowrap="nowrap" align="center">
+<tt><tt>(</tt><tt>*</tt> <tt>Comments</tt> <tt>start</tt> <tt>with</tt> <tt>(</tt><tt>*</tt>&nbsp;<tt>and</tt> <tt>end</tt> <tt>with</tt> <tt>*</tt><tt>)</tt> <tt>and</tt> <tt>can</tt> <tt>nest</tt><tt>.</tt> <tt>*</tt><tt>)</tt></tt></td></tr></tbody></table>
+</td></tr></tbody></table>
+
+
+is a valid comment. When a
+"<tt>*)</tt>"
+is found within a comment, it may or may not require us to switch out of the
+comment processing state.
+
+<div class="p"><!----></div>
+Start by declaring a counter (declare it <font face="helvetica">static</font>, if you set the
+<font face="helvetica">STATIC</font> option to true).
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+TOKEN_MGR_DECLS : {
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>int commentNestingDepth ;
+</dd>
+</dl>
+
+<div class="p"><!----></div>
+}
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+ When a
+"<tt>(*</tt>"
+is encounted in the DEFAULT&nbsp;state, set the counter to 1 and enter the COMMENT state:
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+SKIP :&nbsp;{ &nbsp;"(*"
+{ commentNestingDepth = 1 ; } :&nbsp;COMMENT }
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+ When a
+"<tt>(*</tt>"
+is encounted in the COMMENT&nbsp;state, increment the counter:
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td> &lt; COMMENT &gt; &nbsp;SKIP :&nbsp;{ &nbsp;"(*"
+{ commentNestingDepth += 1 ; } }
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+ When a
+"<tt>*)</tt>"
+is encountered in the COMMENT state, either switch back to the DEFAULT&nbsp;state
+or stay in the comment state:
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td> &lt; COMMENT &gt; &nbsp;SKIP :&nbsp;{ &nbsp;"*)"
+{
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>commentNestingDepth -= 1;</dd>
+ <dt><b></b></dt>
+	<dd>SwitchTo( commentNestingDepth==0 ?&nbsp;DEFAULT :&nbsp;COMMENT&nbsp;)&nbsp;; } }
+</dd>
+</dl>
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+ Finally a rule is needed to mop up all the other characters in the comment.
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td> &lt; COMMENT &gt; &nbsp;SKIP&nbsp;:&nbsp;{&nbsp; &lt; 
+~[]
+ &gt; 
+}
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+For this problem only a counter was required. For more complex problems one
+might use a stack of states. The lexer combined with a stack of states has the
+expressive power of a deterministic push-down automata (DPDA); which is to say
+you can solve a lot of problems with this technique.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc3.18">
+3.18</a>&nbsp;&nbsp;What is a common token action?</h2>
+
+<div class="p"><!----></div>
+A common token action is simply a subroutine that is called after each token
+is matched. Note that this does not apply to
+"skipped tokens"&nbsp;nor to
+"special tokens". See
+Question <a href="#token-skip-special">3.10</a>, "What are
+<font face="helvetica"><b>TOKEN</b></font>, <font face="helvetica"><b>SKIP</b></font>, and
+<font face="helvetica"><b>SPECIAL_TOKEN</b></font>?"
+.
+
+<div class="p"><!----></div>
+Use
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+options {
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>COMMON_TOKEN_ACTION = true ;</dd>
+ <dt><b></b></dt>
+	<dd>...
+</dd>
+</dl>
+
+<div class="p"><!----></div>
+}
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+and
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+TOKEN_MGR_DECLS : {
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>void CommonTokenAction(Token token) {</dd>
+ <dt><b></b></dt>
+	<dd>...</dd>
+ <dt><b></b></dt>
+	<dd>}
+</dd>
+</dl>
+
+<div class="p"><!----></div>
+}
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc3.19">
+3.19</a>&nbsp;&nbsp;How do I throw a ParseException instead of a TokenMgrError?</h2>
+
+<div class="p"><!----></div>
+If you don't want any TokenMgrErrors being thrown, try putting a regular
+expression production at the very end of your .jj file that will match any character:
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+ &lt; * &gt; <b>TOKEN</b> :
+
+<div class="p"><!----></div>
+{
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+
+	<dd> &lt; UNEXPECTED_CHAR : ~[]
+ &gt; 
+<div class="p"><!----></div>
+</dd>
+</dl>}
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+However, this may not do the trick. In particular, if you use MORE, it may be
+hard to avoid TokenMgrErrors altogether. It is best to make a policy of
+catching TokenMgrErrors, as well as ParseExceptions, whenever you call an
+entry point to the parser. The only time I&nbsp;don't do this is when the token
+manager specification is so simple that I&nbsp;can be sure that no TokenMgrErrors
+can be thrown.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc3.20">
+3.20</a>&nbsp;&nbsp;Why are line and column numbers not recorded?</h2>
+
+<div class="p"><!----></div>
+In version 2.1 a new feature was introduced. You now have the option that the
+line and column numbers will not be recorded in the Token objects. The option
+is called <font face="helvetica">KEEP_LINE_COLUMN</font>. The default is <font face="helvetica">true</font>, so not
+knowing about this option <em>shouldn't</em> hurt you.
+
+<div class="p"><!----></div>
+However, there appears to be a bug in the GUI&nbsp;interface to JavaCC
+(javaccw.exe), which sets this option to <font face="helvetica">false</font> (even if you
+explicitly set it to <font face="helvetica">true</font> in the .jj file).
+
+<div class="p"><!----></div>
+The solution is to delete <b>all</b> generated files (see
+Question <a href="#option-changed">2.3</a>, "&nbsp;I changed option <i>x</i>; why am
+I having trouble?"
+) and henceforth to not use the GUI&nbsp;interface to JavaCC.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc3.21">
+3.21</a>&nbsp;&nbsp;How can I process Unicode?<a name="unicode"></a></h2>
+
+<div class="p"><!----></div>
+A detailed account by Ken Beesley (up-to-date for users of JavaCC&nbsp;3.2) is
+available at
+<a href="http://www.xrce.xerox.com/competencies/content-analysis/tools/publis/javacc_unicode.pdf">http://www.xrce.xerox.com/competencies/content-analysis/tools/publis/javacc_unicode.pdf</a>. What follows here is a precis.
+
+<div class="p"><!----></div>
+Ensure that the option UNICODE_INPUT&nbsp;is set to true.
+
+<div class="p"><!----></div>
+
+<ul>
+<li> For JavaCC 3.2
+
+<div class="p"><!----></div>
+
+<ul>
+<li> Assuming your input source is a file (or indeed any stream)&nbsp;of bytes,
+it needs to be converted from bytes to characters using an appropriate
+decoding method; this can done by an <font face="helvetica">InputStreamReader</font>. For example,
+if your input file uses the UTF-8 encoding, then you can create an appropriate
+reader as follows:
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+InputStream istrm = <b>new</b> FileInputStream(&nbsp;theFileName )&nbsp;;
+
+<div class="p"><!----></div>
+Reader rdr = <b>new</b> InputStreamReader(&nbsp;istrm, ÜTF-8"&nbsp;) ;
+</td></tr></tbody></table></font>
+<div class="p"><!----></div>
+</li>
+
+<li> Create a <font face="helvetica">SimpleCharStream</font> as follows
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+SimpleCharStream charStream = <b>new</b> SimpleCharStream(&nbsp;rdr )&nbsp;;
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+(For <font face="helvetica">JavaCharStream</font>, the modifications to this line of code are obvious.)
+<div class="p"><!----></div>
+</li>
+
+<li> Now create a token manager and a parser
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+XXXTokenManager tokenMan = <b>new</b> XXXTokenManager(charStream);
+
+<div class="p"><!----></div>
+XXX parser = <b>new</b> XXX( tokenMan )&nbsp;;
+</td></tr></tbody></table></font>
+<div class="p"><!----></div>
+</li>
+</ul>
+<div class="p"><!----></div>
+</li>
+
+<li> For JavaCC&nbsp;4.0, there are constructors that take an encoding as an
+argument. &nbsp;See the documentation.
+<div class="p"><!----></div>
+</li>
+</ul>
+
+<div class="p"><!----></div>
+ <h1><a name="tth_chAp4">
+Chapter 4 </a><br>The Parser and Lookahead</h1>
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc4.1">
+4.1</a>&nbsp;&nbsp;Where should I draw the line between lexical analysis and parsing?</h2>
+
+<div class="p"><!----></div>
+This question is dependant on the application. A lot of simple applications
+only require a token manager. However, many people try to do too much with the
+lexical analyzer, for example they try to write an expression parser using
+only the lexical analyzer.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc4.2">
+4.2</a>&nbsp;&nbsp;What is recursive descent parsing?</h2>
+
+<div class="p"><!----></div>
+JavaCC's generated parser classes work by the method of
+"recursive descent". This means that each BNF production in the .jj file is translated into a
+subroutine with roughly the following mandate:
+
+<div class="p"><!----></div>
+
+<blockquote><em>If there is a prefix of the input sequence of tokens that matches this
+nonterminal's definition,</em>
+
+<div class="p"><!----></div>
+<em>then remove such a prefix from the input sequence</em>
+
+<div class="p"><!----></div>
+<em>else throw a ParseException</em>
+</blockquote>
+
+<div class="p"><!----></div>
+I&nbsp;say only roughly, as the actual prefix matched is not arbitrary, but is
+determined by the rules of JavaCC.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc4.3">
+4.3</a>&nbsp;&nbsp;What is left-recursion and why can't I use it?</h2>
+
+<div class="p"><!----></div>
+Left-recursion is when a nonterminal contains a recursive reference to itself
+that is not preceded by something that will consume tokens.
+
+<div class="p"><!----></div>
+The parser class produced by JavaCC works by recursive descent. Left-recursion
+is banned to prevent the generated subroutines from calling themselves
+recursively ad-infinitum. Consider the following obviously left recursive production
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+<b>void</b> A()&nbsp;: {} {
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>A() B()</dd>
+</dl>
+
+<div class="p"><!----></div>
+
+<div class="p"><!----></div>
+|
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>C()</dd>
+</dl>
+
+<div class="p"><!----></div>
+}
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+ This will translate to a Java subroutine of the form
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+<b>void</b> A()&nbsp;{
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd><b>if</b>(&nbsp;<em>some condition</em> )&nbsp;{
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>A() ;</dd>
+ <dt><b></b></dt>
+	<dd>B() ; }</dd>
+</dl></dd>
+ <dt><b></b></dt>
+	<dd><b>else</b> {
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>C() ; }</dd>
+</dl></dd>
+</dl>
+
+<div class="p"><!----></div>
+}
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+Now if the condition is ever true, we have an infinite recursion.
+
+<div class="p"><!----></div>
+Luckly JavaCC will produce an error message, if you have left-recursive productions.
+
+<div class="p"><!----></div>
+The&nbsp;left-recursive production above can be transformed, using looping, to
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+<b>void</b> A()&nbsp;: {} {
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>C() (&nbsp;B()&nbsp;)*</dd>
+</dl>
+
+<div class="p"><!----></div>
+}
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+ or, using right-recursion, to
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+<b>void</b> A()&nbsp;: {} {
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>C() A1()</dd>
+</dl>
+
+<div class="p"><!----></div>
+}
+
+<div class="p"><!----></div>
+<b>void</b> A1()&nbsp;: {} {
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>[ B() A1()&nbsp;]</dd>
+</dl>
+
+<div class="p"><!----></div>
+}
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+ where <font face="helvetica">A1</font> is a new production. General methods for
+left-recursion removal can be found in any text book on compiling.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc4.4">
+4.4</a>&nbsp;&nbsp;How do I&nbsp;match an empty sequence of tokens?</h2>
+
+<div class="p"><!----></div>
+Use <font face="helvetica">{}</font>. Usually you can use optional clauses to avoid the need.
+E.g. the production
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+void A()&nbsp;:&nbsp;{}&nbsp;{&nbsp;B()&nbsp;|&nbsp;{}&nbsp;}
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+ is the same as the production
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+void A()&nbsp;:&nbsp;{}&nbsp;{&nbsp;[ B()&nbsp;] }
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+ Sometimes I'll write the former rather than the latter because I
+know that in the future there will be some semantic action associated with the
+empty alternative.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc4.5">
+4.5</a>&nbsp;&nbsp;What is
+"lookahead"?</h2>
+
+<div class="p"><!----></div>
+To use JavaCC effectively you have to understand how it looks ahead in the
+token stream to decide what to do. Your maintainer strongly recommends reading
+the lookahead mini-tutorial in
+the JavaCC&nbsp;documentation. (See Question<a href="#javacc-doc">1.10</a>)
+. The following questions of the FAQ address some common problems and
+misconceptions about lookahead. Ken Beesley has kindly contributed some
+<a href="http://www.engr.mun.ca/%7Etheo/JavaCC-FAQ/kens-javacc-lookahead-summary.txt">supplementary documentation</a>.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc4.6">
+4.6</a>&nbsp;&nbsp;I get a message saying
+"Warning: Choice Conflict ...
+"; what should I do?</h2>
+
+<div class="p"><!----></div>
+Some of JavaCC's most common error messages go something like this
+
+<div class="p"><!----></div>
+
+<blockquote><em>Warning:&nbsp;Choice conflict ...</em>
+
+<div class="p"><!----></div>
+<em>Consider using a lookahead of 2 for ...</em>
+</blockquote>
+
+<div class="p"><!----></div>
+Read the message carefully. Understand why there is a choice conflict (choice
+conflicts will be explained shortly) and take appropriate action. The
+appropriate action, in my experience, is rarely to use a lookahead of 2.
+
+<div class="p"><!----></div>
+So what is a choice conflict. Well suppose you have a BNF production
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+<b>void</b> a()&nbsp;:&nbsp;{}&nbsp;{
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+
+	<dd> &lt; ID &gt; &nbsp;b()&nbsp;</dd>
+</dl>
+
+<div class="p"><!----></div>
+
+<div class="p"><!----></div>
+|
+<div class="p"><!----></div>
+
+<dl compact="compact">
+
+	<dd> &lt; ID &gt; &nbsp;c()</dd>
+</dl>
+
+<div class="p"><!----></div>
+}
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+When the parser applies this production, it must choose between expanding it
+to <font face="helvetica"> &lt; ID &gt; &nbsp;b()</font> and expanding it to <font face="helvetica"> &lt; ID &gt; &nbsp;c()</font>. The default method of making such choices is to look at the next
+token. But if the next token is of kind <font face="helvetica">ID</font> then either choice is
+appropriate. So you have a
+"choice conflict". For alternation (i.e.
+|) the default choice is the first choice; that is, if you ignore the warning,
+the first choice will be taken every time the next token could belong to
+either choice; in this example, the second choice is unreachable.
+
+<div class="p"><!----></div>
+To resolve this choice conflict you can add a
+"LOOKAHEAD specification"to the first alternative. For example, if nonterminal <font face="helvetica">b</font> and
+nonterminal <font face="helvetica">c</font> can be distinguished on the basis of the token after
+the <font face="helvetica">ID</font> token, then the parser need only lookahead 2 tokens. You tell
+JavaCC this by writing:
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+<b>void</b> a()&nbsp;:&nbsp;{}&nbsp;{
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>LOOKAHEAD(&nbsp;2 )</dd>
+
+	<dd>
+ &lt; ID &gt; &nbsp;b()&nbsp;</dd>
+</dl>
+
+<div class="p"><!----></div>
+
+<div class="p"><!----></div>
+|
+<div class="p"><!----></div>
+
+<dl compact="compact">
+
+	<dd> &lt; ID &gt; &nbsp;c()</dd>
+</dl>
+
+<div class="p"><!----></div>
+}
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+Ok, but suppose that <font face="helvetica">b</font> and <font face="helvetica">c</font> can start out the same and are
+only distinguishable by how they end. No predetermined limit on the length of
+the lookahead will do. In this case, you can use
+"syntactic lookahead". This means you have the parser look ahead to see if a particular syntactic
+pattern is matched before committing to a choice. Syntactic lookahead in this
+case would look like this:
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+<b>void</b> a()&nbsp;:&nbsp;{}&nbsp;{
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd><em>// Take the first alternative if an
+ &lt; ID &gt; followed by a b() appears next</em></dd>
+ <dt><b></b></dt>
+	<dd>LOOKAHEAD(&nbsp; &lt; ID &gt; &nbsp;b() )</dd>
+
+	<dd>
+ &lt; ID &gt; &nbsp;b()&nbsp;</dd>
+</dl>
+
+<div class="p"><!----></div>
+
+<div class="p"><!----></div>
+|
+<div class="p"><!----></div>
+
+<dl compact="compact">
+
+	<dd> &lt; ID &gt; &nbsp;c()</dd>
+</dl>
+
+<div class="p"><!----></div>
+}
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+ The sequence <font face="helvetica"> &lt; ID &gt; &nbsp;b()</font> may be parsed twice:&nbsp;once for lookahead and then again as part of
+regular parsing.
+
+<div class="p"><!----></div>
+Another way to resolve conflicts is to rewrite the grammar. The above
+nonterminal can be rewritten as
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+<b>void</b> a()&nbsp;:&nbsp;{}&nbsp;{
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+
+	<dd> &lt; ID &gt; </dd>
+ <dt><b></b></dt>
+	<dd>(
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>b()&nbsp;</dd>
+</dl></dd>
+
+	<dd>
+|
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>c()</dd>
+</dl></dd>
+ <dt><b></b></dt>
+	<dd>)</dd>
+</dl>
+
+<div class="p"><!----></div>
+}
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+ which may resolve the conflict.
+
+<div class="p"><!----></div>
+Choice conflicts also come up in loops. Consider
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+<b>void</b> paramList()&nbsp;:&nbsp;{}&nbsp;{
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>param()</dd>
+ <dt><b></b></dt>
+	<dd>(
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+
+	<dd> &lt; COMMA &gt; </dd>
+ <dt><b></b></dt>
+	<dd>param()</dd>
+</dl></dd>
+ <dt><b></b></dt>
+	<dd>)*</dd>
+ <dt><b></b></dt>
+	<dd>(
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>( &lt; COMMA &gt; )?&nbsp; &lt; ELLIPSIS &gt; 
+<div class="p"><!----></div>
+</dd>
+</dl></dd>
+ <dt><b></b></dt>
+	<dd>)?</dd>
+</dl>
+
+<div class="p"><!----></div>
+}
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+There is a choice of whether to stay in the * loop or to exit it and process
+the optional <font face="helvetica">ELLIPSIS</font>. But the default method of making the choice
+based on the next token does not work; a <font face="helvetica">COMMA</font> token could be the
+first thing seen in the loop body, or it could be the first thing after the
+loop body. For loops the default choice is to stay in the loop.
+
+<div class="p"><!----></div>
+To solve this example we could use a lookahead of 2 at the appropriate choice
+point (assuming a param can not be empty and that one can't start with an
+<font face="helvetica">ELLIPSIS</font>.
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+<b>void</b> paramList()&nbsp;:&nbsp;{}&nbsp;{
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>param()</dd>
+ <dt><b></b></dt>
+	<dd>(
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>LOOKAHEAD(2)</dd>
+
+	<dd>
+ &lt; COMMA &gt; </dd>
+ <dt><b></b></dt>
+	<dd>param()</dd>
+</dl></dd>
+ <dt><b></b></dt>
+	<dd>)*</dd>
+ <dt><b></b></dt>
+	<dd>(
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>( &lt; COMMA &gt; )?&nbsp; &lt; ELLIPSIS &gt; 
+<div class="p"><!----></div>
+</dd>
+</dl></dd>
+ <dt><b></b></dt>
+	<dd>)?</dd>
+</dl>
+
+<div class="p"><!----></div>
+}
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+We could also rewrite the grammar, replacing the loop with a recursion, so
+that a lookahead of 1 suffices:
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+<b>void</b> paramList()&nbsp;:&nbsp;{}&nbsp;{
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>param() moreParamList()</dd>
+</dl>
+
+<div class="p"><!----></div>
+&nbsp;
+
+<div class="p"><!----></div>
+<b>void</b> moreParamList()&nbsp;:&nbsp;{}&nbsp;{
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+
+	<dd> &lt; COMMA &gt; 
+(param()&nbsp;moreParamList()&nbsp;|&nbsp; &lt; ELLIPSIS &gt; )</dd>
+</dl>
+
+<div class="p"><!----></div>
+
+<div class="p"><!----></div>
+|
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>( &lt; ELLIPSIS &gt; )?</dd>
+</dl>
+
+<div class="p"><!----></div>
+}
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+Sometimes the right thing to do is to simply ignore the warning. Consider this
+classic example, again from programming languages
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+<b>void</b> statement()&nbsp;: {}
+
+<div class="p"><!----></div>
+{
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+
+	<dd> &lt; IF &gt; &nbsp;exp()
+ &lt; THEN &gt; &nbsp;statement()&nbsp;</dd>
+ <dt><b></b></dt>
+	<dd>(&nbsp; &lt; ELSE &gt; &nbsp;statement()&nbsp;)?</dd>
+</dl>
+
+<div class="p"><!----></div>
+
+<div class="p"><!----></div>
+|
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd><em>...other possible statements...</em></dd>
+</dl>
+
+<div class="p"><!----></div>
+}
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+Because an <font face="helvetica">ELSE</font> token could legitimately follow a <font face="helvetica">statement</font>,
+there is a conflict. The fact that an <font face="helvetica">ELSE</font> appears next is not enough
+to indicate that the optional
+"<font face="helvetica"> &lt; ELSE &gt; &nbsp;statement()</font>"should be parsed. Thus there is a conflict. In fact this conflict arises from
+an actual ambiguity in the grammar, in that there are two ways to parse a
+statement like<a href="#tthFtNtAAG" name="tthFrefAAG"><sup>6</sup></a>
+<br clear="all"><table width="100%" border="0"><tbody><tr><td>
+<table cellspacing="0" cellpadding="2" align="center"><tbody><tr><td nowrap="nowrap" align="center">
+<tt><tt>if</tt> <tt>c</tt> &gt; <tt>d</tt> <tt>then</tt> <tt>if</tt> <tt>c</tt> &lt; <tt>d</tt> <tt>then</tt> <tt>q</tt><tt>:</tt><tt>=</tt><tt>1</tt> <tt>else</tt> <tt>q</tt><tt>:</tt><tt>=</tt><tt>2</tt></tt></td></tr></tbody></table>
+</td></tr></tbody></table>
+
+
+The default for JavaCC&nbsp;parsers is to take an option rather than to leave it;
+and that turns out to be the right interpretation in this case (at least for
+C, C++, Java, Pascal, etc.). If you want, you can write:
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+<b>void</b> statement()&nbsp;: {}
+
+<div class="p"><!----></div>
+{
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+
+	<dd> &lt; IF &gt; &nbsp;exp()
+ &lt; THEN &gt; &nbsp;statement()&nbsp;</dd>
+ <dt><b></b></dt>
+	<dd>(&nbsp;LOOKAHEAD(&nbsp; &lt; ELSE &gt; )&nbsp; &lt; ELSE &gt; &nbsp;statement()&nbsp;)?</dd>
+</dl>
+
+<div class="p"><!----></div>
+
+<div class="p"><!----></div>
+|
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd><em>...other possible statements...</em></dd>
+</dl>
+
+<div class="p"><!----></div>
+}
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+ to suppress the warning.
+
+<div class="p"><!----></div>
+Your maintainer humbly advises:&nbsp;If you get a warning, first try rewriting the
+grammar so that a lookahead of 1 will suffice. Only if that is impossible or
+inadvisable should you resort to adding lookahead specifications.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc4.7">
+4.7</a>&nbsp;&nbsp;I&nbsp;added a LOOKAHEAD specification and the warning went away; does
+that mean I&nbsp;fixed the problem?</h2>
+
+<div class="p"><!----></div>
+No. JavaCC&nbsp;will not report choice conflict warnings if you use a LOOKAHEAD
+specification. The absence of a warning doesn't mean that you've solved the
+problem correctly, it just means that you added a LOOKAHEAD specification.
+
+<div class="p"><!----></div>
+Consider the following example:
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+<b>void</b> eg()&nbsp;: {}
+
+<div class="p"><!----></div>
+{
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>LOOKAHEAD(2)</dd>
+
+	<dd>
+ &lt; A &gt; &nbsp; &lt; B &gt; &nbsp; &lt; C &gt; 
+<div class="p"><!----></div>
+</dd>
+</dl>
+<div class="p"><!----></div>
+|
+<div class="p"><!----></div>
+
+<dl compact="compact">
+
+	<dd> &lt; A &gt; &nbsp; &lt; B &gt; &nbsp; &lt; D &gt; 
+<div class="p"><!----></div>
+</dd>
+</dl>}
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+Clearly the lookahead is insufficient (lookahead 3 would do the trick), but
+JavaCC produces no warning. When you add a&nbsp;LOOKAHEAD specification, JavaCC
+assumes you know what you are doing and suppresses any warnings.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc4.8">
+4.8</a>&nbsp;&nbsp;Are nested syntactic lookahead specifications evaluated during
+syntactic lookahead?</h2>
+
+<div class="p"><!----></div>
+No!
+
+<div class="p"><!----></div>
+This can is a bit surprising. Consider a grammar
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+void start( ) : { } {
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>LOOKAHEAD( a() )</dd>
+ <dt><b></b></dt>
+	<dd>a()</dd>
+
+	<dd>
+ &lt; EOF &gt; 
+<div class="p"><!----></div>
+</dd>
+</dl>
+<div class="p"><!----></div>
+|
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>w()</dd>
+
+	<dd>
+ &lt; EOF &gt; 
+<div class="p"><!----></div>
+</dd>
+</dl>}
+
+<div class="p"><!----></div>
+void a( ) : { } {
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>(
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>LOOKAHEAD( w() y() )</dd>
+ <dt><b></b></dt>
+	<dd>w()</dd>
+</dl></dd>
+
+	<dd>
+|
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>w() x()</dd>
+</dl></dd>
+ <dt><b></b></dt>
+	<dd>)</dd>
+ <dt><b></b></dt>
+	<dd>y()</dd>
+</dl>
+
+<div class="p"><!----></div>
+}
+
+<div class="p"><!----></div>
+void w() : {} { "w" }
+
+<div class="p"><!----></div>
+void x() : {} { "x" }
+
+<div class="p"><!----></div>
+void y() : {} { "y" }
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+ and an input sequence of
+"wxy". You might expect that this string will be parsed without error, but it
+isn't. The lookahead on <font face="helvetica">a()</font> fails so the parser takes the second
+(wrong) alternative in <font face="helvetica">start</font>. So why does the lookahead on
+<font face="helvetica">a()</font> fail?&nbsp;The lookahead specification within <font face="helvetica">a()</font> is
+intended to steer the parser to the second alternative when the remaining
+input starts does not start with
+"wy". However during syntactic lookahead, this inner syntactic lookahead is
+ignored. The parser considers first whether the remaining input,
+"wxy",&nbsp;is matched by the alternation <font face="helvetica">(w()&nbsp;|&nbsp;w() x())</font>. First it tries the first alternative <font face="helvetica">w()</font>; this
+succeeds and so the alternation <font face="helvetica">(w()&nbsp;|&nbsp;w() x()) </font>succeeds. Next the parser does a lookahead for <font face="helvetica">y()</font> on a
+remaining input of
+"xy"; this of course fails, so the whole lookahead on <font face="helvetica">a()</font> fails.
+Lookahead does not backtrack and try the second alternative of the
+alternation. Once one alternative of an alternation has succeeded, the whole
+alternation is considered to have succeeded; other alternatives are not
+considered. Nor does lookahead pay attention to nested synactic LOOKAHEAD specifications.
+
+<div class="p"><!----></div>
+This problem usually comes about when the LOOKAHEAD&nbsp;specification looks past
+the end of the choice it applies to. So a solution to the above example is to
+interchange the order of choices like this:
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+void a( ) : { } {
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>(
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>LOOKAHEAD( w() x() )</dd>
+ <dt><b></b></dt>
+	<dd>w() x()</dd>
+</dl></dd>
+
+	<dd>
+|
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>w()</dd>
+</dl></dd>
+ <dt><b></b></dt>
+	<dd>)</dd>
+ <dt><b></b></dt>
+	<dd>y()</dd>
+</dl>
+
+<div class="p"><!----></div>
+}
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+Another solution sometimes is to distribute so that the earlier choice is
+longer. In the above example, we can write
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+void a( ) : { } {
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+
+	<dd>
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>LOOKAHEAD( w() y() )</dd>
+ <dt><b></b></dt>
+	<dd>w() y()</dd>
+</dl></dd>
+
+	<dd>
+|
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>w() x() y()</dd>
+</dl></dd>
+</dl>
+
+<div class="p"><!----></div>
+}
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+Generally it is a bad idea to write syntactic look-ahead specifications that
+look beyond the end of the choice they apply to. If you have a production
+<br clear="all"><table width="100%" border="0"><tbody><tr><td>
+<table cellspacing="0" cellpadding="2" align="center"><tbody><tr><td nowrap="nowrap" align="center">
+<i>a</i>&#8594; <i>A</i> | <i>B</i></td></tr></tbody></table>
+</td></tr></tbody></table>
+
+
+and you transliterate it into JavaCC as
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+void a()&nbsp;:&nbsp;{}&nbsp;{ LOOKAHEAD(<i>C</i>) <i>A</i>
+|&nbsp;<i>B</i> }
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+ then it is a good idea that <i>L</i>(<i>C</i>) (the language of strings matched
+by <i>C</i>) is a set of prefixes of <i>L</i>(<i>A</i>). That is
+<br clear="all"><table width="100%" border="0"><tbody><tr><td>
+<table cellspacing="0" cellpadding="2" align="center"><tbody><tr><td nowrap="nowrap" align="center">
+&#8704;<i>u</i> &#8712; <i>L</i>(<i>C</i>)·&#8707;<i>v</i> &#8712; &#931;<sup>&#8727;</sup>·<i>uv</i> &#8712; <i>L</i>(<i>A</i>)</td></tr></tbody></table>
+</td></tr></tbody></table>
+
+
+In some cases to accomplish this you can put the "longer" choice first (that
+is, the choice that doesn't include prefixes of the other); in other cases you
+can use distributivity to lengthen the choices.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc4.9">
+4.9</a>&nbsp;&nbsp;Are parameters passed during syntactic lookahead?</h2>
+
+<div class="p"><!----></div>
+No.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc4.10">
+4.10</a>&nbsp;&nbsp;Are semantic actions executed during syntactic lookahead?</h2>
+
+<div class="p"><!----></div>
+No.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc4.11">
+4.11</a>&nbsp;&nbsp;Is semantic lookahead evaluated during syntactic lookahead?</h2>
+
+<div class="p"><!----></div>
+Yes. It is also evaluated during evaluation of LOOKAHEAD( <i>n</i> ), for <i>n</i> &gt; 1.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc4.12">
+4.12</a>&nbsp;&nbsp;Can local&nbsp;variables (including parameters) be used in semantic
+lookahead?</h2>
+
+<div class="p"><!----></div>
+Yes to a point.
+
+<div class="p"><!----></div>
+The problem is that semantic lookahead specifications are evaluated during
+syntactic lookahead (and during lookahead of more than 1 token). But the
+subroutine generated to do the syntactic lookahead for a nonterminal will not
+declare the parameters or the other local variables of the nonterminal. This
+means that the code to do the semantic lookahead will fail to compile (in this
+subroutine)&nbsp;if it mentions parameters or other local variables.
+
+<div class="p"><!----></div>
+So if you use local variables in a semantic lookahead specification within the
+BNF production for a nonterminal <i>n</i>, make sure that <i>n</i> is not used in
+syntactic lookahead, or in a lookahead of more than 1 token.
+
+<div class="p"><!----></div>
+This is a case of three rights not making a right! It is right that semantic
+lookahead is evaluated in during syntactic lookahead, it is right (or at least
+useful) that local variables can be mentioned in semantic lookahead, and it is
+right that local variables do not exist during syntactic lookahead. Yet
+putting these three features together tricks JavaCC into producing
+uncompilable code. Perhaps a future version of JavaCC will put these
+interacting features on a firmer footing.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc4.13">
+4.13</a>&nbsp;&nbsp;How does JavaCC differ from standard LL(1) parsing?</h2>
+
+<div class="p"><!----></div>
+Well first off JavaCC is more flexible. It lets you use multiple token
+lookahead, syntactic lookahead, and semantic lookahead. If you don't use these
+features, you'll find that JavaCC is only subtly different from
+LL(1)&nbsp;parsing; it does not calculate
+"follow sets"in the standard way - in fact it can't as JavaCC has no idea what your
+starting nonterminal will be.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc4.14">
+4.14</a>&nbsp;&nbsp;How do I communicate from the parser to the token manager?</h2>
+
+<div class="p"><!----></div>
+It is usually a bad idea to try to have the parser try to influence the way
+the token manager does its job. The reason is that the token manager may
+produce tokens long before the parser consumes them. This is a result of lookahead.
+
+<div class="p"><!----></div>
+Often the work-around is to use lexical states to have the token manager
+change its behaviour on its own.
+
+<div class="p"><!----></div>
+In other cases, the work-around is to have the token manager not change its
+bevhaviour and have the parser compensate. For example in parsing C, you need
+to know if an identifier is a type or not. If you were using lex and yacc, you
+would probably write your parser in terms of token kinds ID and TYPEDEF_NAME.
+The parser will add typedef names to the symbol table after parsing each
+typedef definition. The lexical analyzer will look up identifiers in the
+symbol table to decide which token kind to use. This works because with lex
+and yacc, the lexical analyzer is always one token ahead of the parser. In
+JavaCC, it is better to just use one token kind, ID, and use a nonterminal in
+place of TYPEDEF_NAME:
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+<b>void</b> typedef_name() : {} {
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>LOOKAHEAD( { getToken(1).kind == ID &amp;&amp; symtab.isTypedefName(
+getToken(1).image ) } )</dd>
+
+	<dd>
+ &lt; ID &gt; }</dd>
+</dl>
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+But you have to be careful using semantic look-ahead like this. It could still
+cause trouble. Consider doing a syntactic lookahead on nonterminal
+`<font face="helvetica">statement'</font>. If the next statement is something like
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+{ typedef int T ; T i ; i = 0 ; return i ; }
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+The lookahead will fail since the semantic action putting T in the symbol
+table will not be done during the lookahead! Luckly in C, there should be no
+need to do a syntactic lookahead on statements.
+
+<div class="p"><!----></div>
+[TBD. Think through this example very carefully.]
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc4.15">
+4.15</a>&nbsp;&nbsp;How do I communicate from the token manager to the
+parser?<a name="CommunicateLexerToParser"></a></h2>
+
+<div class="p"><!----></div>
+As with communication between from the parser to the token manager, this can
+be tricky because the token manager is often well ahead of the parser.
+
+<div class="p"><!----></div>
+For example, if you calculate the value associated with a particular token
+kind in the token manager and store that value in a simple variable, that
+variable may well be overwritten by the time the parser consumes the relevant
+token. Instead you can use a queue. The token manager puts information into
+the queue and the parser takes it out.
+
+<div class="p"><!----></div>
+Another solution is to use a table. For example in dealing with
+<tt>#line</tt> directives in C or C++, you can have the token manager fill a
+table indicating on which physical lines the<font face="helvetica">&nbsp;</font><tt>#line</tt>
+directives occur and what the value given by the <tt>#line</tt> is. Then the
+parser can use this table to calculate the
+"source line number"from the physical line numbers stored in the Tokens.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc4.16">
+4.16</a>&nbsp;&nbsp;What does it mean to put a regular expression within a
+BNF&nbsp;production?<a name="what-means-reg-exp-in-bnf"></a></h2>
+
+<div class="p"><!----></div>
+It is possible to embed a regular expression within a BNF&nbsp;production. For example
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+<em>//A regular expression production</em>
+
+<div class="p"><!----></div>
+<b>TOKEN</b>&nbsp;: {&nbsp; &lt; ABC :&nbsp;"abc"&nbsp; &gt; }
+
+<div class="p"><!----></div>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<div class="p"><!----></div>
+<em>//A BNF production</em>
+
+<div class="p"><!----></div>
+<b>void</b> nonterm()&nbsp;:&nbsp;{}&nbsp;{
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+
+	<dd>"abc"</dd>
+ <dt><b></b></dt>
+	<dd>"def"</dd>
+ <dt><b></b></dt>
+	<dd> &lt; (["0"-"9"])+ &gt; </dd>
+ <dt><b></b></dt>
+	<dd>"abc"</dd>
+ <dt><b></b></dt>
+	<dd>"def"</dd>
+ <dt><b></b></dt>
+	<dd> &lt; (["0"-"9"])+ &gt; 
+<div class="p"><!----></div>
+</dd>
+</dl>}
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+There are six regular expressions within the BNF&nbsp;production. The first is
+simply a Java string and is the same string that appears in the earlier
+regular expression production. The second is simply a Java string, but does
+not (we will assume) appear in a regular expression production. The third is
+a
+"complex regular"expression. The next three simply duplicate the first three.
+
+<div class="p"><!----></div>
+The code above is essentially equivalent to the following:
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+<em>//A regular expression production</em>
+
+<div class="p"><!----></div>
+<b>TOKEN</b>&nbsp;: {&nbsp; &lt; ABC :&nbsp;"abc"&nbsp; &gt; }
+
+<div class="p"><!----></div>
+<b>TOKEN</b>&nbsp;: {&nbsp; &lt; ANON0 :&nbsp;"def"&nbsp; &gt; }
+
+<div class="p"><!----></div>
+<b>TOKEN</b>&nbsp;: {&nbsp; &lt; ANON1 :&nbsp; &lt; (["0"-"9"])+ &gt; }
+
+<div class="p"><!----></div>
+<b>TOKEN</b>&nbsp;: {&nbsp; &lt; ANON2 :&nbsp; &lt; (["0"-"9"])+ &gt; }
+
+<div class="p"><!----></div>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<div class="p"><!----></div>
+<em>//A BNF production</em>
+
+<div class="p"><!----></div>
+<b>void</b> nonterm()&nbsp;:&nbsp;{}
+
+<div class="p"><!----></div>
+{
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+
+	<dd> &lt; ABC &gt; </dd>
+ <dt><b></b></dt>
+	<dd> &lt; ANON0 &gt; </dd>
+ <dt><b></b></dt>
+	<dd> &lt; ANON1 &gt; 
+<div class="p"><!----></div>
+ &lt; ABC &gt; </dd>
+ <dt><b></b></dt>
+	<dd> &lt; ANON0 &gt; </dd>
+ <dt><b></b></dt>
+	<dd> &lt; ANON2 &gt; 
+<div class="p"><!----></div>
+</dd>
+</dl>}
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+In general when a regular expression is a Java string and identical to regular
+expression occurring in a regular expression production<a href="#tthFtNtAAH" name="tthFrefAAH"><sup>7</sup></a>, then the Java
+string is interchangeable with the token kind from the regular expression production.
+
+<div class="p"><!----></div>
+When a regular expression is a Java string, but there is no corresponding
+regular expression production, then JavaCC essentially makes up a
+corresponding regular expression production. This is shown by the <font face="helvetica">"def"</font>which becomes an anonymous regular expression production. Note that all
+occurrences of the same string end up represented by a single regular
+expression production.
+
+<div class="p"><!----></div>
+Finally consider the two occurrences of the complex regular expression
+<font face="helvetica"> &lt; (["0"-"9"])+ &gt; </font>. Each one is turned into a different regular expression production. This
+spells trouble, as the <font face="helvetica">ANON2</font> regular expression production will never
+succeed. (See
+Question <a href="#more-than-one">3.3</a>. " What if more than one regular expression
+matches a prefix of the remaining input?"
+)
+
+<div class="p"><!----></div>
+See also
+Question <a href="#when-reg-exp-in-bnf">4.17</a>, " When should regular expressions be put
+directly into a BNF&nbsp;production?"
+.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc4.17">
+4.17</a>&nbsp;&nbsp;When should regular expressions be put directly into a
+BNF&nbsp;production?<a name="when-reg-exp-in-bnf"></a></h2>
+
+<div class="p"><!----></div>
+First read
+Question <a href="#what-means-reg-exp-in-bnf">4.16</a>, " What does it mean to put a
+regular expression within a BNF&nbsp;production?"
+.
+
+<div class="p"><!----></div>
+For regular expressions that are simply strings, you might as well put them
+directly into the BNF&nbsp;productions, and not bother with defining them in a
+regular expression production.<a href="#tthFtNtAAI" name="tthFrefAAI"><sup>8</sup></a> For more complex regular expressions, it is best to give them a
+name, using a regular expression production. There are two reasons for this.
+The first is error reporting. If you give a complex regular expression a name,
+that name will be used in the message attached to any ParseExceptions
+generated. If you don't give it a name, JavaCC will make up a name like
+" &lt; token of kind 42 &gt; ". The second is perspicuity. Consider the following example:
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+<b>void</b> letter_number_letters()&nbsp;:&nbsp;{
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>Token letter, number, letters; }</dd>
+</dl>
+
+<div class="p"><!----></div>
+{
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>letter= &lt; ["a"-"z"] &gt; </dd>
+ <dt><b></b></dt>
+	<dd>number= &lt; ["0"-"9"] &gt; </dd>
+ <dt><b></b></dt>
+	<dd>letters= &lt; (["a"-"z"])+ &gt; </dd>
+ <dt><b></b></dt>
+	<dd>{&nbsp;<b>return</b> <em>some function of letter, number and letters</em> ; }</dd>
+</dl>
+
+<div class="p"><!----></div>
+}
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+The intention is to be able to parse strings like
+"<tt>a9abc</tt>". Written this way it is a bit hard to see what is wrong. Rewrite it as
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+<b>TOKEN</b>&nbsp;:&nbsp; &lt; &nbsp;LETTER&nbsp;:&nbsp;["a"-"z"]
+ &gt; }
+
+<div class="p"><!----></div>
+<b>TOKEN</b>&nbsp;:&nbsp; &lt; &nbsp;NUMBER&nbsp;: ["0"-"9"]
+ &gt; }
+
+<div class="p"><!----></div>
+<b>TOKEN</b>&nbsp;:&nbsp; &lt; &nbsp;LETTERS&nbsp;:&nbsp;(["a"-"z"])+
+ &gt; }
+
+<div class="p"><!----></div>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<div class="p"><!----></div>
+<b>void</b> letter_number_letters()&nbsp;:&nbsp;{
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>Token letter, number, letters; }</dd>
+</dl>
+
+<div class="p"><!----></div>
+{
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>letter= &lt; LETTER &gt; </dd>
+ <dt><b></b></dt>
+	<dd>number= &lt; NUMBER &gt; </dd>
+ <dt><b></b></dt>
+	<dd>letters= &lt; LETTERS &gt; </dd>
+ <dt><b></b></dt>
+	<dd>{&nbsp;<b>return</b> <em>some function of letter, number and letters</em> ; }</dd>
+</dl>
+
+<div class="p"><!----></div>
+}
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+ and it might be easier to see the error. On a string like
+"<tt>z7d</tt>"the token manager will find a <font face="helvetica">LETTER</font>, a <font face="helvetica">NUMBER</font> and then
+another <font face="helvetica">LETTER</font>; the BNF&nbsp;production can not succeed. (See
+Question <a href="#more-than-one">3.3</a>, " What if more than one regular expression
+matches a prefix of the remaining input?"
+)
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc4.18">
+4.18</a>&nbsp;&nbsp;How do I parse a sequence without allowing duplications?</h2>
+
+<div class="p"><!----></div>
+This turns out to be a bit tricky. Of course you can list all the alteratives.
+Say you want A, B, C, each optionally, in any order, with no duplications;
+well there are only 16 possibilities:
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+<b>void</b> abc()&nbsp;:&nbsp;{} {
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>[ &lt; A &gt; &nbsp;[
+ &lt; B &gt; &nbsp;[
+ &lt; C &gt; &nbsp;] ] ]</dd>
+</dl>
+
+<div class="p"><!----></div>
+
+<div class="p"><!----></div>
+|
+<div class="p"><!----></div>
+
+<dl compact="compact">
+
+	<dd> &lt; A &gt; &nbsp; &lt; C &gt; [
+ &lt; B &gt; &nbsp;]</dd>
+</dl>
+
+<div class="p"><!----></div>
+
+<div class="p"><!----></div>
+|
+<div class="p"><!----></div>
+
+<dl compact="compact">
+
+	<dd> &lt; B &gt; &nbsp;[
+ &lt; A &gt; &nbsp;[
+ &lt; C &gt; &nbsp;] ]</dd>
+</dl>
+
+<div class="p"><!----></div>
+
+<div class="p"><!----></div>
+|
+<div class="p"><!----></div>
+
+<dl compact="compact">
+
+	<dd> &lt; B &gt; &nbsp; &lt; C &gt; [
+ &lt; A &gt; &nbsp;]</dd>
+</dl>
+
+<div class="p"><!----></div>
+
+<div class="p"><!----></div>
+|
+<div class="p"><!----></div>
+
+<dl compact="compact">
+
+	<dd> &lt; C &gt; &nbsp;[
+ &lt; A &gt; &nbsp;[
+ &lt; B &gt; &nbsp;] ]</dd>
+</dl>
+
+<div class="p"><!----></div>
+
+<div class="p"><!----></div>
+|
+<div class="p"><!----></div>
+
+<dl compact="compact">
+
+	<dd> &lt; C &gt; &nbsp; &lt; B &gt; &nbsp;[&nbsp; &lt; A &gt; &nbsp;]</dd>
+</dl>
+
+<div class="p"><!----></div>
+}
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+ This approach is already ugly and won't scale.
+
+<div class="p"><!----></div>
+A better approach is to use semantic actions to record what has been seen
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+<b>void</b> abc()&nbsp;:&nbsp;{}&nbsp;{
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>(
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+
+	<dd> &lt; A &gt; </dd>
+ <dt><b></b></dt>
+	<dd>{ if(&nbsp;<em>seen an A already</em> ) throw ParseException("Duplicate A");</dd>
+ <dt><b></b></dt>
+	<dd>else <em>record an A</em> }</dd>
+</dl></dd>
+
+	<dd>
+|
+<div class="p"><!----></div>
+
+<dl compact="compact">
+
+	<dd> &lt; B &gt; </dd>
+ <dt><b></b></dt>
+	<dd>{ if(&nbsp;<em>seen an B already</em> ) throw ParseException("Duplicate B");</dd>
+ <dt><b></b></dt>
+	<dd>else <em>record an B</em> }</dd>
+</dl></dd>
+
+	<dd>
+|
+<div class="p"><!----></div>
+
+<dl compact="compact">
+
+	<dd> &lt; C &gt; </dd>
+ <dt><b></b></dt>
+	<dd>{ if(&nbsp;<em>seen an C already</em> ) throw ParseException("Duplicate C");</dd>
+ <dt><b></b></dt>
+	<dd>else <em>record an C</em> }</dd>
+</dl></dd>
+ <dt><b></b></dt>
+	<dd>)*</dd>
+</dl>
+
+<div class="p"><!----></div>
+}
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+The problem with this approach is that it will not work well with syntactic
+lookahead. Ninety-nine percent of the time you won't care about this problem,
+but consider the following highly contrived example:
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+void toughChoice()&nbsp;:&nbsp;{}
+
+<div class="p"><!----></div>
+{
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>LOOKAHEAD(&nbsp;abc()&nbsp;)</dd>
+ <dt><b></b></dt>
+	<dd>abc()
+</dd>
+</dl>
+
+<div class="p"><!----></div>
+
+<div class="p"><!----></div>
+|
+<div class="p"><!----></div>
+
+<dl compact="compact">
+
+	<dd> &lt; A &gt; 
+ &lt; A &gt; 
+ &lt; B &gt; 
+ &lt; B &gt; 
+<div class="p"><!----></div>
+</dd>
+</dl>}
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+When the input is two <font face="helvetica">A</font>'s followed by two <font face="helvetica">B</font>'s, the second
+choice should be taken. If you use the first (ugly) version of <font face="helvetica">abc</font>,
+above, then that's what happens. If you use the second (nice) version of
+<font face="helvetica">abc</font>, then the first choice is taken, since syntactically <font face="helvetica">abc</font>
+is <font face="helvetica">( &lt; A &gt; &nbsp;|&nbsp; &lt; B &gt; &nbsp;|&nbsp; &lt; C &gt; )*.</font>
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc4.19">
+4.19</a>&nbsp;&nbsp;How do I&nbsp;deal with keywords that aren't reserved?<a name="keywords"></a></h2>
+
+<div class="p"><!----></div>
+In Java, C++, and many other languages, keywords, like
+"int",
+"if",
+"throw"and so on are <em>reserved</em>, meaning that you can't use them for any purpose
+other than that defined by the language; in particular you can use them for
+variable names, function names, class names, etc. In some applications,
+keywords are not reserved. For example, in the PL/I language, the following is
+a valid statement
+
+<div class="p"><!----></div>
+<tt>if if = then then then = else ; else else = if ;</tt>
+
+<div class="p"><!----></div>
+Sometimes you want "if", "
+then", and "else"&nbsp;to act
+like keywords and sometimes like identifiers.
+
+<div class="p"><!----></div>
+This is a special case of a more general problem discussed in
+Question <a href="#char-seq-matches-multi-tokens">3.6</a>, "How do I make
+a character sequence match more than one token kind?"
+.
+
+<div class="p"><!----></div>
+For a more modern example, in parsing URL's, we might want to treat the word
+"http"as a keyword, but we don't want to prevent it being used as a host name or a
+path segment. Suppose we write the following productions<a href="#tthFtNtAAJ" name="tthFrefAAJ"><sup>9</sup></a>:
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+TOKEN&nbsp;:&nbsp;{&nbsp; &lt; HTTP&nbsp;:&nbsp;"http" &gt; }
+
+<div class="p"><!----></div>
+TOKEN&nbsp;:&nbsp;{
+ &lt; LABEL&nbsp;:&nbsp; &lt; ALPHANUM &gt; | &lt; ALPHANUM &gt; (
+ &lt; ALPHANUM &gt; |"-")*
+ &lt; ALPHANUM &gt; 
+ &gt; &nbsp;}
+
+<div class="p"><!----></div>
+void httpURL()&nbsp;:&nbsp;{}&nbsp;{
+ &lt; HTTP &gt; &nbsp;":""//"host() port_path_and_query() }
+
+<div class="p"><!----></div>
+void host() :&nbsp;{}&nbsp;{&nbsp; &lt; LABEL &gt; ("." &lt; LABEL &gt; )* }
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+ Both the regular expressions labelled <font face="helvetica">HTTP</font> and
+<font face="helvetica">LABEL</font>, match the string
+"<tt>http</tt>". As covered in
+Question <a href="#more-than-one">3.3</a>, "&nbsp;What if more than one regular
+expression matches a prefix of the remaining input?"
+, the first rule will be chosen; thus the URL
+
+<div class="p"><!----></div>
+
+<center><tt>http://www.http.org/</tt>
+</center>
+
+<div class="p"><!----></div>
+ will not be accepted by the grammar. So what can you do? There are
+basically three strategies: put choices in the grammar, replace keywords with
+semantic lookahead, or use lexical states.
+
+<div class="p"><!----></div>
+<b>Putting choices in the grammar.</b> Going back to the original grammar,
+we can see that, the problem is that where we say we expect a <font face="helvetica">LABEL</font>
+we actually intended to expect either a <font face="helvetica">LABEL</font> or a <font face="helvetica">HTTP</font>. We
+can rewrite the last production as
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+void host()&nbsp;:&nbsp;{}&nbsp;{&nbsp;label() ("."label())* }
+
+<div class="p"><!----></div>
+void label()&nbsp;:&nbsp;{}&nbsp;{&nbsp; &lt; LABEL &gt; &nbsp;|&nbsp; &lt; HTTP &gt; &nbsp;}
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+<b>Replacing keywords with semantic lookahead.</b> Here we eliminate the
+offending keyword production. In the example we would eliminate the regular
+expression production labelled HTTP. Then we have to rewrite httpURL as
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+void httpURL()&nbsp;:&nbsp;{}&nbsp;{
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>LOOKAHEAD( {getToken(1).kind == LABEL &amp;&amp;&nbsp;getToken(1).image.equals("http")} )</dd>
+
+	<dd>
+ &lt; LABEL &gt; &nbsp;":""//"host() port_path_and_query() }</dd>
+</dl>
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+ The added semantic lookahead ensures that the URL&nbsp;really begins
+with a LABEL which is actually the keyword
+"http". [TBD&nbsp;Check this example.]
+
+<div class="p"><!----></div>
+<b>Using lexical states.</b> The idea is to use a different lexical state
+when the word is reserved and when it isn't. (See
+Question <a href="#states">3.11</a>, "What are lexical states all
+about?"
+) In the example, we can make "http"&nbsp;reserved in the default lexical state, but not reserved when a label is
+expected. In the example, this is easy because it is clear when a label is
+expected:&nbsp;after a "//"&nbsp;and after a
+".".<a href="#tthFtNtABA" name="tthFrefABA"><sup>10</sup></a> Thus we can rewrite the regular expression productions as
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+TOKEN&nbsp;:&nbsp;{&nbsp; &lt; HTTP&nbsp;:&nbsp;"http" &gt; }
+
+<div class="p"><!----></div>
+TOKEN&nbsp;:&nbsp;{&nbsp; &lt; DSLASH&nbsp;:&nbsp;"//" &gt; 
+:&nbsp;LABELEXPECTED }
+
+<div class="p"><!----></div>
+TOKEN&nbsp;:&nbsp;{&nbsp; &lt; DOT :&nbsp;"." &gt; 
+:&nbsp;LABELEXPECTED }
+<div class="p"><!----></div>
+ &lt; LABELEXPECTED &gt; &nbsp;TOKEN&nbsp;:&nbsp;{
+ &lt; LABEL&nbsp;:&nbsp; &lt; ALPHANUM &gt; | &lt; ALPHANUM &gt; (
+ &lt; ALPHANUM &gt; |"-")*
+ &lt; ALPHANUM &gt; &nbsp; &gt; &nbsp;:DEFAULT }
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+ And the BNF productions are
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+void httpURL()&nbsp;:&nbsp;{}&nbsp;{
+ &lt; HTTP &gt; &nbsp;":"
+ &lt; DSLASH &gt; &nbsp;host() port_path_and_query() }
+
+<div class="p"><!----></div>
+void host() :&nbsp;{}&nbsp;{&nbsp; &lt; LABEL &gt; ( &lt; DOT &gt; &nbsp; &lt; LABEL &gt; )* }
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc4.20">
+4.20</a>&nbsp;&nbsp;There's an error in the input, so why doesn't my parser throw a
+ParseException?</h2>
+
+<div class="p"><!----></div>
+Perhaps you forgot the <font face="helvetica"> &lt; EOF &gt; </font> in the production for your start nonterminal.
+
+<div class="p"><!----></div>
+ <h1><a name="tth_chAp5">
+Chapter 5 </a><br>Semantic Actions</h1>
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc5.1">
+5.1</a>&nbsp;&nbsp;I've written/found a parser, but it doesn't do anything?</h2>
+
+<div class="p"><!----></div>
+You need to add semantic actions. Semantic actions are bits of Java code that
+get executed as the parser parses.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc5.2">
+5.2</a>&nbsp;&nbsp;How do I capture and traverse a sequence of
+tokens?<a name="capture-and-traverse"></a></h2>
+
+<div class="p"><!----></div>
+Each Token object has a pointer to the next Token object. Well that's not
+quite right. There are two kinds of Token objects. There are regular token
+objects, created by regular expression productions prefixed by the keyword
+<font face="helvetica">TOKEN</font>. And, there are special token objects, created by regular
+expression productions prefixed by the keyword <font face="helvetica">SPECIAL_TOKEN</font>. Each
+regular Token object has a pointer to the next regular Token object. We'll
+deal with the special tokens later.
+
+<div class="p"><!----></div>
+Now since the tokens are nicely linked into a list, we can represent a
+sequence of tokens occurring in the document with a class by pointing to the
+first token in the sequence and the first token to follow the sequence.
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+<b>class</b> TokenList {
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd><b>private</b> Token head ;</dd>
+ <dt><b></b></dt>
+	<dd><b>private</b> Token tail ;</dd>
+</dl>
+
+<div class="p"><!----></div>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>TokenList( Token head, Token tail ) {
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>this.head = head ;</dd>
+ <dt><b></b></dt>
+	<dd>this.tail = tail ; }</dd>
+</dl></dd>
+ <dt><b></b></dt>
+	<dd>...</dd>
+</dl>
+
+<div class="p"><!----></div>
+}
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+We can create such a list using semantic actions in the parser like this:
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+TokenList CompilationUnit() : {
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>Token head ;</dd>
+</dl>
+
+<div class="p"><!----></div>
+} {
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>{ head = getToken( 1 ) ; }</dd>
+ <dt><b></b></dt>
+	<dd>[ PackageDeclaration() ] ( ImportDeclaration() )* ( TypeDeclaration() )*</dd>
+
+	<dd>
+ &lt; EOF &gt; </dd>
+ <dt><b></b></dt>
+	<dd>{&nbsp;return new TokenList( head, getToken(0) ) ; }</dd>
+</dl>
+
+<div class="p"><!----></div>
+}
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+To print regular tokens in the list, we can simply traverse the list
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+<b>class</b> TokenList {
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>...</dd>
+ <dt><b></b></dt>
+	<dd><b>void</b> print( PrintStream os ) {
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd><b>for</b>( Token p = head ; p != tail ; p = p.next ) {
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>os.print( p.image ) ; } }</dd>
+</dl></dd>
+</dl></dd>
+ <dt><b></b></dt>
+	<dd>...</dd>
+</dl>
+
+<div class="p"><!----></div>
+}
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+This method of traversing the list of tokens is appropriate for many applications.
+
+<div class="p"><!----></div>
+Here is some of what I&nbsp;got from printing the tokens of a Java file:
+<div class="p"><!----></div>
+
+<br clear="all"><table width="100%" border="0"><tbody><tr><td>
+<table cellspacing="0" cellpadding="2" align="center"><tbody><tr><td nowrap="nowrap" align="center">
+<tt><tt>publicclassToken</tt>{<tt>publicintkind</tt><tt>;</tt><tt>publicintbeginLine</tt><tt>,</tt></tt></td></tr></tbody></table>
+</td></tr></tbody></table>
+
+
+Obviously this is not much good for either human or machine consumption. I
+could just print a space between each pair of adjacent tokens. A nicer
+solution is to capture all the spaces and comments using special tokens. Each
+<font face="helvetica">Token</font> object (whether regular or special) has a field called
+<font face="helvetica">specialToken</font>, which points to the special token that appeared in the
+text immediately prior, if there was one, and is null otherwise. So prior to
+printing the image of each token, we print the image of the preceding special
+token, if any:
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+<b>class</b> TokenList {
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>...</dd>
+ <dt><b></b></dt>
+	<dd><b>private</b> <b>void</b> printSpecialTokens( PrintStream ps, Token
+st ) {
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd><b>if</b>( st != null ) {
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>printSpecialTokens( ps, st.specialToken ) ;</dd>
+ <dt><b></b></dt>
+	<dd>ps.print( st.image ) ; } }</dd>
+</dl></dd>
+</dl></dd>
+</dl>
+
+<div class="p"><!----></div>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd><b>void</b> printWithSpecials( PrintStream ps ) {
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd><b>for</b>( Token p = head ; p != tail ; p = p.next ) {
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>printSpecialTokens( ps, p.specialToken ) ;</dd>
+ <dt><b></b></dt>
+	<dd>ps.print( p.image ) ; } }</dd>
+</dl></dd>
+</dl></dd>
+</dl>
+
+<div class="p"><!----></div>
+}
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+If you want to capture and print a whole file, don't forget about the special
+tokens that precede the <font face="helvetica">EOF</font> token.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc5.3">
+5.3</a>&nbsp;&nbsp;Why does my parser use so much space?<a name="space"></a></h2>
+
+<div class="p"><!----></div>
+One reason might be that you saved a pointer to a token like this.
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+void CompilationUnit() : {
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>Token name ;</dd>
+</dl>
+
+<div class="p"><!----></div>
+} {
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+ <dt><b></b></dt>
+	<dd>Modifiers() Type()</dd>
+ <dt><b></b></dt>
+	<dd>name =
+ &lt; ID &gt; </dd>
+ <dt><b></b></dt>
+	<dd>{&nbsp;System.out.println(&nbsp;name.image )&nbsp;;&nbsp;}</dd>
+ <dt><b></b></dt>
+	<dd>Extends()&nbsp;Implements()&nbsp;ClassBody()</dd>
+</dl>
+
+<div class="p"><!----></div>
+}
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+The variable <font face="helvetica">name</font> is last used in the call to <font face="helvetica">println</font>, but
+it remains on the stack pointing to that token until the generated
+<font face="helvetica">CompilationUnit </font>method returns. This means that the <font face="helvetica">ID</font> token
+can't be garbage collected until the subroutine returns. So what? That's only
+one token! &nbsp;But remember, that token has a <font face="helvetica">next</font> field that points to
+the next token and that one has a <font face="helvetica">next</font> field and so on. So all the
+tokens from the <font face="helvetica">ID</font> to the end of the class body can not be garbage
+collected until the subroutine returns. The solution is simple:&nbsp;add
+"<font face="helvetica">name = null;</font>"&nbsp;after the final use
+of the <font face="helvetica">Token</font> variable and hope that your compiler doesn't optimize
+away this "dead code".
+
+<div class="p"><!----></div>
+ <h1><a name="tth_chAp6">
+Chapter 6 </a><br>JJTree and JTB<a name="jjtree-and-jtb"></a></h1>
+
+<div class="p"><!----></div>
+TBD. Your maintainer would especially appreciate volunteers to contribute to
+this part of the FAQ.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc6.1">
+6.1</a>&nbsp;&nbsp;What are JJTree and JTB?</h2>
+
+<div class="p"><!----></div>
+These are preprocessors that produce .jj files. The .jj files produced will
+produce parsers that produce trees.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc6.2">
+6.2</a>&nbsp;&nbsp;Where can I&nbsp;find JJTree?</h2>
+
+<div class="p"><!----></div>
+JJTree comes with JavaCC. See
+Question <a href="#where-is-javacc">1.6</a>, " Where can I&nbsp;get JavaCC?".
+.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc6.3">
+6.3</a>&nbsp;&nbsp;Where can I find JTB?</h2>
+
+<div class="p"><!----></div>
+See
+<a href="http://www.cs.purdue.edu/jtb/">JTB: The Java Tree Builder Homepage</a>..
+
+<div class="p"><!----></div>
+ <h1><a name="tth_chAp7">
+Chapter 7 </a><br>Applications of JavaCC</h1>
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc7.1">
+7.1</a>&nbsp;&nbsp;Where can I find a parser for <i>x</i>?</h2>
+
+<div class="p"><!----></div>
+First look in Dongwon Lee and Roedy Green's
+<a href="http://mindprod.com/jgloss/javacc.html">JavaCC Grammar Repository</a>.
+
+<div class="p"><!----></div>
+Then ask the newsgroup or the mailing list.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc7.2">
+7.2</a>&nbsp;&nbsp;How do I parse arithmetic expressions?</h2>
+
+<div class="p"><!----></div>
+See the examples that come with JavaCC.
+
+<div class="p"><!----></div>
+See any text on compiling.
+
+<div class="p"><!----></div>
+See
+<a href="http://www.engr.mun.ca/%7Etheo/Misc/index.html#parsingExps">Parsing Epressions by Recursive Descent</a>
+and
+<a href="http://www.engr.mun.ca/%7Etheo/JavaCC-Tutorial/">a tutorial by Theodore Norvell</a>..
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc7.3">
+7.3</a>&nbsp;&nbsp;I'm writing a programming language interpreter; how do I deal with
+loops?</h2>
+
+<div class="p"><!----></div>
+A lot of people who want to write an interpreter for a programming language
+seem to start with a calculator for expressions, evaluating during parsing.
+This is quite reasonable. Then they add, say, assignments and if-then-else
+statements, and all goes well. Now they want to add loops. Having committed to
+the idea that they are evaluating while parsing they want to know how back up
+the token manager so that loop-bodies can be reparsed, and thus reevaluated,
+over and over and over again.
+
+<div class="p"><!----></div>
+It's a sensible idea, but it's clear that JavaCC will not make this approach
+pleasant. Your maintainer suggests translating to an intermediate code during
+parsing, and then executing the intermediate code. A tree makes a convenient
+intermediate code. Consider using JJTree or JTB (see
+Chapter <a href="#jjtree-and-jtb">6</a>
+).
+
+<div class="p"><!----></div>
+If you still want to back up the token manager. I&nbsp;suggest that you start by
+tokenizing the entire file, capturing the tokens in a list (see
+Question <a href="#capture-and-traverse">5.2</a>, "&nbsp;How do I capture and
+traverse a sequence of tokens?".
+) or, better, a Vector. Now write a custom token manager that delivers this
+captured sequence of tokens, and also allows backing up.
+
+<div class="p"><!----></div>
+ <h1><a name="tth_chAp8">
+Chapter 8 </a><br>Comparing JavaCC with other tools</h1>
+
+<div class="p"><!----></div>
+[TBD. Your maintainer would welcome comparisons with&nbsp;ANTLR, CUP, JLex, JFlex,
+and any others that users can contribute. My limited understanding is that
+CUP&nbsp;is similar to Yacc and Bison, and that JLex and JFlex are similar to Lex
+and Flex.]
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc8.1">
+8.1</a>&nbsp;&nbsp;Since <i>LL</i>(1) &#8834; <i>LALR</i>(1), wouldn't a tool based on LALR&nbsp;parsing
+be better?</h2>
+
+<div class="p"><!----></div>
+It's true that there are strictly more languages that can be described by
+LALR(1) grammars than by LL(1) grammars. Furthermore almost every parsing
+problem that arises in programming languages has an LALR(1)&nbsp;solution and the
+same can not be said for LL(1).
+
+<div class="p"><!----></div>
+But the situation in parser generators is a big more complicated. JavaCC is
+based on LL(1) parsing, but it allows you to use grammars that are not LL(1).
+As long as you can use JavaCC's look-ahead specification to guide the parsing
+where the LL(1) rules are not sufficient, JavaCC&nbsp;can handle any grammar that
+is not left-recursive. Similarly tools based on LALR(1) or LR(1)&nbsp;parsing
+generally allow input grammars outside those classes.
+
+<div class="p"><!----></div>
+A case in point is the handling of if-statements in C, Java, and similar
+languages. Abstracted, the grammar is
+<br clear="all"><table width="100%" border="0"><tbody><tr><td>
+<table cellspacing="0" cellpadding="2" align="center"><tbody><tr><td nowrap="nowrap" align="center">
+<i>S</i>&#8594; <i>x</i> | <i>iS</i> | <i>iSeS</i></td></tr></tbody></table>
+</td></tr></tbody></table>
+
+
+The theoretical result is that there is no LL(1) grammar that can handle the
+construct, but there is an LALR(1) grammar. Experienced parser generator users
+ignore this result. Both users of LALR(1)&nbsp;based parser generator (such as
+yacc) and users of LL(1)&nbsp;based parser generators (such as JavaCC) generally
+use the same ambiguous set of grammar rules, which is neither LALR(1) nor
+LL(1), and use other mechanisms to resolve the ambiguity.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc8.2">
+8.2</a>&nbsp;&nbsp;How does JavaCC compare with Lex and Flex?</h2>
+
+<div class="p"><!----></div>
+Lex is the lexical analyzer supplied for many years with most versions of
+Unix. Flex is a freely distributable relative associated with the GNU project.
+JavaCC and lex/flex are actually quite similar. Both work essentially the same
+way, turning a set of regular expressions into a big finite state automaton
+and use the same rules (for example the maximal munch rule). The big
+difference is the lex and flex produce C, whereas JavaCC produces Java.
+
+<div class="p"><!----></div>
+One facility that lex and flex have, that JavaCC lacks, is the ability to look
+ahead in the input stream past the end of the matched token. For a classic
+example, to recognize the Fortran keyword
+"DO", you have to look forward in the input stream to find a comma. This is because
+
+<div class="p"><!----></div>
+<tt>DO 10 I = 1,20</tt>
+
+<div class="p"><!----></div>
+ is a do-statement, whereas
+
+<div class="p"><!----></div>
+<tt>DO 10 I = 1.20</tt>
+
+<div class="p"><!----></div>
+ is an assignment to a variable called <tt>DO10I</tt> (Fortran
+totally ignores blanks). Dealing with this sort of thing is easy in lex, but
+very hard in JavaCC.
+
+<div class="p"><!----></div>
+However JavaCC does have some nice features that Lex and Flex lack:&nbsp;Common
+token actions, MORE rules, SPECIAL_TOKEN rules.
+
+<div class="p"><!----></div>
+ <h2><a name="tth_sEc8.3">
+8.3</a>&nbsp;&nbsp;How does JavaCC compare with other Yacc and Bison?</h2>
+
+<div class="p"><!----></div>
+Yacc is a parser generator developed at Bell labs. Bison is a freely
+distributable reimplementation associated with the GNU&nbsp;project. Yacc and
+Bison produce C whereas JavaCC produces Java.
+
+<div class="p"><!----></div>
+The other big difference is that Yacc and Bison work bottom-up, whereas JavaCC
+works top-down. This means that Yacc and Bison make choices after consuming
+all the tokens associated with the choice, whereas JavaCC has to make its
+choices prior to consuming any of the tokens associated with the choice.
+However, JavaCC's lookahead capabilities allow it to peek well ahead in the
+token stream without consuming any tokens; the lookahead capabilities
+ameliorate most of the disadvantages of the top-down approach.
+
+<div class="p"><!----></div>
+Yacc and Bison require BNF grammars, whereas JavaCC accepts EBNF&nbsp;grammars. In
+a BNF grammar, each nonterminal is described as choice of zero or
+more&nbsp;sequences of zero or more&nbsp;terminals and nonterminals. EBNF&nbsp;extends BNF
+with looping, optional parts, and allows choices anywhere, not just at the top
+level. For this reason Yacc/Bison grammars tend to have more nonterminals than
+JavaCC grammars and to be harder to read. For example the JavaCC production
+
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+void eg() :&nbsp;{}&nbsp;{a()&nbsp;(b() [","])* }
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+ might be written as
+<div class="p"><!----></div>
+<font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>
+eg : a eg1
+
+<div class="p"><!----></div>
+;
+
+<div class="p"><!----></div>
+eg1 : /* empty */
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+
+	<dd>|eg1 b optcomma</dd>
+</dl>
+
+<div class="p"><!----></div>
+;
+
+<div class="p"><!----></div>
+optcomma : /* empty */
+
+<div class="p"><!----></div>
+
+<dl compact="compact">
+
+	<dd>|&nbsp;','</dd>
+</dl>
+
+<div class="p"><!----></div>
+;
+</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+ More importantly, it is often easier to write semantic actions for
+JavaCC grammars than for Yacc grammars, because there is less need to
+communicate values from one rule to another.
+
+<div class="p"><!----></div>
+Yacc has no equivalent of JavaCC's parameterized nonterminals. While it is
+fairly easy to pass information up the parse-tree in both Yacc and JavaCC, it
+is hard to pass information down the parse-tree in Yacc. For example, if, in
+the above example, we computed information in parsing the <font face="helvetica">a</font> that we
+wanted to pass to the <font face="helvetica">b</font>, this is easy in JavaCC, using parameters,
+but hard in Yacc.
+
+<div class="p"><!----></div>
+As the example above shows, Yacc has no scruples about left-recursive productions.
+
+<div class="p"><!----></div>
+My assessment is that if your language is totally unsuitable for top-down
+parsing, you'll be happier with a bottom-up parser like Yacc or Bison.
+However, if your language can be parsed top-down without too many appeals to
+lookahead, then JavaCC's combination of EBNF and parameters can make life much
+more enjoyable.
+
+<div class="p"><!----></div>
+<hr><h3>Footnotes:</h3>
+
+<div class="p"><!----></div>
+<a name="tthFtNtAAB"></a><a href="#tthFrefAAB"><sup>1</sup></a>Another way of looking at it is
+that JavaCC is of little help in this regard. However, if you want to produce
+trees there are two tools, based on JavaCC, that are less flexible and more
+helpful, these are
+JJTree and JTB. See Chapter <a href="#jjtree-and-jtb">6</a>
+.
+<div class="p"><!----></div>
+<a name="tthFtNtAAC"></a><a href="#tthFrefAAC"><sup>2</sup></a>JavaCC's terminology here is a bit unusual. The conventional name
+for what JavaCC calls a "token kind"&nbsp;is
+"terminal"&nbsp;and the set of all token kinds
+is the älphabet"&nbsp;of the EBNF&nbsp;grammar.
+<div class="p"><!----></div>
+<a name="tthFtNtAAD"></a><a href="#tthFrefAAD"><sup>3</sup></a>It's also an idea
+that leaves some questions open. What should the token manager do if the
+parser would accept either an <font face="helvetica">A</font> or a <font face="helvetica">B</font>?&nbsp;How do we write a
+parser for a language with reserved words?
+<div class="p"><!----></div>
+<a name="tthFtNtAAE"></a><a href="#tthFrefAAE"><sup>4</sup></a>This example
+is quoted from
+
+<br clear="all"><table width="100%" border="0"><tbody><tr><td>
+<table cellspacing="0" cellpadding="2" align="center"><tbody><tr><td nowrap="nowrap" align="center">
+<i>examples</i>/<i>JJTreeExamples</i>/<i>eg</i>4.<i>jjt</i></td></tr></tbody></table>
+</td></tr></tbody></table>
+
+
+Your maintainer inspected it carefully before copying it into another .jjt
+file. As testing revealed, it is not, however, correct. My first attempt to
+fix it also proved wrong. All of which shows that even the experts can be
+befuddled by complex regular expressions, sometimes. Can you spot the error?
+
+<div class="p"><!----></div>
+ I&nbsp;obtained the following regular expression by systematically converting a
+deterministic finite automaton to a regular expression. I&nbsp;think it is
+correct.
+
+<div class="p"><!----></div>
+ <font face="helvetica"><table width="90%" border="2" bgcolor="FFFFCC" align="CENTER"><tbody><tr><td>"/*"
+(~["*"])*
+"*"
+(~["*","/"] (~["*"])*
+"*"
+|
+"*")*
+"/"</td></tr></tbody></table></font>
+
+<div class="p"><!----></div>
+<a name="tthFtNtAAF"></a><a href="#tthFrefAAF"><sup>5</sup></a>The rule that an <font face="helvetica">EOF</font> token is produced at the end of the
+file applies regardless of the lexical state.
+<div class="p"><!----></div>
+<a name="tthFtNtAAG"></a><a href="#tthFrefAAG"><sup>6</sup></a>This particular example is well known to be resistant
+to rewriting the grammar so that a look ahead of 1 will suffice. It is
+possible to remove the ambiguity. You can write a LR(1)&nbsp;grammar that solves
+the problem, but it is an ugly grammar, and in any case unsuitable for JavaCC.
+You can not write an LL(1)&nbsp;grammar to solve the problem.
+<div class="p"><!----></div>
+<a name="tthFtNtAAH"></a><a href="#tthFrefAAH"><sup>7</sup></a>And provided
+that regular expression applies in the DEFAULT lexical state.
+<div class="p"><!----></div>
+<a name="tthFtNtAAI"></a><a href="#tthFrefAAI"><sup>8</sup></a>Ok there are still a few reasons to
+use a regular expression production. One is if you are using lexical states
+other than DEFAULT. Another is if you want to ignore the case of a word. Also,
+some people just like to have an alphabetical list of their keywords
+somewhere.
+<div class="p"><!----></div>
+<a name="tthFtNtAAJ"></a><a href="#tthFrefAAJ"><sup>9</sup></a>This example
+is based on the syntax for HTTP&nbsp;URLs in RFC: 2616 of the IETF by R.&nbsp;Fielding,
+<em>et. al</em>. However, I've made a number of simplifications and omissions
+for the sake of a simpler example.
+<div class="p"><!----></div>
+<a name="tthFtNtABA"></a><a href="#tthFrefABA"><sup>10</sup></a>And we are assuming that double
+slashes and dots are always followed by labels, in a syntactically correct
+input stream.
+<br><br><hr><small>File translated from
+T<sub><font size="-1">E</font></sub>X
+by <a href="http://hutchinson.belmont.ma.us/tth/">
+T<sub><font size="-1">T</font></sub>Hgold</a>,
+version 4.00.<br>On 07 Feb 2011, 17:03.</small>
+
+</body></html>
