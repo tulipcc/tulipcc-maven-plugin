@@ -1,4 +1,4 @@
-#ph-javacc-maven-plugin
+# ph-javacc-maven-plugin
 An updated version of the [javacc-maven-plugin](https://github.com/mojohaus/javacc-maven-plugin) using JavaCC 6.1.3.
 The parameters etc. where not touched, so it should be a drop-in replacement for the old javacc-maven-plugin 2.6.
 It requires Java 1.5 or higher and Apache Maven 2.x or higher. It is licensed under the Apache 2 license.
@@ -21,7 +21,7 @@ Example with 3 executions (two javacc and one jjtree-javacc):
       <plugin>
         <groupId>com.helger.maven</groupId>
         <artifactId>ph-javacc-maven-plugin</artifactId>
-        <version>2.8.1</version>
+        <version>2.8.2</version>
         <executions>
           <execution>
             <id>jjc1</id>
