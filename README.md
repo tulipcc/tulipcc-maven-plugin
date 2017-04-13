@@ -1,15 +1,17 @@
 # ph-javacc-maven-plugin
 An updated version of the [javacc-maven-plugin](https://github.com/mojohaus/javacc-maven-plugin) using JavaCC 6.1.3.
 The parameters etc. where not touched, so it should be a drop-in replacement for the old javacc-maven-plugin 2.6.
-It requires Java 1.5 or higher and Apache Maven 2.x or higher. It is licensed under the Apache 2 license.
+It requires Java 1.6 or higher and Apache Maven 2.x or higher. It is licensed under the Apache 2 license.
 
 I'm using it e.g. in [ph-css](https://github.com/phax/ph-css) for CSS parsing.
 
 # News and noteworthy
 
-  * Version 2.8.2 - 2016-11-19
+  * v2.9.0 - work in progress
+    * Changed minimum requirement to JDK 6 :)
+  * v2.8.2 - 2016-11-19
     * Fixing https://github.com/javacc/javacc/issues/2 locally
-  * Version 2.8.1 - 2016-07-13
+  * v2.8.1 - 2016-07-13
     * Fixed a problem with the code generation for "modern" Java template
 
 # Maven usage
