@@ -645,9 +645,9 @@ public class ParseEngine
     {
       t = (Token) (p.getReturnTypeTokens ().get (i));
       sig.append (codeGenerator.getStringToPrint (t));
-      if (t.equals ("void"))
+      if (t.image.equals ("void"))
         void_ret = true;
-      if (t.equals ("*"))
+      if (t.image.equals ("*"))
         ptr_ret = true;
     }
 
