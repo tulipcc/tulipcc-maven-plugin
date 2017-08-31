@@ -22,10 +22,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="target/generated-sources/javacc1"/>
-	<classpathentry kind="src" path="target/generated-sources/javacc2"/>
-	<classpathentry kind="src" path="target/generated-sources/jjtree1"/>
-	<classpathentry kind="src" path="target/generated-sources/jjtree"/>
 	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
