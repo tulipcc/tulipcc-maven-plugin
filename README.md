@@ -8,7 +8,10 @@ I'm using it e.g. in [ph-css](https://github.com/phax/ph-css) for CSS parsing.
 # News and noteworthy
 
   * v2.9.0 - work in progress
-    * Changed minimum requirement to JDK 6 :)
+    * Changed minimum requirement to JDK 7
+    * Using JavaCC 7.0.2
+    * Updated to JTB 1.4.12
+    * Removed deprecated classes
   * v2.8.2 - 2016-11-19
     * Fixing https://github.com/javacc/javacc/issues/2 locally
   * v2.8.1 - 2016-07-13
