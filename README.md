@@ -12,6 +12,7 @@ I'm using it e.g. in [ph-css](https://github.com/phax/ph-css) for CSS parsing.
     * Using JavaCC 7.0.2
     * Updated to JTB 1.4.12
     * Removed deprecated classes
+    * Requires https://github.com/javacc/javacc/pull/28 to be fixed
   * v2.8.2 - 2016-11-19
     * Fixing https://github.com/javacc/javacc/issues/2 locally
   * v2.8.1 - 2016-07-13
