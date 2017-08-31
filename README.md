@@ -99,7 +99,7 @@ Supported goals with the respective parameters are:
 # Developer info
 
   * To run the integration tests use the following commandline `mvn test -Dit=true`
-  * Java CC sources are at https://java.net/projects/javacc/sources/svn/show
+  * Java CC sources are finally at https://github.com/javacc/javacc
 
 ---
 
