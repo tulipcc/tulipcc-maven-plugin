@@ -2,20 +2,20 @@ package org.codehaus.mojo.javacc;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file 
+ * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, 
+ *
+ * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY 
- * KIND, either express or implied.  See the License for the 
- * specific language governing permissions and limitations 
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
  * under the License.
  */
 
@@ -32,7 +32,7 @@ import org.apache.maven.plugin.MojoFailureException;
  * <strong>Note:</strong> <a href="http://compilers.cs.ucla.edu/jtb/">JTB</a>
  * requires Java 1.5 or higher. This goal will not work with earlier versions of
  * the JRE.
- * 
+ *
  * @goal jtb-javacc
  * @phase generate-sources
  * @since 2.4
@@ -48,7 +48,7 @@ public class JTBJavaCCMojo extends AbstractJavaCCMojo
    * <code>visitorPackageName</code> = <code>&lt;packageName&gt;.visitor</code>.
    * Note that this option takes precedence over <code>nodePackageName</code>
    * and <code>visitorPackageName</code> if specified.
-   * 
+   *
    * @parameter property=package
    */
   private String packageName;
@@ -60,7 +60,7 @@ public class JTBJavaCCMojo extends AbstractJavaCCMojo
    * this parameter is set to <code>*.demo</code>, the tree node classes will be
    * located in the package <code>org.apache.demo</code>. Default value is
    * <code>*.syntaxtree</code>.
-   * 
+   *
    * @parameter property=nodePackageName
    */
   private String nodePackageName;
@@ -72,7 +72,7 @@ public class JTBJavaCCMojo extends AbstractJavaCCMojo
    * this parameter is set to <code>*.demo</code>, the visitor classes will be
    * located in the package <code>org.apache.demo</code>. Default value is
    * <code>*.visitor</code>.
-   * 
+   *
    * @parameter property=visitorPackageName
    */
   private String visitorPackageName;
@@ -80,7 +80,7 @@ public class JTBJavaCCMojo extends AbstractJavaCCMojo
   /**
    * If <code>true</code>, JTB will suppress its semantic error checking.
    * Default value is <code>false</code>.
-   * 
+   *
    * @parameter property=supressErrorChecking
    */
   private Boolean supressErrorChecking;
@@ -89,7 +89,7 @@ public class JTBJavaCCMojo extends AbstractJavaCCMojo
    * If <code>true</code>, all generated comments will be wrapped in
    * <code>&lt;pre&gt;</code> tags so that they are formatted correctly in API
    * docs. Default value is <code>false</code>.
-   * 
+   *
    * @parameter property=javadocFriendlyComments
    */
   private Boolean javadocFriendlyComments;
@@ -98,7 +98,7 @@ public class JTBJavaCCMojo extends AbstractJavaCCMojo
    * Setting this option to <code>true</code> causes JTB to generate field names
    * that reflect the structure of the tree instead of generic names like
    * <code>f0</code>, <code>f1</code> etc. Default value is <code>false</code>.
-   * 
+   *
    * @parameter property=descriptiveFieldNames
    */
   private Boolean descriptiveFieldNames;
@@ -107,7 +107,7 @@ public class JTBJavaCCMojo extends AbstractJavaCCMojo
    * The qualified name of a user-defined class from which all AST nodes will
    * inherit. By default, AST nodes will inherit from the generated class
    * <code>Node</code>.
-   * 
+   *
    * @parameter property=nodeParentClass
    */
   private String nodeParentClass;
@@ -115,7 +115,7 @@ public class JTBJavaCCMojo extends AbstractJavaCCMojo
   /**
    * If <code>true</code>, all nodes will contain fields for its parent node.
    * Default value is <code>false</code>.
-   * 
+   *
    * @parameter property=parentPointers
    */
   private Boolean parentPointers;
@@ -123,7 +123,7 @@ public class JTBJavaCCMojo extends AbstractJavaCCMojo
   /**
    * If <code>true</code>, JTB will include JavaCC "special tokens" in the AST.
    * Default value is <code>false</code>.
-   * 
+   *
    * @parameter property=specialTokens
    */
   private Boolean specialTokens;
@@ -136,7 +136,7 @@ public class JTBJavaCCMojo extends AbstractJavaCCMojo
    * <li>A Scheme tree building visitor.</li>
    * </ul>
    * Default value is <code>false</code>.
-   * 
+   *
    * @parameter property=scheme
    */
   private Boolean scheme;
@@ -144,7 +144,7 @@ public class JTBJavaCCMojo extends AbstractJavaCCMojo
   /**
    * If <code>true</code>, JTB will generate a syntax tree dumping visitor.
    * Default value is <code>false</code>.
-   * 
+   *
    * @parameter property=printer
    */
   private Boolean printer;
@@ -154,7 +154,7 @@ public class JTBJavaCCMojo extends AbstractJavaCCMojo
    * located. It will be recursively scanned for input files to pass to JTB. The
    * parameters <code>includes</code> and <code>excludes</code> can be used to
    * select a subset of files.
-   * 
+   *
    * @parameter property=sourceDirectory default-value="${basedir}/src/main/jtb"
    */
   private File sourceDirectory;
@@ -164,7 +164,7 @@ public class JTBJavaCCMojo extends AbstractJavaCCMojo
    * stored. The directory will be registered as a compile source root of the
    * project such that the generated files will participate in later build
    * phases like compiling and packaging.
-   * 
+   *
    * @parameter property=interimDirectory
    *            default-value="${project.build.directory}/generated-sources/jtb"
    */
@@ -175,7 +175,7 @@ public class JTBJavaCCMojo extends AbstractJavaCCMojo
    * The directory will be registered as a compile source root of the project
    * such that the generated files will participate in later build phases like
    * compiling and packaging.
-   * 
+   *
    * @parameter property=outputDirectory
    *            default-value="${project.build.directory}/generated-sources/javacc"
    */
@@ -186,7 +186,7 @@ public class JTBJavaCCMojo extends AbstractJavaCCMojo
    * directory for processing. By default, the patterns <code>**&#47;*.jj</code>
    * , <code>**&#47;*.JJ</code>, <code>**&#47;*.jtb</code> and
    * <code>**&#47;*.JTB</code> are used to select grammar files.
-   * 
+   *
    * @parameter
    */
   private String [] includes;
@@ -195,7 +195,7 @@ public class JTBJavaCCMojo extends AbstractJavaCCMojo
    * A set of Ant-like exclusion patterns used to prevent certain files from
    * being processing. By default, this set is empty such that no files are
    * excluded.
-   * 
+   *
    * @parameter
    */
   private String [] excludes;
@@ -203,7 +203,7 @@ public class JTBJavaCCMojo extends AbstractJavaCCMojo
   /**
    * The granularity in milliseconds of the last modification date for testing
    * whether a grammar file needs recompilation.
-   * 
+   *
    * @parameter property=lastModGranularityMs default-value="0"
    */
   private int staleMillis;
@@ -263,7 +263,7 @@ public class JTBJavaCCMojo extends AbstractJavaCCMojo
   /**
    * Gets the absolute path to the directory where the interim output from JTB
    * will be stored.
-   * 
+   *
    * @return The absolute path to the directory where the interim output from
    *         JTB will be stored.
    */
@@ -347,7 +347,7 @@ public class JTBJavaCCMojo extends AbstractJavaCCMojo
 
   /**
    * Gets the effective package name for the AST node files.
-   * 
+   *
    * @return The effective package name for the AST node files, never
    *         <code>null</code>.
    */
@@ -370,7 +370,7 @@ public class JTBJavaCCMojo extends AbstractJavaCCMojo
 
   /**
    * Gets the effective package name for the visitor files.
-   * 
+   *
    * @return The effective package name for the visitor files, never
    *         <code>null</code>.
    */
@@ -396,7 +396,7 @@ public class JTBJavaCCMojo extends AbstractJavaCCMojo
    * derived from the current values of the corresponding mojo parameters. The
    * caller is responsible to set the input file, output directories and
    * packages on the returned facade.
-   * 
+   *
    * @return The facade for the tool invocation, never <code>null</code>.
    */
   private JTB newJTB ()

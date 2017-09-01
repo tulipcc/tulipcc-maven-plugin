@@ -2,20 +2,20 @@ package org.codehaus.mojo.javacc;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file 
+ * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, 
+ *
+ * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY 
- * KIND, either express or implied.  See the License for the 
- * specific language governing permissions and limitations 
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
  * under the License.
  */
 
@@ -28,7 +28,7 @@ import org.apache.maven.plugin.MojoFailureException;
  * Preprocesses decorated grammar files (<code>*.jjt</code>) with JJTree and
  * passes the output to JavaCC in order to finally generate a parser with parse
  * tree actions.
- * 
+ *
  * @goal jjtree-javacc
  * @phase generate-sources
  * @since 2.4
@@ -42,7 +42,7 @@ public class JJTreeJavaCCMojo extends AbstractJavaCCMojo
    * A flag whether to generate sample implementations for
    * <code>SimpleNode</code> and any other nodes used in the grammar. Default
    * value is <code>true</code>.
-   * 
+   *
    * @parameter property=buildNodeFiles
    */
   private Boolean buildNodeFiles;
@@ -50,7 +50,7 @@ public class JJTreeJavaCCMojo extends AbstractJavaCCMojo
   /**
    * A flag whether to generate a multi mode parse tree or a single mode parse
    * tree. Default value is <code>false</code>.
-   * 
+   *
    * @parameter property=multi
    */
   private Boolean multi;
@@ -58,7 +58,7 @@ public class JJTreeJavaCCMojo extends AbstractJavaCCMojo
   /**
    * A flag whether to make each non-decorated production void instead of an
    * indefinite node. Default value is <code>false</code>.
-   * 
+   *
    * @parameter property=nodeDefaultVoid
    */
   private Boolean nodeDefaultVoid;
@@ -68,7 +68,7 @@ public class JJTreeJavaCCMojo extends AbstractJavaCCMojo
    * used as the super class for the generated tree node classes. By default,
    * the tree node classes will directly extend the class
    * <code>SimpleNode</code>.
-   * 
+   *
    * @parameter property=nodeClass
    * @since 2.5
    */
@@ -79,7 +79,7 @@ public class JJTreeJavaCCMojo extends AbstractJavaCCMojo
    * objects. This class must have a method with the signature
    * <code>public static Node jjtCreate(int id)</code>. By default, the class
    * <code>SimpleNode</code> will be used as the factory class.
-   * 
+   *
    * @parameter property=nodeFactory
    */
   private String nodeFactory;
@@ -91,7 +91,7 @@ public class JJTreeJavaCCMojo extends AbstractJavaCCMojo
    * parameter is set to <code>*.node</code>, the tree node classes will be
    * located in the package <code>org.apache.node</code>. By default, the
    * package of the corresponding parser is used.
-   * 
+   *
    * @parameter property=nodePackage
    */
   private String nodePackage;
@@ -99,7 +99,7 @@ public class JJTreeJavaCCMojo extends AbstractJavaCCMojo
   /**
    * The prefix used to construct node class names from node identifiers in
    * multi mode. Default value is <code>AST</code>.
-   * 
+   *
    * @parameter property=nodePrefix
    */
   private String nodePrefix;
@@ -107,7 +107,7 @@ public class JJTreeJavaCCMojo extends AbstractJavaCCMojo
   /**
    * A flag whether user-defined parser methods should be called on entry and
    * exit of every node scope. Default value is <code>false</code>.
-   * 
+   *
    * @parameter property=nodeScopeHook
    */
   private Boolean nodeScopeHook;
@@ -116,7 +116,7 @@ public class JJTreeJavaCCMojo extends AbstractJavaCCMojo
    * A flag whether the node construction routines need an additional method
    * parameter to receive the parser object. Default value is <code>false</code>
    * .
-   * 
+   *
    * @parameter property=nodeUsesParser
    */
   private Boolean nodeUsesParser;
@@ -126,7 +126,7 @@ public class JJTreeJavaCCMojo extends AbstractJavaCCMojo
    * <code>jjtSetFirstToken()</code>, <code>getLastToken()</code> and
    * <code>jjtSetLastToken()</code> into the class <code>SimpleNode</code>.
    * Default value is <code>false</code>.
-   * 
+   *
    * @parameter property=trackTokens
    * @since 2.5
    */
@@ -136,7 +136,7 @@ public class JJTreeJavaCCMojo extends AbstractJavaCCMojo
    * A flag whether to insert a <code>jjtAccept()</code> method in the node
    * classes and to generate a visitor implementation with an entry for every
    * node type used in the grammar. Default value is <code>false</code>.
-   * 
+   *
    * @parameter property=visitor
    */
   private Boolean visitor;
@@ -145,7 +145,7 @@ public class JJTreeJavaCCMojo extends AbstractJavaCCMojo
    * The name of a class to use for the data argument of the
    * <code>jjtAccept()</code> and <code>visit()</code> methods. Default value is
    * <code>java.lang.Object</code>.
-   * 
+   *
    * @parameter property=visitorDataType
    * @since 2.5
    */
@@ -155,7 +155,7 @@ public class JJTreeJavaCCMojo extends AbstractJavaCCMojo
    * The name of a class to use as the return type of the
    * <code>jjtAccept()</code> and <code>visit()</code> methods. Default value is
    * <code>java.lang.Object</code>.
-   * 
+   *
    * @parameter property=visitorReturnType
    * @since 2.5
    */
@@ -166,7 +166,7 @@ public class JJTreeJavaCCMojo extends AbstractJavaCCMojo
    * <code>jjtAccept()</code> and <code>visit()</code> methods. By default, the
    * <code>throws</code> clause of the generated methods is empty such that only
    * unchecked exceptions can be thrown.
-   * 
+   *
    * @parameter property=visitorException
    */
   private String visitorException;
@@ -176,7 +176,7 @@ public class JJTreeJavaCCMojo extends AbstractJavaCCMojo
    * are located. It will be recursively scanned for input files to pass to
    * JJTree. The parameters <code>includes</code> and <code>excludes</code> can
    * be used to select a subset of files.
-   * 
+   *
    * @parameter property=sourceDirectory
    *            default-value="${basedir}/src/main/jjtree"
    */
@@ -187,7 +187,7 @@ public class JJTreeJavaCCMojo extends AbstractJavaCCMojo
    * The directory will be registered as a compile source root of the project
    * such that the generated files will participate in later build phases like
    * compiling and packaging.
-   * 
+   *
    * @parameter property=interimDirectory
    *            default-value="${project.build.directory}/generated-sources/jjtree"
    */
@@ -198,7 +198,7 @@ public class JJTreeJavaCCMojo extends AbstractJavaCCMojo
    * The directory will be registered as a compile source root of the project
    * such that the generated files will participate in later build phases like
    * compiling and packaging.
-   * 
+   *
    * @parameter property=outputDirectory
    *            default-value="${project.build.directory}/generated-sources/javacc"
    */
@@ -209,7 +209,7 @@ public class JJTreeJavaCCMojo extends AbstractJavaCCMojo
    * directory for processing. By default, the patterns <code>**&#47;*.jj</code>
    * , <code>**&#47;*.JJ</code>, <code>**&#47;*.jjt</code> and
    * <code>**&#47;*.JJT</code> are used to select grammar files.
-   * 
+   *
    * @parameter
    */
   private String [] includes;
@@ -218,7 +218,7 @@ public class JJTreeJavaCCMojo extends AbstractJavaCCMojo
    * A set of Ant-like exclusion patterns used to prevent certain files from
    * being processed. By default, this set is empty such that no files are
    * excluded.
-   * 
+   *
    * @parameter
    */
   private String [] excludes;
@@ -226,7 +226,7 @@ public class JJTreeJavaCCMojo extends AbstractJavaCCMojo
   /**
    * The granularity in milliseconds of the last modification date for testing
    * whether a grammar file needs recompilation.
-   * 
+   *
    * @parameter property=lastModGranularityMs default-value="0"
    */
   private int staleMillis;
@@ -286,7 +286,7 @@ public class JJTreeJavaCCMojo extends AbstractJavaCCMojo
   /**
    * Gets the absolute path to the directory where the interim output from
    * JJTree will be stored.
-   * 
+   *
    * @return The absolute path to the directory where the interim output from
    *         JJTree will be stored.
    */
@@ -366,7 +366,7 @@ public class JJTreeJavaCCMojo extends AbstractJavaCCMojo
    * derived from the current values of the corresponding mojo parameters. The
    * caller is responsible to set the input file, output directory and package
    * on the returned facade.
-   * 
+   *
    * @return The facade for the tool invocation, never <code>null</code>.
    */
   protected JJTree newJJTree ()

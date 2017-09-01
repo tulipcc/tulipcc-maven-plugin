@@ -123,6 +123,9 @@ class JTB extends ToolFacade
    */
   private Boolean printer;
 
+  public JTB ()
+  {}
+
   /**
    * Sets the absolute path to the grammar file to pass into JTB for
    * preprocessing.
@@ -208,14 +211,9 @@ class JTB extends ToolFacade
   private File getEffectiveNodeDirectory ()
   {
     if (this.nodeDirectory != null)
-    {
       return this.nodeDirectory;
-    }
-    else
-      if (this.outputDirectory != null)
-      {
-        return new File (this.outputDirectory, getLastPackageName (getEffectiveNodePackageName ()));
-      }
+    if (this.outputDirectory != null)
+      return new File (this.outputDirectory, getLastPackageName (getEffectiveNodePackageName ()));
     return null;
   }
 
@@ -249,14 +247,9 @@ class JTB extends ToolFacade
   private File getEffectiveVisitorDirectory ()
   {
     if (this.visitorDirectory != null)
-    {
       return this.visitorDirectory;
-    }
-    else
-      if (this.outputDirectory != null)
-      {
-        return new File (this.outputDirectory, getLastPackageName (getEffectiveVisitorPackageName ()));
-      }
+    if (this.outputDirectory != null)
+      return new File (this.outputDirectory, getLastPackageName (getEffectiveVisitorPackageName ()));
     return null;
   }
 

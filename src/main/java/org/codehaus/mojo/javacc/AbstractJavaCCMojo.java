@@ -2,20 +2,20 @@ package org.codehaus.mojo.javacc;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file 
+ * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, 
+ *
+ * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY 
- * KIND, either express or implied.  See the License for the 
- * specific language governing permissions and limitations 
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
  * under the License.
  */
 
@@ -36,7 +36,7 @@ import org.codehaus.plexus.util.StringUtils;
 
 /**
  * Provides common services for all mojos that compile JavaCC grammar files.
- * 
+ *
  * @author jruiz@exist.com
  * @author jesse <jesse.mcconnell@gmail.com>
  * @version $Id: AbstractJavaCCMojo.java 10774 2009-09-26 11:40:48Z bentmann $
@@ -46,7 +46,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
 
   /**
    * The current Maven project.
-   * 
+   *
    * @parameter default-value="${project}"
    * @readonly
    * @required
@@ -65,7 +65,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
    * The Java version for which to generate source code. Default value is
    * <code>1.5</code> for plugin version 2.6+ and <code>1.4</code> in older
    * versions.
-   * 
+   *
    * @parameter property=jdkVersion
    * @since 2.4
    */
@@ -74,15 +74,15 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
   /**
    * The number of tokens to look ahead before making a decision at a choice
    * point during parsing. The default value is <code>1</code>.
-   * 
+   *
    * @parameter property=lookAhead
    */
   private Integer lookAhead;
 
   /**
-   * This is the number of tokens considered in checking choices of the form
-   * "A | B | ..." for ambiguity. Default value is <code>2</code>.
-   * 
+   * This is the number of tokens considered in checking choices of the form "A
+   * | B | ..." for ambiguity. Default value is <code>2</code>.
+   *
    * @parameter property=choiceAmbiguityCheck
    */
   private Integer choiceAmbiguityCheck;
@@ -91,7 +91,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
    * This is the number of tokens considered in checking all other kinds of
    * choices (i.e., of the forms "(A)*", "(A)+", and "(A)?") for ambiguity.
    * Default value is <code>1</code>.
-   * 
+   *
    * @parameter property=otherAmbiguityCheck
    */
   private Integer otherAmbiguityCheck;
@@ -101,7 +101,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
    * static in the generated parser and token manager. This allows only one
    * parser object to be present, but it improves the performance of the parser.
    * Default value is <code>true</code>.
-   * 
+   *
    * @parameter property=isStatic
    */
   private Boolean isStatic;
@@ -110,7 +110,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
    * This option is used to obtain debugging information from the generated
    * parser. Setting this option to <code>true</code> causes the parser to
    * generate a trace of its actions. Default value is <code>false</code>.
-   * 
+   *
    * @parameter property=debugParser
    */
   private Boolean debugParser;
@@ -121,7 +121,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
    * tracing information it does when the option <code>debugParser</code> is
    * <code>true</code>, and in addition, also causes it to generated a trace of
    * actions performed during lookahead operation.
-   * 
+   *
    * @parameter property=debugLookAhead
    */
   private Boolean debugLookAhead;
@@ -129,7 +129,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
   /**
    * This option is used to obtain debugging information from the generated
    * token manager. Default value is <code>false</code>.
-   * 
+   *
    * @parameter property=debugTokenManager
    */
   private Boolean debugTokenManager;
@@ -137,7 +137,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
   /**
    * Setting it to <code>false</code> causes errors due to parse errors to be
    * reported in somewhat less detail. Default value is <code>true</code>.
-   * 
+   *
    * @parameter property=errorReporting
    */
   private Boolean errorReporting;
@@ -147,7 +147,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
    * object that processes Java Unicode escapes (<code>\</code><code>u</code>
    * <i>xxxx</i>) before sending characters to the token manager. Default value
    * is <code>false</code>.
-   * 
+   *
    * @parameter property=javaUnicodeEscape
    */
   private Boolean javaUnicodeEscape;
@@ -156,7 +156,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
    * When set to <code>true</code>, the generated parser uses uses an input
    * stream object that reads Unicode files. By default, ASCII files are
    * assumed. Default value is <code>false</code>.
-   * 
+   *
    * @parameter property=unicodeInput
    */
   private Boolean unicodeInput;
@@ -165,19 +165,19 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
    * Setting this option to <code>true</code> causes the generated token manager
    * to ignore case in the token specifications and the input files. Default
    * value is <code>false</code>.
-   * 
+   *
    * @parameter property=ignoreCase
    */
   private Boolean ignoreCase;
 
   /**
    * When set to <code>true</code>, every call to the token manager's method
-   * <code>getNextToken()</code> (see the description of the <a
-   * href="https://javacc.dev.java.net/doc/apiroutines.html">Java Compiler
+   * <code>getNextToken()</code> (see the description of the
+   * <a href="https://javacc.dev.java.net/doc/apiroutines.html">Java Compiler
    * Compiler API</a>) will cause a call to a user-defined method
    * <code>CommonTokenAction()</code> after the token has been scanned in by the
    * token manager. Default value is <code>false</code>.
-   * 
+   *
    * @parameter property=commonTokenAction
    */
   private Boolean commonTokenAction;
@@ -188,7 +188,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
    * the parser is generated to accept tokens from any token manager of type
    * <code>TokenManager</code> - this interface is generated into the generated
    * parser directory. Default value is <code>false</code>.
-   * 
+   *
    * @parameter property=userTokenManager
    */
   private Boolean userTokenManager;
@@ -199,7 +199,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
    * <code>javaUnicodeEscape</code> and <code>unicodeInput</code> or whether the
    * token manager reads from a user-supplied implementation of
    * <code>CharStream</code>. Default value is <code>false</code>.
-   * 
+   *
    * @parameter property=userCharStream
    */
   private Boolean userCharStream;
@@ -208,7 +208,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
    * A flag that controls whether the parser file (<code>*Parser.java</code>)
    * should be generated or not. If set to <code>false</code>, only the token
    * manager is generated. Default value is <code>true</code>.
-   * 
+   *
    * @parameter property=buildParser
    */
   private Boolean buildParser;
@@ -218,7 +218,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
    * <code>*TokenManager.java</code>) should be generated or not. Setting this
    * to <code>false</code> can speed up the generation process if only the
    * parser part of the grammar changed. Default value is <code>true</code>.
-   * 
+   *
    * @parameter property=buildTokenManager
    */
   private Boolean buildTokenManager;
@@ -227,7 +227,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
    * When set to <code>true</code>, the generated token manager will include a
    * field called <code>parser</code> that references the instantiating parser
    * instance. Default value is <code>false</code>.
-   * 
+   *
    * @parameter property=tokenManagerUsesParser
    */
   private Boolean tokenManagerUsesParser;
@@ -235,7 +235,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
   /**
    * The name of the base class for the generated <code>Token</code> class.
    * Default value is <code>java.lang.Object</code>.
-   * 
+   *
    * @parameter property=tokenExtends
    * @since 2.5
    */
@@ -246,7 +246,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
    * objects. This class must have a method with the signature
    * <code>public static Token newToken(int ofKind, String image)</code>. By
    * default, tokens are created by calling <code>Token.newToken()</code>.
-   * 
+   *
    * @parameter property=tokenFactory
    * @since 2.5
    */
@@ -255,7 +255,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
   /**
    * Enables/disables many syntactic and semantic checks on the grammar file
    * during parser generation. Default value is <code>true</code>.
-   * 
+   *
    * @parameter property=sanityCheck
    */
   private Boolean sanityCheck;
@@ -263,7 +263,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
   /**
    * This option setting controls lookahead ambiguity checking performed by
    * JavaCC. Default value is <code>false</code>.
-   * 
+   *
    * @parameter property=forceLaCheck
    */
   private Boolean forceLaCheck;
@@ -272,7 +272,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
    * Setting this option to <code>true</code> causes the generated parser to
    * lookahead for extra tokens ahead of time. Default value is
    * <code>false</code>.
-   * 
+   *
    * @parameter property=cacheTokens
    */
   private Boolean cacheTokens;
@@ -280,7 +280,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
   /**
    * A flag whether to keep line and column information along with a token.
    * Default value is <code>true</code>.
-   * 
+   *
    * @parameter property=keepLineColumn
    */
   private Boolean keepLineColumn;
@@ -288,7 +288,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
   /**
    * A flag whether the generated support classes of the parser should have
    * public or package-private visibility. Default value is <code>true</code>.
-   * 
+   *
    * @parameter property=supportClassVisibilityPublic
    * @since 2.6
    */
@@ -296,7 +296,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
 
   /**
    * The file encoding to use for reading the grammar files.
-   * 
+   *
    * @parameter property=grammarEncoding
    *            default-value="${project.build.sourceEncoding}"
    * @since 2.6
@@ -305,7 +305,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
 
   /**
    * Gets the file encoding of the grammar files.
-   * 
+   *
    * @return The file encoding of the grammar files or <code>null</code> if the
    *         user did not specify this mojo parameter.
    */
@@ -316,7 +316,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
 
   /**
    * Gets the Java version for which to generate source code.
-   * 
+   *
    * @return The Java version for which to generate source code, will be
    *         <code>null</code> if the user did not specify this mojo parameter.
    */
@@ -327,7 +327,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
 
   /**
    * Gets the flag whether to generate static parser.
-   * 
+   *
    * @return The flag whether to generate static parser, will be
    *         <code>null</code> if the user did not specify this mojo parameter.
    */
@@ -339,7 +339,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
   /**
    * Gets the absolute path to the directory where the grammar files are
    * located.
-   * 
+   *
    * @return The absolute path to the directory where the grammar files are
    *         located, never <code>null</code>.
    */
@@ -348,7 +348,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
   /**
    * Gets a set of Ant-like inclusion patterns used to select files from the
    * source directory for processing.
-   * 
+   *
    * @return A set of Ant-like inclusion patterns used to select files from the
    *         source directory for processing, can be <code>null</code> if all
    *         files should be included.
@@ -358,7 +358,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
   /**
    * Gets a set of Ant-like exclusion patterns used to unselect files from the
    * source directory for processing.
-   * 
+   *
    * @return A set of Ant-like inclusion patterns used to unselect files from
    *         the source directory for processing, can be <code>null</code> if no
    *         files should be excluded.
@@ -368,7 +368,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
   /**
    * Gets the absolute path to the directory where the generated Java files for
    * the parser will be stored.
-   * 
+   *
    * @return The absolute path to the directory where the generated Java files
    *         for the parser will be stored, never <code>null</code>.
    */
@@ -377,7 +377,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
   /**
    * Gets the granularity in milliseconds of the last modification date for
    * testing whether a source needs recompilation.
-   * 
+   *
    * @return The granularity in milliseconds of the last modification date for
    *         testing whether a source needs recompilation.
    */
@@ -386,7 +386,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
   /**
    * Gets all the output directories to register with the project for
    * compilation.
-   * 
+   *
    * @return The compile source roots to register with the project, never
    *         <code>null</code>.
    */
@@ -394,7 +394,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
 
   /**
    * Gets the package into which the generated parser files should be stored.
-   * 
+   *
    * @return The package into which the generated parser files should be stored,
    *         can be <code>null</code> to use the package declaration from the
    *         grammar file.
@@ -408,7 +408,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
 
   /**
    * Execute the tool.
-   * 
+   *
    * @throws MojoExecutionException
    *         If the invocation of the tool failed.
    * @throws MojoFailureException
@@ -434,8 +434,8 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
 
         if (StringUtils.isEmpty (grammarEncoding))
         {
-          getLog ().warn ("File encoding for grammars has not been configured"
-                          + ", using platform default encoding, i.e. build is platform dependent!");
+          getLog ().warn ("File encoding for grammars has not been configured" +
+                          ", using platform default encoding, i.e. build is platform dependent!");
         }
 
         for (final GrammarInfo grammarInfo : grammarInfos)
@@ -446,7 +446,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
         getLog ().info ("Processed " + grammarInfos.length + " grammar" + (grammarInfos.length != 1 ? "s" : ""));
       }
 
-    final Collection <File> compileSourceRoots = new LinkedHashSet <File> (Arrays.asList (getCompileSourceRoots ()));
+    final Collection <File> compileSourceRoots = new LinkedHashSet <> (Arrays.asList (getCompileSourceRoots ()));
     for (final File file : compileSourceRoots)
     {
       addSourceRoot (file);
@@ -455,7 +455,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
 
   /**
    * Passes the specified grammar file through the tool.
-   * 
+   *
    * @param grammarInfo
    *        The grammar info describing the grammar file to process, must not be
    *        <code>null</code>.
@@ -469,7 +469,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
   /**
    * Scans the configured source directory for grammar files which need
    * processing.
-   * 
+   *
    * @return An array of grammar infos describing the found grammar files or
    *         <code>null</code> if the source directory does not exist.
    * @throws MojoExecutionException
@@ -508,7 +508,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
 
   /**
    * Gets a temporary directory within the project's build directory.
-   * 
+   *
    * @return The path to the temporary directory, never <code>null</code>.
    */
   protected File getTempDirectory ()
@@ -518,7 +518,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
 
   /**
    * Deletes the specified temporary directory.
-   * 
+   *
    * @param tempDirectory
    *        The directory to delete, must not be <code>null</code>.
    */
@@ -540,7 +540,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
    * root if it doesn't already exist in another compile source root. This
    * prevents duplicate class errors during compilation in case the user
    * provided customized files in <code>src/main/java</code> or similar.
-   * 
+   *
    * @param packageName
    *        The name of the destination package for the output files, must not
    *        be <code>null</code>.
@@ -605,7 +605,8 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
             throw new MojoExecutionException ("Failed to copy generated source file to output directory:" +
                                               tempFile +
                                               " -> " +
-                                              outputFile, e);
+                                              outputFile,
+                                              e);
           }
         }
         else
@@ -626,13 +627,13 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
    * assumed to contain hand-crafted sources that must not be overwritten with
    * generated files. In most cases, this is simply
    * "${project.build.sourceDirectory}".
-   * 
+   *
    * @throws MojoExecutionException
    *         If the compile source rotos could not be determined.
    */
   private void determineNonGeneratedSourceRoots () throws MojoExecutionException
   {
-    this.nonGeneratedSourceRoots = new LinkedHashSet <File> ();
+    this.nonGeneratedSourceRoots = new LinkedHashSet <> ();
     try
     {
       final String targetPrefix = new File (this.project.getBuild ().getDirectory ()).getCanonicalPath () +
@@ -666,7 +667,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
   /**
    * Determines whether the specified source file is already present in any of
    * the compile source roots registered with the current Maven project.
-   * 
+   *
    * @param filename
    *        The source filename to check, relative to a source root, must not be
    *        <code>null</code>.
@@ -690,7 +691,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
   /**
    * Determines whether the specified directory denotes a compile source root of
    * the current project.
-   * 
+   *
    * @param directory
    *        The directory to check, must not be <code>null</code>.
    * @return <code>true</code> if the specified directory is a compile source
@@ -704,7 +705,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
   /**
    * Registers the specified directory as a compile source root for the current
    * project.
-   * 
+   *
    * @param directory
    *        The absolute path to the source root, must not be <code>null</code>.
    */
@@ -722,7 +723,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
    * derived from the current values of the corresponding mojo parameters. The
    * caller is responsible to set the input file and output directory on the
    * returned facade.
-   * 
+   *
    * @return The facade for the tool invocation, never <code>null</code>.
    */
   protected JavaCC newJavaCC ()
