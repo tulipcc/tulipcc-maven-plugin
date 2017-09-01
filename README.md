@@ -7,8 +7,9 @@ I'm using it e.g. in [ph-css](https://github.com/phax/ph-css) for CSS parsing.
 
 # News and noteworthy
 
-  * v2.9.0 - work in progress
-    * Changed minimum requirement to JDK 7
+  * v3.0.0 - work in progress
+    * Changed minimum requirement to JDK 8
+    * Requires Maven 3 for execution
     * Using JavaCC 7.0.2
     * Updated to JTB 1.4.12
     * Removed deprecated classes
@@ -96,10 +97,14 @@ Supported goals with the respective parameters are:
   * `jtb-javacc` - preprocesses ordinary grammar files (`*.jtb`) with JTB and passes the output to JavaCC in order to finally generate a parser with parse tree actions.
   * `jtb` - parses a JTB file and transforms it into source files for an AST and a JavaCC grammar file which automatically builds the AST.
 
-# Developer info
+# Integration tests
 
-  * To run the integration tests use the following commandline `mvn test -Dit=true`
-  * Java CC sources are finally at https://github.com/javacc/javacc
+  * To run the integration tests use the following commandline `mvn clean install -Dit=true`
+  * If you have a proxy server in place, edit `src/it/settings.xml` and add it there
+
+# External links
+
+  * Java CC sources are finally on GitHub at https://github.com/javacc/javacc
 
 ---
 

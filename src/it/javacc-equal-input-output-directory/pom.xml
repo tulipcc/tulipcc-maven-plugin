@@ -17,7 +17,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
-        <version>1.1</version>
+        <version>1.8</version>
         <executions>
           <execution>
             <id>prepare-it</id>
@@ -52,7 +52,6 @@
         <configuration>
           <sourceDirectory>${project.build.directory}/generated-sources/javacc</sourceDirectory>
           <outputDirectory>${project.build.directory}/generated-sources/javacc</outputDirectory>
-          <jdkVersion>1.4</jdkVersion>
         </configuration>
       </plugin>
     </plugins>
