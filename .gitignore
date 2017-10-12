@@ -16,3 +16,4 @@ target/
 /**/.pmd
 /it-local-repo/
 /xxx/
+**/*.iml
