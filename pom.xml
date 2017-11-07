@@ -45,7 +45,7 @@
     <connection>scm:git:git@github.com:phax/ph-javacc-maven-plugin.git</connection>
     <developerConnection>scm:git:git@github.com:phax/ph-javacc-maven-plugin.git</developerConnection>
     <url>http://github.com/phax/ph-javacc-maven-plugin</url>
-    <tag>7.x</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <organization>
