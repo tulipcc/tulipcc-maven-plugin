@@ -1,7 +1,9 @@
 # ph-javacc-maven-plugin
 An updated version of the [javacc-maven-plugin](https://github.com/mojohaus/javacc-maven-plugin) using JavaCC 6.1.3.
 The parameters etc. where not touched, so it should be a drop-in replacement for the old javacc-maven-plugin 2.6.
-It requires Java 1.6 or higher and Apache Maven 2.x or higher. It is licensed under the Apache 2 license.
+It requires Java 1.8 or higher and Apache Maven 3.x or higher.
+
+It is licensed under the Apache 2 license.
 
 I'm using it e.g. in [ph-css](https://github.com/phax/ph-css) for CSS parsing.
 
@@ -10,10 +12,8 @@ I'm using it e.g. in [ph-css](https://github.com/phax/ph-css) for CSS parsing.
   * v3.0.0 - work in progress
     * Changed minimum requirement to JDK 8
     * Requires Maven 3 for execution
-    * Using JavaCC 7.0.2
-    * Updated to JTB 1.4.12
+    * Using JavaCC 7.0.3
     * Removed deprecated classes
-    * Requires https://github.com/javacc/javacc/pull/28 to be fixed
   * v2.8.2 - 2016-11-19
     * Fixing https://github.com/javacc/javacc/issues/2 locally
   * v2.8.1 - 2016-07-13
@@ -28,7 +28,7 @@ Example with 3 executions (two javacc and one jjtree-javacc):
       <plugin>
         <groupId>com.helger.maven</groupId>
         <artifactId>ph-javacc-maven-plugin</artifactId>
-        <version>2.8.2</version>
+        <version>3.0.0</version>
         <executions>
           <execution>
             <id>jjc1</id>
