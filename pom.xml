@@ -186,6 +186,7 @@
             <exclude>**.txt</exclude>
             <exclude>src/**</exclude>
             <exclude>docs/**</exclude>
+            <exclude>it-local-repo/**</exclude>
           </excludes>
         </configuration>
       </plugin>
