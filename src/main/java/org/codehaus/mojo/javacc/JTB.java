@@ -123,6 +123,9 @@ class JTB extends ToolFacade
    */
   private Boolean printer;
 
+  public JTB ()
+  {}
+
   /**
    * Sets the absolute path to the grammar file to pass into JTB for
    * preprocessing.
@@ -208,14 +211,9 @@ class JTB extends ToolFacade
   private File getEffectiveNodeDirectory ()
   {
     if (this.nodeDirectory != null)
-    {
       return this.nodeDirectory;
-    }
-    else
-      if (this.outputDirectory != null)
-      {
-        return new File (this.outputDirectory, getLastPackageName (getEffectiveNodePackageName ()));
-      }
+    if (this.outputDirectory != null)
+      return new File (this.outputDirectory, getLastPackageName (getEffectiveNodePackageName ()));
     return null;
   }
 
@@ -249,14 +247,9 @@ class JTB extends ToolFacade
   private File getEffectiveVisitorDirectory ()
   {
     if (this.visitorDirectory != null)
-    {
       return this.visitorDirectory;
-    }
-    else
-      if (this.outputDirectory != null)
-      {
-        return new File (this.outputDirectory, getLastPackageName (getEffectiveVisitorPackageName ()));
-      }
+    if (this.outputDirectory != null)
+      return new File (this.outputDirectory, getLastPackageName (getEffectiveVisitorPackageName ()));
     return null;
   }
 
@@ -292,18 +285,11 @@ class JTB extends ToolFacade
   private String getEffectiveNodePackageName ()
   {
     if (this.packageName != null)
-    {
-      return (this.packageName.length () <= 0) ? SYNTAX_TREE : this.packageName + '.' + SYNTAX_TREE;
-    }
-    else
-      if (this.nodePackageName != null)
-      {
-        return this.nodePackageName;
-      }
-      else
-      {
-        return SYNTAX_TREE;
-      }
+      return this.packageName.length () <= 0 ? SYNTAX_TREE : this.packageName + '.' + SYNTAX_TREE;
+
+    if (this.nodePackageName != null)
+      return this.nodePackageName;
+    return SYNTAX_TREE;
   }
 
   /**
@@ -326,18 +312,10 @@ class JTB extends ToolFacade
   private String getEffectiveVisitorPackageName ()
   {
     if (this.packageName != null)
-    {
-      return (this.packageName.length () <= 0) ? VISITOR : this.packageName + '.' + VISITOR;
-    }
-    else
-      if (this.visitorPackageName != null)
-      {
-        return this.visitorPackageName;
-      }
-      else
-      {
-        return VISITOR;
-      }
+      return this.packageName.length () <= 0 ? VISITOR : this.packageName + '.' + VISITOR;
+    if (this.visitorPackageName != null)
+      return this.visitorPackageName;
+    return VISITOR;
   }
 
   /**
@@ -452,6 +430,10 @@ class JTB extends ToolFacade
       getLog ().debug ("Forking: " + jvm);
     }
     final int exitcode = jvm.run ();
+    if (getLog ().isDebugEnabled ())
+    {
+      getLog ().debug ("Finished forking");
+    }
 
     moveJavaFiles ();
 
@@ -467,7 +449,7 @@ class JTB extends ToolFacade
    */
   private String [] generateArguments ()
   {
-    final List <String> argsList = new ArrayList <String> ();
+    final List <String> argsList = new ArrayList <> ();
 
     argsList.add ("-np");
     argsList.add (getEffectiveNodePackageName ());
@@ -612,6 +594,7 @@ class JTB extends ToolFacade
       {
         try
         {
+          getLog ().debug ("  Moving JTB output file: " + sourceFile + " -> " + targetDir);
           FileUtils.copyFileToDirectory (sourceFile, targetDir);
           if (!sourceFile.delete ())
           {

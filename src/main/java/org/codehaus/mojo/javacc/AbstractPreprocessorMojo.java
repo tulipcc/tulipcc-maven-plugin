@@ -2,20 +2,20 @@ package org.codehaus.mojo.javacc;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file 
+ * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, 
+ *
+ * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY 
- * KIND, either express or implied.  See the License for the 
- * specific language governing permissions and limitations 
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
  * under the License.
  */
 
@@ -30,7 +30,7 @@ import org.codehaus.plexus.util.FileUtils;
 
 /**
  * Provides common services for all mojos that preprocess JavaCC grammar files.
- * 
+ *
  * @author Benjamin Bentmann
  * @version $Id: AbstractPreprocessorMojo.java 6353 2008-02-27 22:14:08Z
  *          bentmann $
@@ -40,7 +40,7 @@ public abstract class AbstractPreprocessorMojo extends AbstractMojo
 
   /**
    * The current Maven project.
-   * 
+   *
    * @parameter default-value="${project}"
    * @readonly
    * @required
@@ -50,7 +50,7 @@ public abstract class AbstractPreprocessorMojo extends AbstractMojo
   /**
    * Gets the absolute path to the directory where the grammar files are
    * located.
-   * 
+   *
    * @return The absolute path to the directory where the grammar files are
    *         located, never <code>null</code>.
    */
@@ -59,7 +59,7 @@ public abstract class AbstractPreprocessorMojo extends AbstractMojo
   /**
    * Gets a set of Ant-like inclusion patterns used to select files from the
    * source directory for processing.
-   * 
+   *
    * @return A set of Ant-like inclusion patterns used to select files from the
    *         source directory for processing, can be <code>null</code> if all
    *         files should be included.
@@ -69,7 +69,7 @@ public abstract class AbstractPreprocessorMojo extends AbstractMojo
   /**
    * Gets a set of Ant-like exclusion patterns used to unselect files from the
    * source directory for processing.
-   * 
+   *
    * @return A set of Ant-like inclusion patterns used to unselect files from
    *         the source directory for processing, can be <code>null</code> if no
    *         files should be excluded.
@@ -79,7 +79,7 @@ public abstract class AbstractPreprocessorMojo extends AbstractMojo
   /**
    * Gets the absolute path to the directory where the generated Java files for
    * the parser will be stored.
-   * 
+   *
    * @return The absolute path to the directory where the generated Java files
    *         for the parser will be stored, never <code>null</code>.
    */
@@ -88,7 +88,7 @@ public abstract class AbstractPreprocessorMojo extends AbstractMojo
   /**
    * Gets the absolute path to the directory where the processed input files
    * will be stored for later detection of stale sources.
-   * 
+   *
    * @return The absolute path to the directory where the processed input files
    *         will be stored for later detection of stale sources, never
    *         <code>null</code>.
@@ -98,7 +98,7 @@ public abstract class AbstractPreprocessorMojo extends AbstractMojo
   /**
    * Gets the granularity in milliseconds of the last modification date for
    * testing whether a source needs recompilation.
-   * 
+   *
    * @return The granularity in milliseconds of the last modification date for
    *         testing whether a source needs recompilation.
    */
@@ -106,7 +106,7 @@ public abstract class AbstractPreprocessorMojo extends AbstractMojo
 
   /**
    * Execute the tool.
-   * 
+   *
    * @throws MojoExecutionException
    *         If the invocation of the tool failed.
    * @throws MojoFailureException
@@ -147,7 +147,7 @@ public abstract class AbstractPreprocessorMojo extends AbstractMojo
 
   /**
    * Passes the specified grammar file through the tool.
-   * 
+   *
    * @param grammarInfo
    *        The grammar info describing the grammar file to process, must not be
    *        <code>null</code>.
@@ -161,7 +161,7 @@ public abstract class AbstractPreprocessorMojo extends AbstractMojo
   /**
    * Scans the configured source directory for grammar files which need
    * processing.
-   * 
+   *
    * @return An array of grammar infos describing the found grammar files or
    *         <code>null</code> if the source directory does not exist.
    * @throws MojoExecutionException
@@ -199,7 +199,7 @@ public abstract class AbstractPreprocessorMojo extends AbstractMojo
 
   /**
    * Creates the timestamp file for the specified grammar file.
-   * 
+   *
    * @param grammarInfo
    *        The grammar info describing the grammar file to process, must not be
    *        <code>null</code>.

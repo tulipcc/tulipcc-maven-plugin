@@ -2,20 +2,20 @@ package org.codehaus.mojo.javacc;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file 
+ * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, 
+ *
+ * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY 
- * KIND, either express or implied.  See the License for the 
- * specific language governing permissions and limitations 
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
  * under the License.
  */
 
@@ -28,7 +28,7 @@ import org.codehaus.plexus.util.DirectoryScanner;
 
 /**
  * Scans source directories for JavaCC grammar files.
- * 
+ *
  * @author Benjamin Bentmann
  * @version $Id: GrammarDirectoryScanner.java 6282 2008-02-09 23:49:06Z bentmann
  *          $
@@ -76,13 +76,13 @@ class GrammarDirectoryScanner
   {
     this.scanner = new DirectoryScanner ();
     this.scanner.setFollowSymlinks (true);
-    this.includedGrammars = new ArrayList <GrammarInfo> ();
+    this.includedGrammars = new ArrayList <> ();
   }
 
   /**
    * Sets the absolute path to the source directory to scan for grammar files.
    * This directory must exist or the scanner will report an error.
-   * 
+   *
    * @param directory
    *        The absolute path to the source directory to scan, must not be
    *        <code>null</code>.
@@ -98,7 +98,7 @@ class GrammarDirectoryScanner
 
   /**
    * Sets the package name for the generated parser.
-   * 
+   *
    * @param packageName
    *        The package name for the generated parser, may be <code>null</code>
    *        to use the package declaration from the grammar file.
@@ -110,7 +110,7 @@ class GrammarDirectoryScanner
 
   /**
    * Sets the Ant-like inclusion patterns.
-   * 
+   *
    * @param includes
    *        The set of Ant-like inclusion patterns, may be <code>null</code> to
    *        include all files.
@@ -122,7 +122,7 @@ class GrammarDirectoryScanner
 
   /**
    * Sets the Ant-like exclusion patterns.
-   * 
+   *
    * @param excludes
    *        The set of Ant-like exclusion patterns, may be <code>null</code> to
    *        exclude no files.
@@ -136,7 +136,7 @@ class GrammarDirectoryScanner
   /**
    * Sets the absolute path to the output directory used to detect stale target
    * files.
-   * 
+   *
    * @param directory
    *        The absolute path to the output directory used to detect stale
    *        target files by timestamp checking, may be <code>null</code> if no
@@ -154,7 +154,7 @@ class GrammarDirectoryScanner
   /**
    * Sets the granularity in milliseconds of the last modification date for
    * stale file detection.
-   * 
+   *
    * @param milliseconds
    *        The granularity in milliseconds of the last modification date for
    *        testing whether a grammar file needs recompilation because its
@@ -170,7 +170,7 @@ class GrammarDirectoryScanner
    * inclusion pattern but no exclusion pattern, optionally performing timestamp
    * checking to exclude grammars whose corresponding parser files are up to
    * date.
-   * 
+   *
    * @throws IOException
    *         If a grammar file could not be analyzed for metadata.
    */
@@ -206,7 +206,7 @@ class GrammarDirectoryScanner
 
   /**
    * Determines the output files corresponding to the specified grammar file.
-   * 
+   *
    * @param targetDirectory
    *        The absolute path to the output directory for the target files, must
    *        not be <code>null</code>.
@@ -227,7 +227,7 @@ class GrammarDirectoryScanner
   /**
    * Gets the grammar files that were included by the scanner during the last
    * invocation of {@link #scan()}.
-   * 
+   *
    * @return An array of grammar infos describing the included grammar files,
    *         will be empty if no files were included but is never
    *         <code>null</code>.

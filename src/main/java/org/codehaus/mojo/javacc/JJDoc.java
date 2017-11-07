@@ -2,20 +2,20 @@ package org.codehaus.mojo.javacc;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file 
+ * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, 
+ *
+ * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY 
- * KIND, either express or implied.  See the License for the 
- * specific language governing permissions and limitations 
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
  * under the License.
  */
 
@@ -29,7 +29,7 @@ import org.codehaus.plexus.util.cli.StreamConsumer;
 
 /**
  * Provides a facade for the mojos to invoke JJDoc.
- * 
+ *
  * @author Paul Gier, Benjamin Bentmann
  * @version $Id: JJDoc.java 10603 2009-09-06 15:05:08Z bentmann $
  * @see <a href="https://javacc.dev.java.net/doc/JJDoc.html">JJDoc Reference</a>
@@ -75,7 +75,7 @@ class JJDoc extends ToolFacade
   /**
    * Sets the absolute path to the grammar file to pass into JJDoc for
    * documentation.
-   * 
+   *
    * @param value
    *        The absolute path to the grammar file to pass into JJDoc for
    *        documentation.
@@ -91,7 +91,7 @@ class JJDoc extends ToolFacade
 
   /**
    * Sets the absolute path to the output file.
-   * 
+   *
    * @param value
    *        The absolute path to the HTML/text file to generate.
    */
@@ -106,7 +106,7 @@ class JJDoc extends ToolFacade
 
   /**
    * Sets the option GRAMMAR_ENCODING.
-   * 
+   *
    * @param value
    *        The option value, may be <code>null</code> to use the value provided
    *        in the grammar or the default.
@@ -119,7 +119,7 @@ class JJDoc extends ToolFacade
   /**
    * Sets the option CSS, i.e the hypertext reference to a CSS file for the
    * generated HTML output.
-   * 
+   *
    * @param value
    *        The option value, may be <code>null</code> to use the default style.
    */
@@ -130,7 +130,7 @@ class JJDoc extends ToolFacade
 
   /**
    * Sets the option TEXT.
-   * 
+   *
    * @param value
    *        The option value, may be <code>null</code> to use the default value.
    */
@@ -141,7 +141,7 @@ class JJDoc extends ToolFacade
 
   /**
    * Sets the option BNF.
-   * 
+   *
    * @param value
    *        The option value, may be <code>null</code> to use the default value.
    */
@@ -152,7 +152,7 @@ class JJDoc extends ToolFacade
 
   /**
    * Sets the option value ONE_TABLE.
-   * 
+   *
    * @param value
    *        The option value, may be <code>null</code> to use the default value.
    */
@@ -191,12 +191,12 @@ class JJDoc extends ToolFacade
   /**
    * Assembles the command line arguments for the invocation of JJDoc according
    * to the configuration.
-   * 
+   *
    * @return A string array that represents the arguments to use for JJDoc.
    */
   private String [] generateArguments ()
   {
-    final List <String> argsList = new ArrayList <String> ();
+    final List <String> argsList = new ArrayList <> ();
 
     if (StringUtils.isNotEmpty (this.grammarEncoding))
     {
@@ -238,7 +238,7 @@ class JJDoc extends ToolFacade
 
   /**
    * Gets a string representation of the command line arguments.
-   * 
+   *
    * @return A string representation of the command line arguments.
    */
   @Override
@@ -271,7 +271,7 @@ class JJDoc extends ToolFacade
 
     /**
      * Single param constructor.
-     * 
+     *
      * @param error
      *        If set to <code>true</code>, all consumed lines will be logged at
      *        the error level.
@@ -283,7 +283,7 @@ class JJDoc extends ToolFacade
 
     /**
      * Consume a line of text.
-     * 
+     *
      * @param line
      *        The line to consume.
      */

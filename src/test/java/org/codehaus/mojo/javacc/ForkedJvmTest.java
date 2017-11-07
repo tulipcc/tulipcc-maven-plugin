@@ -109,5 +109,4 @@ public class ForkedJvmTest extends TestCase
     assertEquals ("arg2", args[2]);
     assertEquals (file, new File (args[3]));
   }
-
 }

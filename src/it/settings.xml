@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <settings>
+  <proxies>
+    <proxy>
+      <active>true</active>
+      <protocol>http</protocol>
+      <host>172.30.9.6</host>
+      <port>8080</port>
+      <nonProxyHosts>*.brz.gv.at|zsvn.brz.gv.at</nonProxyHosts>
+    </proxy>
+  </proxies>
   <profiles>
     <profile>
       <id>it-repo</id>
