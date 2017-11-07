@@ -101,6 +101,8 @@ Supported goals with the respective parameters are:
 
   * To run the integration tests use the following commandline `mvn clean install -Dit=true`
   * If you have a proxy server in place, edit `src/it/settings.xml` and add it there
+  * When integration tests are run, they create a folder `it-local-repo` inside this folder. This is the local Maven repository and is safe to be deleted.
+  * When running the IT, the files are located in `target/it` - so check all the build logs there
 
 # External links
 

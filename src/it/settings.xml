@@ -2,9 +2,9 @@
 <settings>
   <proxies>
     <proxy>
-      <active>true</active>
+      <active>false</active>
       <protocol>http</protocol>
-      <host>172.30.9.6</host>
+      <host>172.30.9.16</host>
       <port>8080</port>
       <nonProxyHosts>*.brz.gv.at|zsvn.brz.gv.at</nonProxyHosts>
     </proxy>
