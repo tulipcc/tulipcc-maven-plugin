@@ -37,7 +37,6 @@ import org.codehaus.plexus.util.FileUtils;
  */
 public abstract class AbstractPreprocessorMojo extends AbstractMojo
 {
-
   /**
    * The current Maven project.
    *
@@ -114,7 +113,8 @@ public abstract class AbstractPreprocessorMojo extends AbstractMojo
    */
   public void execute () throws MojoExecutionException, MojoFailureException
   {
-    getLog ().warn ("This goal has been deprecated. Please update your plugin configuration.");
+    if (false)
+      getLog ().warn ("This goal has been deprecated. Please update your plugin configuration.");
 
     final GrammarInfo [] grammarInfos = scanForGrammars ();
 
