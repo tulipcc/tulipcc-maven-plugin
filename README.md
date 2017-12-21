@@ -9,15 +9,17 @@ I'm using it e.g. in [ph-css](https://github.com/phax/ph-css) for CSS parsing.
 
 # News and noteworthy
 
-  * v3.0.0 - work in progress
-    * Changed minimum requirement to JDK 8
-    * Requires Maven 3 for execution
-    * Using JavaCC 7.0.3
-    * Removed deprecated classes
-  * v2.8.2 - 2016-11-19
-    * Fixing https://github.com/javacc/javacc/issues/2 locally
-  * v2.8.1 - 2016-07-13
-    * Fixed a problem with the code generation for "modern" Java template
+* v3.0.1 - work in progress
+  * Re-added `jjtree` goal for https://github.com/phax/ParserGeneratorCC
+* v3.0.0 - 2017-11-07
+  * Changed minimum requirement to JDK 8
+  * Requires Maven 3 for execution
+  * Using JavaCC 7.0.3
+  * Removed deprecated classes
+* v2.8.2 - 2016-11-19
+  * Fixing https://github.com/javacc/javacc/issues/2 locally
+* v2.8.1 - 2016-07-13
+  * Fixed a problem with the code generation for "modern" Java template
 
 # Maven usage
 Example with 3 executions (two javacc and one jjtree-javacc):
