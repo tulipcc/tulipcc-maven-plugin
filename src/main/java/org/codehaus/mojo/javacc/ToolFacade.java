@@ -36,7 +36,7 @@ abstract class ToolFacade
   /**
    * The logger used to output diagnostic messages.
    */
-  private Log log;
+  private Log m_aLog;
 
   /**
    * Sets the logger used to output diagnostic messages.
@@ -47,7 +47,7 @@ abstract class ToolFacade
    */
   public void setLog (final Log logger)
   {
-    this.log = logger;
+    this.m_aLog = logger;
   }
 
   /**
@@ -58,11 +58,11 @@ abstract class ToolFacade
    */
   protected Log getLog ()
   {
-    if (this.log == null)
+    if (this.m_aLog == null)
     {
-      this.log = new SystemStreamLog ();
+      this.m_aLog = new SystemStreamLog ();
     }
-    return this.log;
+    return this.m_aLog;
   }
 
   /**
@@ -113,5 +113,4 @@ abstract class ToolFacade
    *         If the tool could not be invoked.
    */
   protected abstract int execute () throws Exception;
-
 }

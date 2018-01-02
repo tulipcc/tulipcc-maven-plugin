@@ -26,6 +26,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -42,7 +44,6 @@ import org.codehaus.plexus.util.cli.StreamConsumer;
  */
 class ForkedJvm
 {
-
   /**
    * The consumer for <code>System.out</code> messages.
    */
@@ -66,7 +67,7 @@ class ForkedJvm
   /**
    * The class path entries for the forked JVM, given as strings.
    */
-  private final Set <String> classPathEntries = new LinkedHashSet <> ();
+  private final Set <String> m_aClassPathEntries = new LinkedHashSet <> ();
 
   /**
    * The qualified name of the class on which to invoke the <code>main()</code>
@@ -85,7 +86,7 @@ class ForkedJvm
    */
   public ForkedJvm ()
   {
-    this.executable = getDefaultExecutable ();
+    this.executable = _getDefaultExecutable ();
   }
 
   /**
@@ -93,7 +94,7 @@ class ForkedJvm
    *
    * @return The absolute path to the JVM executable.
    */
-  private static String getDefaultExecutable ()
+  private static String _getDefaultExecutable ()
   {
     return System.getProperty ("java.home") + File.separator + "bin" + File.separator + "java";
   }
@@ -139,9 +140,9 @@ class ForkedJvm
    *
    * @return The class path for the forked JVM.
    */
-  private String getClassPath ()
+  private String _getClassPath ()
   {
-    return StringUtils.join (this.classPathEntries.iterator (), File.pathSeparator);
+    return StringUtils.join (this.m_aClassPathEntries.iterator (), File.pathSeparator);
   }
 
   /**
@@ -154,7 +155,7 @@ class ForkedJvm
   {
     if (path != null)
     {
-      this.classPathEntries.add (path);
+      this.m_aClassPathEntries.add (path);
     }
   }
 
@@ -164,12 +165,10 @@ class ForkedJvm
    * @param path
    *        The path to add, may be <code>null</code>.
    */
-  public void addClassPathEntry (final File path)
+  public final void addClassPathEntry (@Nullable final File path)
   {
     if (path != null)
-    {
-      this.classPathEntries.add (path.getAbsolutePath ());
-    }
+      m_aClassPathEntries.add (path.getAbsolutePath ());
   }
 
   /**
@@ -179,9 +178,9 @@ class ForkedJvm
    * @param type
    *        The class/interface to add, may be <code>null</code>.
    */
-  public void addClassPathEntry (final Class <?> type)
+  public final void addClassPathEntry (final Class <?> type)
   {
-    addClassPathEntry (getClassSource (type));
+    addClassPathEntry (_getClassSource (type));
   }
 
   /**
@@ -192,12 +191,12 @@ class ForkedJvm
    * @return The absolute path to the class source location or <code>null</code>
    *         if unknown.
    */
-  private static File getClassSource (final Class <?> type)
+  private static File _getClassSource (final Class <?> type)
   {
     if (type != null)
     {
       final String classResource = type.getName ().replace ('.', '/') + ".class";
-      return getResourceSource (classResource, type.getClassLoader ());
+      return _getResourceSource (classResource, type.getClassLoader ());
     }
     return null;
   }
@@ -211,12 +210,12 @@ class ForkedJvm
    * @return The absolute path to the class source location or <code>null</code>
    *         if unknown.
    */
-  private static File getClassSource (final String className)
+  private static File _getClassSource (final String className)
   {
     if (className != null)
     {
       final String classResource = className.replace ('.', '/') + ".class";
-      return getResourceSource (classResource, Thread.currentThread ().getContextClassLoader ());
+      return _getResourceSource (classResource, Thread.currentThread ().getContextClassLoader ());
     }
     return null;
   }
@@ -232,7 +231,8 @@ class ForkedJvm
    * @return The absolute path to the resource location or <code>null</code> if
    *         unknown.
    */
-  private static File getResourceSource (final String resource, final ClassLoader loader)
+  @Nullable
+  private static File _getResourceSource (final String resource, final ClassLoader loader)
   {
     if (resource != null)
     {
@@ -262,7 +262,7 @@ class ForkedJvm
   public void setMainClass (final String name)
   {
     this.mainClass = name;
-    addClassPathEntry (getClassSource (name));
+    addClassPathEntry (_getClassSource (name));
   }
 
   /**
@@ -285,7 +285,7 @@ class ForkedJvm
    *
    * @return The command line arguments for the <code>main()</code> method.
    */
-  private String [] getArguments ()
+  private String [] _getArguments ()
   {
     return this.cmdLineArgs.toArray (new String [this.cmdLineArgs.size ()]);
   }
@@ -344,7 +344,7 @@ class ForkedJvm
    *
    * @return The command line used to fork the JVM, never <code>null</code>.
    */
-  private Commandline createCommandLine ()
+  private Commandline _createCommandLine ()
   {
     /*
      * NOTE: This method is designed to work with plexus-utils:1.1 which is used
@@ -362,7 +362,7 @@ class ForkedJvm
       cli.setWorkingDirectory (this.workingDirectory.getAbsolutePath ());
     }
 
-    final String classPath = getClassPath ();
+    final String classPath = _getClassPath ();
     if (classPath != null && classPath.length () > 0)
     {
       cli.addArguments (new String [] { "-cp", classPath });
@@ -373,7 +373,7 @@ class ForkedJvm
       cli.addArguments (new String [] { this.mainClass });
     }
 
-    cli.addArguments (getArguments ());
+    cli.addArguments (_getArguments ());
 
     return cli;
   }
@@ -387,7 +387,7 @@ class ForkedJvm
    */
   public int run () throws Exception
   {
-    return CommandLineUtils.executeCommandLine (createCommandLine (), this.systemOut, this.systemErr);
+    return CommandLineUtils.executeCommandLine (_createCommandLine (), this.systemOut, this.systemErr);
   }
 
   /**
@@ -398,7 +398,7 @@ class ForkedJvm
   @Override
   public String toString ()
   {
-    return String.valueOf (createCommandLine ());
+    return String.valueOf (_createCommandLine ());
   }
 
 }

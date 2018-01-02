@@ -97,7 +97,7 @@ class UrlUtils
           throw new IllegalArgumentException ("Invalid class path URL: " + url);
         }
     }
-    return (path != null) ? new File (path) : null;
+    return path != null ? new File (path) : null;
   }
 
   /**

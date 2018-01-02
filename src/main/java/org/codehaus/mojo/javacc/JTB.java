@@ -420,7 +420,7 @@ class JTB extends ToolFacade
     }
 
     // fork JTB because of its lack to re-initialize its static parser
-    final ForkedJvm jvm = new ForkedJvm ();
+    final ForkedJvm jvm = new ForkedJvmPGCC ();
     jvm.setMainClass (EDU.purdue.jtb.JTB.class);
     jvm.addArguments (args);
     jvm.setSystemOut (new MojoLogStreamConsumer (false));
