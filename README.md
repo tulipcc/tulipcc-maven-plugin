@@ -9,8 +9,8 @@ I'm using it e.g. in [ph-css](https://github.com/phax/ph-css) for CSS parsing.
 
 # News and noteworthy
 
-* v3.0.1 - work in progress
-  * Re-added `jjtree` goal for https://github.com/phax/ParserGeneratorCC
+* v4.0.0 - work in progress
+  * Switched to https://github.com/phax/ParserGeneratorCC a fork of JavaCC 7.0.3
 * v3.0.0 - 2017-11-07
   * Changed minimum requirement to JDK 8
   * Requires Maven 3 for execution

@@ -177,7 +177,7 @@ class JJDoc extends ToolFacade
 
     // fork jjdoc because of calls to System.exit()
     final ForkedJvm jvm = new ForkedJvm ();
-    jvm.setMainClass (org.javacc.jjdoc.JJDocMain.class);
+    jvm.setMainClass (com.helger.pgcc.jjdoc.JJDocMain.class);
     jvm.addArguments (args);
     jvm.setSystemOut (new MojoLogStreamConsumer (false));
     jvm.setSystemErr (new MojoLogStreamConsumer (true));

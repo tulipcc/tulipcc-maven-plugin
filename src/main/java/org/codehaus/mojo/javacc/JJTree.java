@@ -404,7 +404,7 @@ class JJTree extends ToolFacade
       this.outputDirectory.mkdirs ();
     }
 
-    final org.javacc.jjtree.JJTree jjtree = new org.javacc.jjtree.JJTree ();
+    final com.helger.pgcc.jjtree.JJTree jjtree = new com.helger.pgcc.jjtree.JJTree ();
     return jjtree.main (args);
   }
 

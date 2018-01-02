@@ -36,7 +36,6 @@ public final class javacc
 
   public static void main (final String [] args) throws Exception
   {
-    org.javacc.parser.Main.main (args);
+    com.helger.pgcc.parser.Main.main (args);
   }
-
 }

@@ -26,7 +26,7 @@
   </parent>
   <groupId>com.helger.maven</groupId>
   <artifactId>ph-javacc-maven-plugin</artifactId>
-  <version>3.0.1-SNAPSHOT</version>
+  <version>4.0.0-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
   <name>JavaCC Maven Plugin</name>
   <description>Maven 3 Plugin for processing JavaCC grammar files.</description>
@@ -103,9 +103,9 @@
 <!--       <version>1.4.12</version> -->
 <!--     </dependency> -->
     <dependency>
-      <groupId>net.java.dev.javacc</groupId>
-      <artifactId>javacc</artifactId>
-      <version>7.0.3</version>
+      <groupId>com.helger</groupId>
+      <artifactId>parser-generator-cc</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
 
