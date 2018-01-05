@@ -9,7 +9,7 @@ I'm using it e.g. in [ph-css](https://github.com/phax/ph-css) for CSS parsing.
 
 # News and noteworthy
 
-* v4.0.0 - work in progress
+* v4.0.0 - 2018-01-05
   * Switched to https://github.com/phax/ParserGeneratorCC a fork of JavaCC 7.0.3
 * v3.0.0 - 2017-11-07
   * Changed minimum requirement to JDK 8
@@ -30,7 +30,7 @@ Example with 3 executions (two javacc and one jjtree-javacc):
       <plugin>
         <groupId>com.helger.maven</groupId>
         <artifactId>ph-javacc-maven-plugin</artifactId>
-        <version>3.0.0</version>
+        <version>4.0.0</version>
         <executions>
           <execution>
             <id>jjc1</id>
@@ -95,9 +95,7 @@ Supported goals with the respective parameters are:
     * `String[]` **excludes** - A set of Ant-like exclusion patterns used to prevent certain files from being processed. By default, this set is empty such that no files are excluded.
   * `jjdoc` - [JJDoc](https://javacc.org/doc/JJDoc.html) takes a JavaCC parser specification and produces documentation for the BNF grammar. This mojo will search the source directory for all `*.jj` files and run JJDoc once for each file it finds. Each of these output files, along with an `index.html` file will be placed in the site directory (`target/site/jjdoc`), and a link will be created in the "Project Reports" menu of the generated site.
   * `jjtree-javacc` - preprocesses decorated grammar files (`*.jjt`) with JJTree and passes the output to JavaCC in order to finally generate a parser with parse tree actions.
-  * `jjtree` -  parses a JJTree grammar file (`*.jjt`) and transforms it to Java source files and a JavaCC grammar file. Please see the [JJTree Reference Documentation](https://javacc.org/doc/JJTree.html) for more information.
   * `jtb-javacc` - preprocesses ordinary grammar files (`*.jtb`) with JTB and passes the output to JavaCC in order to finally generate a parser with parse tree actions.
-  * `jtb` - parses a JTB file and transforms it into source files for an AST and a JavaCC grammar file which automatically builds the AST.
 
 # Integration tests
 
