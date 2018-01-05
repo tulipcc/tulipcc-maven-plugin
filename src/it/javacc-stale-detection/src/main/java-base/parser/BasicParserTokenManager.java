@@ -40,7 +40,7 @@ static private final int[] jjstateSet = new int[0];
 static protected char curChar;
 public BasicParserTokenManager(SimpleCharStream stream){
    if (input_stream != null)
-      throw new TokenMgrError("ERROR: Second call to constructor of static lexer. You must use ReInit() to initialize the static variables.", TokenMgrError.STATIC_LEXER_ERROR);
+      throw new TokenMgrException("ERROR: Second call to constructor of static lexer. You must use ReInit() to initialize the static variables.", TokenMgrException.STATIC_LEXER_ERROR);
    input_stream = stream;
 }
 public BasicParserTokenManager(SimpleCharStream stream, int lexState){
@@ -69,7 +69,7 @@ static public void ReInit(SimpleCharStream stream, int lexState)
 static public void SwitchTo(int lexState)
 {
    if (lexState >= 1 || lexState < 0)
-      throw new TokenMgrError("Error: Ignoring invalid lexical state : " + lexState + ". State unchanged.", TokenMgrError.INVALID_LEXICAL_STATE);
+      throw new TokenMgrException("Error: Ignoring invalid lexical state : " + lexState + ". State unchanged.", TokenMgrException.INVALID_LEXICAL_STATE);
    else
       curLexState = lexState;
 }
@@ -144,7 +144,7 @@ public static Token getNextToken()
       input_stream.backup(1);
       error_after = curPos <= 1 ? "" : input_stream.GetImage();
    }
-   throw new TokenMgrError(EOFSeen, curLexState, error_line, error_column, error_after, curChar, TokenMgrError.LEXICAL_ERROR);
+   throw new TokenMgrException(EOFSeen, curLexState, error_line, error_column, error_after, curChar, TokenMgrException.LEXICAL_ERROR);
   }
 }
 
