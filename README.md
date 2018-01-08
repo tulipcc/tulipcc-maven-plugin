@@ -9,6 +9,8 @@ I'm using it e.g. in [ph-css](https://github.com/phax/ph-css) for CSS parsing.
 
 # News and noteworthy
 
+* v4.0.1 - 2018-01-08
+  * Updated to ParserGeneratorCC 1.0.2 so that this plugin can be used to build ParserGeneratorCC
 * v4.0.0 - 2018-01-05
   * Switched to https://github.com/phax/ParserGeneratorCC a fork of JavaCC 7.0.3
 * v3.0.0 - 2017-11-07
@@ -30,7 +32,7 @@ Example with 3 executions (two javacc and one jjtree-javacc):
       <plugin>
         <groupId>com.helger.maven</groupId>
         <artifactId>ph-javacc-maven-plugin</artifactId>
-        <version>4.0.0</version>
+        <version>4.0.1</version>
         <executions>
           <execution>
             <id>jjc1</id>
