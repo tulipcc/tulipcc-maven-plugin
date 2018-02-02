@@ -62,6 +62,10 @@
     </developer>
   </developers>
   
+  <prerequisites>
+    <maven>3.0</maven>
+  </prerequisites>
+  
   <properties>
     <maven.version>3.0</maven.version>
   </properties>
