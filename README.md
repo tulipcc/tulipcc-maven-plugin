@@ -23,8 +23,9 @@ I'm using it e.g. in [ph-css](https://github.com/phax/ph-css) for CSS parsing.
 * v2.8.1 - 2016-07-13
   * Fixed a problem with the code generation for "modern" Java template
 
+
 # Maven usage
-Example with 3 executions (two javacc and one jjtree-javacc):
+Example with 3 executions (two javacc and one jjtree-javacc), try with `mvn clean process-resources`:
 
 ```xml
     <build>
