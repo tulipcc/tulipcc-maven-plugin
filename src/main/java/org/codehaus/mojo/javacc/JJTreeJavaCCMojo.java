@@ -247,13 +247,8 @@ public class JJTreeJavaCCMojo extends AbstractJavaCCMojo
   protected String [] getIncludes ()
   {
     if (this.includes != null)
-    {
       return this.includes;
-    }
-    else
-    {
-      return new String [] { "**/*.jj", "**/*.JJ", "**/*.jjt", "**/*.JJT" };
-    }
+    return new String [] { "**/*.jj", "**/*.JJ", "**/*.jjt", "**/*.JJT" };
   }
 
   /**
