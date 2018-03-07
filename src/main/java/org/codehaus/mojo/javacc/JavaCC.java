@@ -538,7 +538,7 @@ class JavaCC extends ToolFacade
       this.outputDirectory.mkdirs ();
     }
 
-    return com.helger.pgcc.parser.Main.mainProgram (args);
+    return com.helger.pgcc.parser.Main.mainProgram (args).isFailure () ? 1 : 0;
   }
 
   /**
