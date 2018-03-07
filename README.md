@@ -9,6 +9,10 @@ I'm using it e.g. in [ph-css](https://github.com/phax/ph-css) for CSS parsing.
 
 # News and noteworthy
 
+* v4.1.0 - work in progress
+  * Updated to ParserGeneratorCC 1.1.0 - INCOMPATIBLE!
+  * No more "STATIC" option - INCOMPATIBLE!
+  * Changed PGCC templates - INCOMPATIBLE!
 * v4.0.1 - 2018-01-08
   * Updated to ParserGeneratorCC 1.0.2 so that this plugin can be used to build ParserGeneratorCC
 * v4.0.0 - 2018-01-05
