@@ -43,7 +43,6 @@ import org.codehaus.plexus.util.StringUtils;
  */
 public abstract class AbstractJavaCCMojo extends AbstractMojo
 {
-
   /**
    * The current Maven project.
    *
@@ -95,16 +94,6 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
    * @parameter property=otherAmbiguityCheck
    */
   private Integer otherAmbiguityCheck;
-
-  /**
-   * If <code>true</code>, all methods and class variables are specified as
-   * static in the generated parser and token manager. This allows only one
-   * parser object to be present, but it improves the performance of the parser.
-   * Default value is <code>true</code>.
-   *
-   * @parameter property=isStatic
-   */
-  private Boolean isStatic;
 
   /**
    * This option is used to obtain debugging information from the generated
@@ -304,6 +293,15 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
   private String grammarEncoding;
 
   /**
+   * The file encoding to use for writing the output files.
+   *
+   * @parameter property=outputEncoding
+   *            default-value="${project.build.sourceEncoding}"
+   * @since 4.1.0
+   */
+  private String outputEncoding;
+
+  /**
    * Gets the file encoding of the grammar files.
    *
    * @return The file encoding of the grammar files or <code>null</code> if the
@@ -315,6 +313,17 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
   }
 
   /**
+   * Gets the file encoding of the output files.
+   *
+   * @return The file encoding of the output files or <code>null</code> if the
+   *         user did not specify this mojo parameter.
+   */
+  protected String getOutputEncoding ()
+  {
+    return this.outputEncoding;
+  }
+
+  /**
    * Gets the Java version for which to generate source code.
    *
    * @return The Java version for which to generate source code, will be
@@ -323,17 +332,6 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
   protected String getJdkVersion ()
   {
     return this.jdkVersion;
-  }
-
-  /**
-   * Gets the flag whether to generate static parser.
-   *
-   * @return The flag whether to generate static parser, will be
-   *         <code>null</code> if the user did not specify this mojo parameter.
-   */
-  protected Boolean getIsStatic ()
-  {
-    return this.isStatic;
   }
 
   /**
@@ -434,8 +432,11 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
 
         if (StringUtils.isEmpty (grammarEncoding))
         {
-          getLog ().warn ("File encoding for grammars has not been configured" +
-                          ", using platform default encoding, i.e. build is platform dependent!");
+          getLog ().warn ("File encoding for grammars has not been configured, using platform default encoding, i.e. build is platform dependent!");
+        }
+        if (StringUtils.isEmpty (outputEncoding))
+        {
+          getLog ().warn ("File encoding for output has not been configured, defaulting to UTF-8!");
         }
 
         for (final GrammarInfo grammarInfo : grammarInfos)
@@ -731,8 +732,8 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
     final JavaCC javacc = new JavaCC ();
     javacc.setLog (getLog ());
     javacc.setGrammarEncoding (this.grammarEncoding);
+    javacc.setOutputEncoding (this.outputEncoding);
     javacc.setJdkVersion (this.jdkVersion);
-    javacc.setStatic (this.isStatic);
     javacc.setBuildParser (this.buildParser);
     javacc.setBuildTokenManager (this.buildTokenManager);
     javacc.setCacheTokens (this.cacheTokens);

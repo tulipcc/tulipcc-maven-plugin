@@ -54,14 +54,14 @@ class JJTree extends ToolFacade
   private String grammarEncoding;
 
   /**
+   * The option OUTPUT_ENCODING.
+   */
+  private String outputEncoding;
+
+  /**
    * The option JDK_VERSION.
    */
   private String jdkVersion;
-
-  /**
-   * The option STATIC.
-   */
-  private Boolean isStatic;
 
   /**
    * The option BUILD_NODE_FILES.
@@ -200,6 +200,18 @@ class JJTree extends ToolFacade
   }
 
   /**
+   * Sets the option OUTPUT_ENCODING.
+   *
+   * @param value
+   *        The option value, may be <code>null</code> to use the value provided
+   *        in the grammar or the default.
+   */
+  public void setOutputEncoding (final String value)
+  {
+    this.outputEncoding = value;
+  }
+
+  /**
    * Sets the option JDK_VERSION.
    *
    * @param value
@@ -209,18 +221,6 @@ class JJTree extends ToolFacade
   public void setJdkVersion (final String value)
   {
     this.jdkVersion = value;
-  }
-
-  /**
-   * Sets the option STATIC.
-   *
-   * @param value
-   *        The option value, may be <code>null</code> to use the value provided
-   *        in the grammar or the default.
-   */
-  public void setStatic (final Boolean value)
-  {
-    this.isStatic = value;
   }
 
   /**
@@ -427,6 +427,11 @@ class JJTree extends ToolFacade
       argsList.add ("-GRAMMAR_ENCODING=" + this.grammarEncoding);
     }
 
+    if (StringUtils.isNotEmpty (this.outputEncoding))
+    {
+      argsList.add ("-OUTPUT_ENCODING=" + this.outputEncoding);
+    }
+
     if (StringUtils.isNotEmpty (jdkVersion))
     {
       argsList.add ("-JDK_VERSION=" + this.jdkVersion);
@@ -475,11 +480,6 @@ class JJTree extends ToolFacade
     if (this.nodeUsesParser != null)
     {
       argsList.add ("-NODE_USES_PARSER=" + this.nodeUsesParser);
-    }
-
-    if (this.isStatic != null)
-    {
-      argsList.add ("-STATIC=" + this.isStatic);
     }
 
     if (this.trackTokens != null)

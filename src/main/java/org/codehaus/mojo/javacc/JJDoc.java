@@ -53,6 +53,11 @@ class JJDoc extends ToolFacade
   private String grammarEncoding;
 
   /**
+   * The option OUTPUT_ENCODING.
+   */
+  private String outputEncoding;
+
+  /**
    * The option CSS.
    */
   private String cssHref;
@@ -114,6 +119,18 @@ class JJDoc extends ToolFacade
   public void setGrammarEncoding (final String value)
   {
     this.grammarEncoding = value;
+  }
+
+  /**
+   * Sets the option OUTPUT_ENCODING.
+   *
+   * @param value
+   *        The option value, may be <code>null</code> to use the value provided
+   *        in the grammar or the default.
+   */
+  public void setOutputEncoding (final String value)
+  {
+    this.outputEncoding = value;
   }
 
   /**
@@ -201,6 +218,11 @@ class JJDoc extends ToolFacade
     if (StringUtils.isNotEmpty (this.grammarEncoding))
     {
       argsList.add ("-GRAMMAR_ENCODING=" + this.grammarEncoding);
+    }
+
+    if (StringUtils.isNotEmpty (this.outputEncoding))
+    {
+      argsList.add ("-OUTPUT_ENCODING=" + this.outputEncoding);
     }
 
     if (this.text != null)

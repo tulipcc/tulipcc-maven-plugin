@@ -369,8 +369,8 @@ public class JJTreeJavaCCMojo extends AbstractJavaCCMojo
     final JJTree jjtree = new JJTree ();
     jjtree.setLog (getLog ());
     jjtree.setGrammarEncoding (getGrammarEncoding ());
+    jjtree.setOutputEncoding (getOutputEncoding ());
     jjtree.setJdkVersion (getJdkVersion ());
-    jjtree.setStatic (getIsStatic ());
     jjtree.setBuildNodeFiles (this.buildNodeFiles);
     jjtree.setMulti (this.multi);
     jjtree.setNodeDefaultVoid (this.nodeDefaultVoid);

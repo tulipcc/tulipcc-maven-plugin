@@ -139,6 +139,15 @@ public class JJDocMojo extends AbstractMavenReport
   private String grammarEncoding;
 
   /**
+   * The file encoding to use for writing the outout files.
+   *
+   * @parameter property=outputEncoding
+   *            default-value="${project.build.sourceEncoding}"
+   * @since 4.1.0
+   */
+  private String outputEncoding;
+
+  /**
    * The hypertext reference to an optional CSS file for the generated HTML
    * documents. If specified, this CSS file will be included via a
    * <code>&lt;link&gt;</code> element in the HTML documents. Otherwise, the
@@ -488,6 +497,7 @@ public class JJDocMojo extends AbstractMavenReport
     final JJDoc jjdoc = new JJDoc ();
     jjdoc.setLog (getLog ());
     jjdoc.setGrammarEncoding (this.grammarEncoding);
+    jjdoc.setOutputEncoding (this.outputEncoding);
     jjdoc.setCssHref (this.cssHref);
     jjdoc.setText (this.text);
     jjdoc.setBnf (this.bnf);
