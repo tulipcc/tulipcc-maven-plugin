@@ -344,6 +344,17 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
   }
 
   /**
+   * Gets the Java template type to be used.
+   *
+   * @return The java template type or <code>null</code> if the user did not
+   *         specify this mojo parameter.
+   */
+  protected String getJavaTemplateType ()
+  {
+    return this.javaTemplateType;
+  }
+
+  /**
    * Gets the absolute path to the directory where the grammar files are
    * located.
    *

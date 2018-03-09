@@ -41,7 +41,6 @@ import org.apache.maven.plugin.MojoFailureException;
  */
 public class JTBJavaCCMojo extends AbstractJavaCCMojo
 {
-
   /**
    * This option is short for <code>nodePackageName</code> =
    * <code>&lt;packageName&gt;.syntaxtree</code> and
@@ -413,5 +412,4 @@ public class JTBJavaCCMojo extends AbstractJavaCCMojo
     jtb.setSupressErrorChecking (this.supressErrorChecking);
     return jtb;
   }
-
 }

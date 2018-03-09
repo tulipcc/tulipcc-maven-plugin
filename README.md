@@ -12,9 +12,11 @@ I'm using it e.g. in [ph-css](https://github.com/phax/ph-css) for CSS parsing.
 * v4.1.0 - work in progress
   * Updated to ParserGeneratorCC 1.1.0 - INCOMPATIBLE!
   * Changed PGCC templates - INCOMPATIBLE!
+  * Added `OUTPUT_ENCODING` option
+* v4.0.3 - 2018-03-09
+  * Fixed error passing `JAVA_TEMPLATE_TYPE` option in jjtree-java goal
 * v4.0.2 - 2018-03-09
   * Removed `STATIC` option - INCOMPATIBLE!
-  * Added `OUTPUT_ENCODING` option
   * Added `JAVA_TEMPLATE_TYPE` option
 * v4.0.1 - 2018-01-08
   * Updated to ParserGeneratorCC 1.0.2 so that this plugin can be used to build ParserGeneratorCC
@@ -41,7 +43,7 @@ Example with 3 executions (two javacc and one jjtree-javacc), try with `mvn clea
       <plugin>
         <groupId>com.helger.maven</groupId>
         <artifactId>ph-javacc-maven-plugin</artifactId>
-        <version>4.0.2</version>
+        <version>4.0.3</version>
         <executions>
           <execution>
             <id>jjc1</id>

@@ -39,18 +39,6 @@ import org.apache.maven.plugin.MojoFailureException;
 public class JavaCCMojo extends AbstractJavaCCMojo
 {
   /**
-   * Package into which the generated classes will be put. Note that this will
-   * also be used to create the directory structure where sources will be
-   * generated. Defaults to the package name specified in a grammar file.
-   *
-   * @parameter property=packageName
-   * @deprecated As of version 2.4 because the plugin extracts the package name
-   *             from each grammar file.
-   */
-  @Deprecated
-  private String packageName;
-
-  /**
    * The directory where the JavaCC grammar files (<code>*.jj</code>) are
    * located.
    *
@@ -112,13 +100,8 @@ public class JavaCCMojo extends AbstractJavaCCMojo
   protected String [] getIncludes ()
   {
     if (this.includes != null)
-    {
       return this.includes;
-    }
-    else
-    {
-      return new String [] { "**/*.jj", "**/*.JJ" };
-    }
+    return new String [] { "**/*.jj", "**/*.JJ" };
   }
 
   /**
@@ -155,15 +138,6 @@ public class JavaCCMojo extends AbstractJavaCCMojo
   protected File [] getCompileSourceRoots ()
   {
     return new File [] { getOutputDirectory () };
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  protected String getParserPackage ()
-  {
-    return this.packageName;
   }
 
   /**
