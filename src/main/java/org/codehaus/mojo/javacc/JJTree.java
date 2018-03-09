@@ -422,7 +422,7 @@ class JJTree extends ToolFacade
     }
 
     final com.helger.pgcc.jjtree.JJTree jjtree = new com.helger.pgcc.jjtree.JJTree ();
-    return jjtree.main (args).isFailure () ? 1 : 0;
+    return jjtree.main (args);
   }
 
   /**
