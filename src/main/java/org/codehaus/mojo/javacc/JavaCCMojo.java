@@ -38,7 +38,6 @@ import org.apache.maven.plugin.MojoFailureException;
  */
 public class JavaCCMojo extends AbstractJavaCCMojo
 {
-
   /**
    * Package into which the generated classes will be put. Note that this will
    * also be used to create the directory structure where sources will be

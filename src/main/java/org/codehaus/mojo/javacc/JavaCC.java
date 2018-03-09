@@ -36,7 +36,6 @@ import org.codehaus.plexus.util.StringUtils;
  */
 class JavaCC extends ToolFacade
 {
-
   /**
    * The input grammar.
    */
@@ -176,6 +175,11 @@ class JavaCC extends ToolFacade
    * The option SUPPORT_CLASS_VISIBILITY_PUBLIC.
    */
   private Boolean supportClassVisibilityPublic;
+
+  /**
+   * The option JAVA_TEMPLATE_TYPE.
+   */
+  private String javaTemplateType;
 
   /**
    * Sets the absolute path to the grammar file to pass into JavaCC for
@@ -526,6 +530,18 @@ class JavaCC extends ToolFacade
   }
 
   /**
+   * Sets the option value JAVA_TEMPLATE_TYPE.
+   *
+   * @param value
+   *        Option value to be used. Only used if not <code>null</code> and not
+   *        empty.
+   */
+  public void setJavaTemplateType (final String value)
+  {
+    this.javaTemplateType = value;
+  }
+
+  /**
    * {@inheritDoc}
    */
   @Override
@@ -689,6 +705,11 @@ class JavaCC extends ToolFacade
     if (this.outputDirectory != null)
     {
       argsList.add ("-OUTPUT_DIRECTORY=" + this.outputDirectory.getAbsolutePath ());
+    }
+
+    if (StringUtils.isNotEmpty (this.javaTemplateType))
+    {
+      argsList.add ("-JAVA_TEMPLATE_TYPE=" + this.javaTemplateType);
     }
 
     if (this.inputFile != null)

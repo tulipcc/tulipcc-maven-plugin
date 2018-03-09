@@ -302,6 +302,15 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
   private String outputEncoding;
 
   /**
+   * The Java template type to be used. Must be "modern" or "classic". Defaults
+   * to "classic".
+   *
+   * @parameter default="classic"
+   * @since 4.1.0
+   */
+  private String javaTemplateType;
+
+  /**
    * Gets the file encoding of the grammar files.
    *
    * @return The file encoding of the grammar files or <code>null</code> if the
@@ -757,7 +766,7 @@ public abstract class AbstractJavaCCMojo extends AbstractMojo
     javacc.setUserCharStream (this.userCharStream);
     javacc.setUserTokenManager (this.userTokenManager);
     javacc.setSupportClassVisibilityPublic (this.supportClassVisibilityPublic);
+    javacc.setJavaTemplateType (this.javaTemplateType);
     return javacc;
   }
-
 }

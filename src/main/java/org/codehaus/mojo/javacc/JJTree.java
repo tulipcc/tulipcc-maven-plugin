@@ -134,6 +134,11 @@ class JJTree extends ToolFacade
   private String visitorException;
 
   /**
+   * The option JAVA_TEMPLATE_TYPE.
+   */
+  private String javaTemplateType;
+
+  /**
    * Sets the absolute path to the grammar file to pass into JJTree for
    * preprocessing.
    *
@@ -392,6 +397,18 @@ class JJTree extends ToolFacade
   }
 
   /**
+   * Sets the option value JAVA_TEMPLATE_TYPE.
+   *
+   * @param value
+   *        Option value to be used. Only used if not <code>null</code> and not
+   *        empty.
+   */
+  public void setJavaTemplateType (final String value)
+  {
+    this.javaTemplateType = value;
+  }
+
+  /**
    * {@inheritDoc}
    */
   @Override
@@ -510,6 +527,11 @@ class JJTree extends ToolFacade
     if (this.outputDirectory != null)
     {
       argsList.add ("-OUTPUT_DIRECTORY=" + this.outputDirectory.getAbsolutePath ());
+    }
+
+    if (StringUtils.isNotEmpty (this.javaTemplateType))
+    {
+      argsList.add ("-JAVA_TEMPLATE_TYPE=" + this.javaTemplateType);
     }
 
     if (this.inputFile != null)

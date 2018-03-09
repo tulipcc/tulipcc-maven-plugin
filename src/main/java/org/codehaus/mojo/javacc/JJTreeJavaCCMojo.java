@@ -232,6 +232,15 @@ public class JJTreeJavaCCMojo extends AbstractJavaCCMojo
   private int staleMillis;
 
   /**
+   * The Java template type to be used. Must be "modern" or "classic". Defaults
+   * to "classic".
+   *
+   * @parameter default="classic"
+   * @since 4.1.0
+   */
+  private String javaTemplateType;
+
+  /**
    * {@inheritDoc}
    */
   @Override
@@ -384,6 +393,7 @@ public class JJTreeJavaCCMojo extends AbstractJavaCCMojo
     jjtree.setVisitorDataType (this.visitorDataType);
     jjtree.setVisitorReturnType (this.visitorReturnType);
     jjtree.setVisitorException (this.visitorException);
+    jjtree.setJavaTemplateType (this.javaTemplateType);
     return jjtree;
   }
 
