@@ -26,6 +26,8 @@ import java.util.List;
 
 import org.codehaus.plexus.util.StringUtils;
 
+import com.helger.commons.state.ESuccess;
+
 /**
  * Provides a facade for the mojos to invoke JavaCC.
  *
@@ -541,17 +543,18 @@ class JavaCC extends ToolFacade
     this.javaTemplateType = value;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
-  protected int execute () throws Exception
+  protected ESuccess execute () throws Exception
   {
     final String [] args = generateArguments ();
 
     if (this.outputDirectory != null && !this.outputDirectory.exists ())
     {
-      this.outputDirectory.mkdirs ();
+      if (!this.outputDirectory.mkdirs ())
+      {
+        getLog ().error ("Failed to create output directory " + this.outputDirectory);
+        return ESuccess.FAILURE;
+      }
     }
 
     return com.helger.pgcc.parser.Main.mainProgram (args);

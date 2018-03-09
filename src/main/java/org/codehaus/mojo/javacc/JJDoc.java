@@ -27,6 +27,8 @@ import java.util.List;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
+import com.helger.commons.state.ESuccess;
+
 /**
  * Provides a facade for the mojos to invoke JJDoc.
  *
@@ -36,7 +38,6 @@ import org.codehaus.plexus.util.cli.StreamConsumer;
  */
 class JJDoc extends ToolFacade
 {
-
   /**
    * The input grammar.
    */
@@ -182,14 +183,18 @@ class JJDoc extends ToolFacade
    * {@inheritDoc}
    */
   @Override
-  protected int execute () throws Exception
+  protected ESuccess execute () throws Exception
   {
     final String [] args = generateArguments ();
 
-    final File outputDirectory = (this.outputFile != null) ? this.outputFile.getParentFile () : null;
+    final File outputDirectory = this.outputFile != null ? this.outputFile.getParentFile () : null;
     if (outputDirectory != null && !outputDirectory.exists ())
     {
-      outputDirectory.mkdirs ();
+      if (!outputDirectory.mkdirs ())
+      {
+        getLog ().error ("Failed to create output directory " + outputDirectory);
+        return ESuccess.FAILURE;
+      }
     }
 
     // fork jjdoc because of calls to System.exit()
@@ -202,7 +207,7 @@ class JJDoc extends ToolFacade
     {
       getLog ().debug ("Forking: " + jvm);
     }
-    return jvm.run ();
+    return ESuccess.valueOf (jvm.run () == 0);
   }
 
   /**

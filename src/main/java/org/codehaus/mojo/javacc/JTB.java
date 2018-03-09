@@ -28,6 +28,8 @@ import java.util.List;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
+import com.helger.commons.state.ESuccess;
+
 /**
  * Provides a facade for the mojos to invoke JTB.
  *
@@ -410,13 +412,17 @@ class JTB extends ToolFacade
    * {@inheritDoc}
    */
   @Override
-  protected int execute () throws Exception
+  protected ESuccess execute () throws Exception
   {
     final String [] args = generateArguments ();
 
     if (this.outputDirectory != null && !this.outputDirectory.exists ())
     {
-      this.outputDirectory.mkdirs ();
+      if (!this.outputDirectory.mkdirs ())
+      {
+        getLog ().error ("Failed to create output directory " + this.outputDirectory);
+        return ESuccess.FAILURE;
+      }
     }
 
     // fork JTB because of its lack to re-initialize its static parser
@@ -437,7 +443,7 @@ class JTB extends ToolFacade
 
     moveJavaFiles ();
 
-    return exitcode;
+    return ESuccess.valueOf (exitcode == 0);
   }
 
   /**

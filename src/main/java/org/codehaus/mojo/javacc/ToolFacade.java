@@ -1,5 +1,7 @@
 package org.codehaus.mojo.javacc;
 
+import javax.annotation.Nonnull;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -24,6 +26,8 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.plugin.logging.SystemStreamLog;
 
+import com.helger.commons.state.ESuccess;
+
 /**
  * Provides a facade for the mojos to invoke JavaCC related tools.
  *
@@ -47,7 +51,7 @@ abstract class ToolFacade
    */
   public void setLog (final Log logger)
   {
-    this.m_aLog = logger;
+    m_aLog = logger;
   }
 
   /**
@@ -58,11 +62,9 @@ abstract class ToolFacade
    */
   protected Log getLog ()
   {
-    if (this.m_aLog == null)
-    {
-      this.m_aLog = new SystemStreamLog ();
-    }
-    return this.m_aLog;
+    if (m_aLog == null)
+      m_aLog = new SystemStreamLog ();
+    return m_aLog;
   }
 
   /**
@@ -79,6 +81,16 @@ abstract class ToolFacade
   /**
    * Runs the tool using the previously set parameters.
    *
+   * @return The exit code of the tool, non-zero means failure.
+   * @throws Exception
+   *         If the tool could not be invoked.
+   */
+  @Nonnull
+  protected abstract ESuccess execute () throws Exception;
+
+  /**
+   * Runs the tool using the previously set parameters.
+   *
    * @throws MojoExecutionException
    *         If the tool could not be invoked.
    * @throws MojoFailureException
@@ -86,7 +98,7 @@ abstract class ToolFacade
    */
   public void run () throws MojoExecutionException, MojoFailureException
   {
-    int exitCode;
+    ESuccess exitCode;
     try
     {
       if (getLog ().isDebugEnabled ())
@@ -99,18 +111,9 @@ abstract class ToolFacade
     {
       throw new MojoExecutionException ("Failed to execute " + getToolName (), e);
     }
-    if (exitCode != 0)
+    if (exitCode.isFailure ())
     {
-      throw new MojoFailureException (getToolName () + " reported exit code " + exitCode + ": " + this);
+      throw new MojoFailureException (getToolName () + " reported failure: " + this);
     }
   }
-
-  /**
-   * Runs the tool using the previously set parameters.
-   *
-   * @return The exit code of the tool, non-zero means failure.
-   * @throws Exception
-   *         If the tool could not be invoked.
-   */
-  protected abstract int execute () throws Exception;
 }

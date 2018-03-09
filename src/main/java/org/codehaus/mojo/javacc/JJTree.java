@@ -27,6 +27,8 @@ import java.util.List;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
 
+import com.helger.commons.state.ESuccess;
+
 /**
  * Provides a facade for the mojos to invoke JJTree.
  *
@@ -412,7 +414,7 @@ class JJTree extends ToolFacade
    * {@inheritDoc}
    */
   @Override
-  protected int execute () throws Exception
+  protected ESuccess execute () throws Exception
   {
     final String [] args = generateArguments ();
 
