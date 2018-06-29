@@ -17,3 +17,6 @@ target/
 /it-local-repo/
 /xxx/
 **/*.iml
+/.settings/ 
+/.project 
+/.classpath 
