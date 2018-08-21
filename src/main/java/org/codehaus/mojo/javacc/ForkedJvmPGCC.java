@@ -8,8 +8,8 @@ import com.helger.commons.id.IHasID;
 import com.helger.security.messagedigest.EMessageDigestAlgorithm;
 
 /**
- * Special implementation of {@link ForkedJvm} that adds some default class path
- * entries.
+ * Special implementation of <code>ForkedJvm</code> that adds some default class
+ * path entries.
  */
 class ForkedJvmPGCC extends ForkedJvm
 {
