@@ -9,7 +9,7 @@ I'm using it e.g. in [ph-css](https://github.com/phax/ph-css) for CSS parsing.
 
 # News and noteworthy
 
-* v4.1.0 - work in progress
+* v4.1.0 - 2018-10-25
   * Updated to ParserGeneratorCC 1.1.0 - INCOMPATIBLE!
   * Changed PGCC templates - INCOMPATIBLE!
   * Added `OUTPUT_ENCODING` option
@@ -43,7 +43,7 @@ Example with 3 executions (two javacc and one jjtree-javacc), try with `mvn clea
       <plugin>
         <groupId>com.helger.maven</groupId>
         <artifactId>ph-javacc-maven-plugin</artifactId>
-        <version>4.0.3</version>
+        <version>4.1.0</version>
         <executions>
           <execution>
             <id>jjc1</id>
