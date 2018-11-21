@@ -18,6 +18,10 @@ cache:
   directories:
     - $HOME/.m2
 
+branches:
+  only:
+    - master
+
 jobs:
   include:
     - stage: test
@@ -35,4 +39,3 @@ jobs:
       jdk: openjdk11
       script:
         - mvn test -B
-  
