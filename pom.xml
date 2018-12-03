@@ -26,7 +26,7 @@
   </parent>
   <groupId>com.helger.maven</groupId>
   <artifactId>ph-javacc-maven-plugin</artifactId>
-  <version>4.1.1</version>
+  <version>4.1.2-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
   <name>JavaCC Maven Plugin</name>
   <description>Maven 3 Plugin for processing JavaCC grammar files.</description>
@@ -45,7 +45,7 @@
     <connection>scm:git:git@github.com:phax/ph-javacc-maven-plugin.git</connection>
     <developerConnection>scm:git:git@github.com:phax/ph-javacc-maven-plugin.git</developerConnection>
     <url>http://github.com/phax/ph-javacc-maven-plugin</url>
-    <tag>ph-javacc-maven-plugin-4.1.1</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <organization>
