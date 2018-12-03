@@ -37,9 +37,8 @@ import com.helger.commons.state.ESuccess;
  * @version $Id: JTB.java 6463 2008-03-15 22:20:09Z bentmann $
  * @see <a href="http://compilers.cs.ucla.edu/jtb/">Java Tree Builder</a>
  */
-class JTB extends ToolFacade
+class JTB extends AbstractToolFacade
 {
-
   /**
    * The default package name for syntax tree files.
    */

@@ -36,7 +36,7 @@ import com.helger.commons.state.ESuccess;
  * @see <a href="https://javacc.dev.java.net/doc/commandline.html">JavaCC
  *      Command Line Syntax</a>
  */
-class JavaCC extends ToolFacade
+class JavaCC extends AbstractToolFacade
 {
   /**
    * The input grammar.
@@ -546,7 +546,7 @@ class JavaCC extends ToolFacade
   @Override
   protected ESuccess execute () throws Exception
   {
-    final String [] args = generateArguments ();
+    final String [] args = _generateArguments ();
 
     if (this.outputDirectory != null && !this.outputDirectory.exists ())
     {
@@ -557,7 +557,15 @@ class JavaCC extends ToolFacade
       }
     }
 
-    return com.helger.pgcc.parser.Main.mainProgram (args);
+    LOCK.lock ();
+    try
+    {
+      return com.helger.pgcc.parser.Main.mainProgram (args);
+    }
+    finally
+    {
+      LOCK.unlock ();
+    }
   }
 
   /**
@@ -571,7 +579,7 @@ class JavaCC extends ToolFacade
    * @return A string array that represents the command line arguments to use
    *         for JavaCC.
    */
-  private String [] generateArguments ()
+  private String [] _generateArguments ()
   {
     final List <String> argsList = new ArrayList <> ();
 
@@ -731,7 +739,6 @@ class JavaCC extends ToolFacade
   @Override
   public String toString ()
   {
-    return Arrays.asList (generateArguments ()).toString ();
+    return Arrays.toString (_generateArguments ());
   }
-
 }

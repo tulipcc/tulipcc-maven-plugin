@@ -37,9 +37,8 @@ import com.helger.commons.state.ESuccess;
  * @see <a href="https://javacc.dev.java.net/doc/JJTree.html">JJTree
  *      Reference</a>
  */
-class JJTree extends ToolFacade
+class JJTree extends AbstractToolFacade
 {
-
   /**
    * The input grammar.
    */
@@ -423,8 +422,16 @@ class JJTree extends ToolFacade
       this.outputDirectory.mkdirs ();
     }
 
-    final com.helger.pgcc.jjtree.JJTree jjtree = new com.helger.pgcc.jjtree.JJTree ();
-    return jjtree.main (args);
+    LOCK.lock ();
+    try
+    {
+      final com.helger.pgcc.jjtree.JJTree jjtree = new com.helger.pgcc.jjtree.JJTree ();
+      return jjtree.main (args);
+    }
+    finally
+    {
+      LOCK.unlock ();
+    }
   }
 
   /**

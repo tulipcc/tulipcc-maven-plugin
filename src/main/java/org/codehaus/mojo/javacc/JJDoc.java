@@ -36,7 +36,7 @@ import com.helger.commons.state.ESuccess;
  * @version $Id: JJDoc.java 10603 2009-09-06 15:05:08Z bentmann $
  * @see <a href="https://javacc.dev.java.net/doc/JJDoc.html">JJDoc Reference</a>
  */
-class JJDoc extends ToolFacade
+class JJDoc extends AbstractToolFacade
 {
   /**
    * The input grammar.
@@ -185,7 +185,7 @@ class JJDoc extends ToolFacade
   @Override
   protected ESuccess execute () throws Exception
   {
-    final String [] args = generateArguments ();
+    final String [] args = _generateArguments ();
 
     final File outputDirectory = this.outputFile != null ? this.outputFile.getParentFile () : null;
     if (outputDirectory != null && !outputDirectory.exists ())
@@ -197,17 +197,15 @@ class JJDoc extends ToolFacade
       }
     }
 
-    // fork jjdoc because of calls to System.exit()
-    final ForkedJvm jvm = new ForkedJvmPGCC ();
-    jvm.setMainClass (com.helger.pgcc.jjdoc.JJDocMain.class);
-    jvm.addArguments (args);
-    jvm.setSystemOut (new MojoLogStreamConsumer (false));
-    jvm.setSystemErr (new MojoLogStreamConsumer (true));
-    if (getLog ().isDebugEnabled ())
+    LOCK.lock ();
+    try
     {
-      getLog ().debug ("Forking: " + jvm);
+      return com.helger.pgcc.jjdoc.JJDocMain.mainProgram (args);
     }
-    return ESuccess.valueOf (jvm.run () == 0);
+    finally
+    {
+      LOCK.unlock ();
+    }
   }
 
   /**
@@ -216,7 +214,7 @@ class JJDoc extends ToolFacade
    *
    * @return A string array that represents the arguments to use for JJDoc.
    */
-  private String [] generateArguments ()
+  private String [] _generateArguments ()
   {
     final List <String> argsList = new ArrayList <> ();
 
@@ -271,7 +269,7 @@ class JJDoc extends ToolFacade
   @Override
   public String toString ()
   {
-    return Arrays.asList (generateArguments ()).toString ();
+    return Arrays.asList (_generateArguments ()).toString ();
   }
 
   /**

@@ -1,5 +1,8 @@
 package org.codehaus.mojo.javacc;
 
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 import javax.annotation.Nonnull;
 
 /*
@@ -34,8 +37,11 @@ import com.helger.commons.state.ESuccess;
  * @author Benjamin Bentmann
  * @version $Id: ToolFacade.java 7758 2008-09-29 20:06:33Z bentmann $
  */
-abstract class ToolFacade
+abstract class AbstractToolFacade
 {
+  // Lock all calls to javacc stuff, because they use a lot of global variables
+  // (see also #14)
+  protected static final Lock LOCK = new ReentrantLock ();
 
   /**
    * The logger used to output diagnostic messages.
@@ -60,7 +66,7 @@ abstract class ToolFacade
    * @return The logger used to output diagnostic messages, never
    *         <code>null</code>.
    */
-  protected Log getLog ()
+  protected final Log getLog ()
   {
     if (m_aLog == null)
       m_aLog = new SystemStreamLog ();
