@@ -9,29 +9,32 @@ I'm using it e.g. in [ph-css](https://github.com/phax/ph-css) for CSS parsing.
 
 # News and noteworthy
 
+* v4.1.1 - 2018-12-03
+    * JJDoc now runs without forking
+    * Made plugin threadsafe (see [issue #14](https://github.com/phax/ph-javacc-plugin/issues/14)) 
 * v4.1.0 - 2018-10-25
-  * Updated to ParserGeneratorCC 1.1.0 - INCOMPATIBLE!
-  * Changed PGCC templates - INCOMPATIBLE!
-  * Added `OUTPUT_ENCODING` option
+    * Updated to ParserGeneratorCC 1.1.0 - INCOMPATIBLE!
+    * Changed PGCC templates - INCOMPATIBLE!
+    * Added `OUTPUT_ENCODING` option
 * v4.0.3 - 2018-03-09
-  * Fixed error passing `JAVA_TEMPLATE_TYPE` option in jjtree-java goal
+    * Fixed error passing `JAVA_TEMPLATE_TYPE` option in jjtree-java goal
 * v4.0.2 - 2018-03-09
-  * Removed `STATIC` option - INCOMPATIBLE!
-  * Added `JAVA_TEMPLATE_TYPE` option
+    * Removed `STATIC` option - INCOMPATIBLE!
+    * Added `JAVA_TEMPLATE_TYPE` option
 * v4.0.1 - 2018-01-08
-  * Updated to ParserGeneratorCC 1.0.2 so that this plugin can be used to build ParserGeneratorCC
-  * Minimum JDK version is 1.5
+    * Updated to ParserGeneratorCC 1.0.2 so that this plugin can be used to build ParserGeneratorCC
+    * Minimum JDK version is 1.5
 * v4.0.0 - 2018-01-05
-  * Switched to https://github.com/phax/ParserGeneratorCC a fork of JavaCC 7.0.3
+    * Switched to https://github.com/phax/ParserGeneratorCC a fork of JavaCC 7.0.3
 * v3.0.0 - 2017-11-07
-  * Changed minimum requirement to JDK 8
-  * Requires Maven 3 for execution
-  * Using JavaCC 7.0.3
-  * Removed deprecated classes
+    * Changed minimum requirement to JDK 8
+    * Requires Maven 3 for execution
+    * Using JavaCC 7.0.3
+    * Removed deprecated classes
 * v2.8.2 - 2016-11-19
-  * Fixing https://github.com/javacc/javacc/issues/2 locally
+    * Fixing https://github.com/javacc/javacc/issues/2 locally
 * v2.8.1 - 2016-07-13
-  * Fixed a problem with the code generation for "modern" Java template
+    * Fixed a problem with the code generation for "modern" Java template
 
 
 # Maven usage
@@ -43,7 +46,7 @@ Example with 3 executions (two javacc and one jjtree-javacc), try with `mvn clea
       <plugin>
         <groupId>com.helger.maven</groupId>
         <artifactId>ph-javacc-maven-plugin</artifactId>
-        <version>4.1.0</version>
+        <version>4.1.1</version>
         <executions>
           <execution>
             <id>jjc1</id>
@@ -119,6 +122,7 @@ Supported goals with the respective parameters are:
 
 # External links
 
+  * ParserGeneratorCC is located on https://github.com/phax/ParserGeneratorCC
   * Java CC sources are finally on GitHub at https://github.com/javacc/javacc
 
 ---
