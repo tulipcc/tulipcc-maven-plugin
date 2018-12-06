@@ -11,7 +11,7 @@ I'm using it e.g. in [ph-css](https://github.com/phax/ph-css) for CSS parsing.
 
 * v4.1.1 - 2018-12-03
     * JJDoc now runs without forking
-    * Made plugin threadsafe (see [issue #14](https://github.com/phax/ph-javacc-plugin/issues/14)) 
+    * Made plugin threadsafe (see [issue #14](https://github.com/phax/ph-javacc-maven-plugin/issues/14)) 
 * v4.1.0 - 2018-10-25
     * Updated to ParserGeneratorCC 1.1.0 - INCOMPATIBLE!
     * Changed PGCC templates - INCOMPATIBLE!
