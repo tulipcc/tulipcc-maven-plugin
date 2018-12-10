@@ -31,6 +31,7 @@ import org.apache.maven.plugin.MojoFailureException;
  *
  * @goal javacc
  * @phase generate-sources
+ * @threadSafe
  * @since 2.0
  * @author jruiz@exist.com
  * @author jesse <jesse.mcconnell@gmail.com>
