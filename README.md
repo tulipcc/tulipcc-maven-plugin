@@ -1,4 +1,5 @@
 # ph-javacc-maven-plugin
+
 An updated version of the [javacc-maven-plugin](https://github.com/mojohaus/javacc-maven-plugin) using JavaCC 6.1.3.
 The parameters etc. where not touched, so it should be a drop-in replacement for the old javacc-maven-plugin 2.6.
 It requires Java 1.8 or higher and Apache Maven 3.x or higher.
@@ -9,6 +10,8 @@ I'm using it e.g. in [ph-css](https://github.com/phax/ph-css) for CSS parsing.
 
 # News and noteworthy
 
+* v4.1.2 - 2019-01-28
+    * Updated to ParserGeneratorCC 1.1.1 - had an error in the modern templates
 * v4.1.1 - 2018-12-03
     * JJDoc now runs without forking
     * Made plugin threadsafe (see [issue #14](https://github.com/phax/ph-javacc-maven-plugin/issues/14)) 
@@ -46,7 +49,7 @@ Example with 3 executions (two javacc and one jjtree-javacc), try with `mvn clea
       <plugin>
         <groupId>com.helger.maven</groupId>
         <artifactId>ph-javacc-maven-plugin</artifactId>
-        <version>4.1.1</version>
+        <version>4.1.2</version>
         <executions>
           <execution>
             <id>jjc1</id>
