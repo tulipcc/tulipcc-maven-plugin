@@ -1,7 +1,9 @@
 # ph-javacc-maven-plugin
 
-An updated version of the [javacc-maven-plugin](https://github.com/mojohaus/javacc-maven-plugin) using JavaCC 6.1.3.
-The parameters etc. where not touched, so it should be a drop-in replacement for the old javacc-maven-plugin 2.6.
+An updated version of the [javacc-maven-plugin](https://github.com/mojohaus/javacc-maven-plugin).
+Originally it was JavaCC 6.1.3, than updated to JavaCC 7.0 but in the meantime the underlying code is the [ParserGeneratorCC](https://github.com/phax/ParserGeneratorCC/) project which is a fork of JavaCC 7.0.3 but with slightly improved code and output quality.
+The main difference is the removed code compatibility for generating code below Java 1.5 - respective options where removed.  
+For the rest, the parameters etc. where basically not touched, so it should be a drop-in replacement for the old javacc-maven-plugin 2.6.
 It requires Java 1.8 or higher and Apache Maven 3.x or higher.
 
 It is licensed under the Apache 2 license.
@@ -118,15 +120,15 @@ Supported goals with the respective parameters are:
 
 # Integration tests
 
-  * To run the integration tests use the following commandline `mvn clean install -Dit=true`
-  * If you have a proxy server in place, edit `src/it/settings.xml` and add it there
-  * When integration tests are run, they create a folder `it-local-repo` inside this folder. This is the local Maven repository and is safe to be deleted.
-  * When running the IT, the files are located in `target/it` - so check all the build logs there
+* To run the integration tests use the following commandline `mvn clean install -Dit=true`
+* If you have a proxy server in place, edit `src/it/settings.xml` and add it there
+* When integration tests are run, they create a folder `it-local-repo` inside this folder. This is the local Maven repository and is safe to be deleted.
+* When running the IT, the files are located in `target/it` - so check all the build logs there
 
 # External links
 
-  * ParserGeneratorCC is located on https://github.com/phax/ParserGeneratorCC
-  * Java CC sources are finally on GitHub at https://github.com/javacc/javacc
+* ParserGeneratorCC is located on https://github.com/phax/ParserGeneratorCC
+* Java CC sources are finally on GitHub at https://github.com/javacc/javacc
 
 ---
 
