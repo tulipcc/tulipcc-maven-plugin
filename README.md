@@ -12,6 +12,8 @@ I'm using it e.g. in [ph-css](https://github.com/phax/ph-css) for CSS parsing.
 
 # News and noteworthy
 
+* v4.1.3 - work in progress
+    * Updated to ParserGeneratorCC 1.1.2
 * v4.1.2 - 2019-01-28
     * Updated to ParserGeneratorCC 1.1.1 - had an error in the modern templates
 * v4.1.1 - 2018-12-03
