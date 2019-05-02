@@ -45,6 +45,7 @@ I'm using it e.g. in [ph-css](https://github.com/phax/ph-css) for CSS parsing.
 
 
 # Maven usage
+
 Example with 3 executions (two javacc and one jjtree-javacc), try with `mvn clean process-resources`:
 
 ```xml
@@ -53,7 +54,7 @@ Example with 3 executions (two javacc and one jjtree-javacc), try with `mvn clea
       <plugin>
         <groupId>com.helger.maven</groupId>
         <artifactId>ph-javacc-maven-plugin</artifactId>
-        <version>4.1.2</version>
+        <version>4.1.3</version>
         <executions>
           <execution>
             <id>jjc1</id>
