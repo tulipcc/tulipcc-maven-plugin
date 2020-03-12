@@ -25,8 +25,9 @@ import java.io.File;
  * Scans source directories for JavaCC grammar files. This scanner supports
  * {@link JJTreeMojo} and {@link JTBMojo} which perform timestamp checking
  * against copies of the input grammars rather than against the generated parser
- * files. Hence, the directory configured by {@link #setOutputDirectory(File)}
- * is taken to be the output directory for the timestamp files.
+ * files. Hence, the directory configured by
+ * code>setOutputDirectory(File)</code> is taken to be the output directory for
+ * the timestamp files.
  *
  * @author Benjamin Bentmann
  * @version $Id: LegacyGrammarDirectoryScanner.java 6251 2008-02-08 13:56:51Z
@@ -34,7 +35,6 @@ import java.io.File;
  */
 class LegacyGrammarDirectoryScanner extends GrammarDirectoryScanner
 {
-
   /**
    * {@inheritDoc}
    */
@@ -44,5 +44,4 @@ class LegacyGrammarDirectoryScanner extends GrammarDirectoryScanner
     final File timestampFile = new File (targetDirectory, grammarFile);
     return new File [] { timestampFile };
   }
-
 }

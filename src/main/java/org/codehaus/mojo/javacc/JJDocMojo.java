@@ -52,11 +52,6 @@ import org.apache.maven.reporting.MavenReportException;
  */
 public class JJDocMojo extends AbstractMavenReport
 {
-
-  // ----------------------------------------------------------------------
-  // Mojo Parameters
-  // ----------------------------------------------------------------------
-
   /**
    * The current Maven project.
    *
@@ -64,6 +59,7 @@ public class JJDocMojo extends AbstractMavenReport
    * @required
    * @readonly
    */
+  @SuppressWarnings ("hiding")
   private MavenProject project;
 
   /**
@@ -71,6 +67,7 @@ public class JJDocMojo extends AbstractMavenReport
    *
    * @component
    */
+  @SuppressWarnings ("hiding")
   private Renderer siteRenderer;
 
   /**
@@ -127,6 +124,7 @@ public class JJDocMojo extends AbstractMavenReport
    * @parameter property=outputDirectory
    *            default-value="${project.reporting.outputDirectory}"
    */
+  @SuppressWarnings ("hiding")
   private File outputDirectory;
 
   /**
@@ -344,8 +342,7 @@ public class JJDocMojo extends AbstractMavenReport
     final File [] sourceDirs = getSourceDirectories ();
     for (final File sourceDir : sourceDirs)
     {
-      final GrammarInfo [] grammarInfos = scanForGrammars (sourceDir);
-
+      final GrammarInfo [] grammarInfos = _scanForGrammars (sourceDir);
       if (grammarInfos == null)
       {
         getLog ().debug ("Skipping non-existing source directory: " + sourceDir);
@@ -399,10 +396,7 @@ public class JJDocMojo extends AbstractMavenReport
     {
       return ".txt";
     }
-    else
-    {
-      return ".html";
-    }
+    return ".html";
   }
 
   /**
@@ -449,23 +443,26 @@ public class JJDocMojo extends AbstractMavenReport
    *        The source directory of the grammar file.
    * @param grammarFile
    *        The JavaCC grammar file.
-   * @param linkPath
+   * @param sLinkPath
    *        The path to the JJDoc output.
    */
-  private void createReportLink (final Sink sink, final File sourceDirectory, final File grammarFile, String linkPath)
+  private void createReportLink (final Sink sink,
+                                 final File sourceDirectory,
+                                 final File grammarFile,
+                                 final String sLinkPath)
   {
     sink.tableRow ();
     sink.tableCell ();
+
+    String linkPath = sLinkPath;
     if (linkPath.startsWith ("/"))
-    {
       linkPath = linkPath.substring (1);
-    }
     sink.link (linkPath);
+
     String grammarFileRelativePath = sourceDirectory.toURI ().relativize (grammarFile.toURI ()).toString ();
     if (grammarFileRelativePath.startsWith ("/"))
-    {
       grammarFileRelativePath = grammarFileRelativePath.substring (1);
-    }
+
     sink.text (grammarFileRelativePath);
     sink.link_ ();
     sink.tableCell_ ();
@@ -516,12 +513,10 @@ public class JJDocMojo extends AbstractMavenReport
    * @throws MavenReportException
    *         If there is a problem while scanning for .jj files.
    */
-  private GrammarInfo [] scanForGrammars (final File sourceDirectory) throws MavenReportException
+  private GrammarInfo [] _scanForGrammars (final File sourceDirectory) throws MavenReportException
   {
     if (!sourceDirectory.isDirectory ())
-    {
       return null;
-    }
 
     GrammarInfo [] grammarInfos;
 
@@ -560,9 +555,8 @@ public class JJDocMojo extends AbstractMavenReport
    * Compares grammar infos using their relative grammar file paths as the sort
    * key.
    */
-  private static class GrammarInfoComparator implements Comparator
+  private static class GrammarInfoComparator implements Comparator <GrammarInfo>
   {
-
     /**
      * The singleton instance of this comparator.
      */
@@ -589,35 +583,26 @@ public class JJDocMojo extends AbstractMavenReport
      *         a positive integer if it is considered "greater" and zero
      *         otherwise.
      */
-    public int compare (final Object o1, final Object o2)
+    public int compare (final GrammarInfo o1, final GrammarInfo o2)
     {
       int rel;
 
-      final GrammarInfo info1 = (GrammarInfo) o1;
-      final String [] paths1 = info1.getRelativeGrammarFile ().split ("\\" + File.separatorChar);
-
-      final GrammarInfo info2 = (GrammarInfo) o2;
-      final String [] paths2 = info2.getRelativeGrammarFile ().split ("\\" + File.separatorChar);
+      final String [] paths1 = o1.getRelativeGrammarFile ().split ("\\" + File.separatorChar);
+      final String [] paths2 = o2.getRelativeGrammarFile ().split ("\\" + File.separatorChar);
 
       final int dirs = Math.min (paths1.length, paths2.length) - 1;
       for (int i = 0; i < dirs; i++)
       {
         rel = paths1[i].compareToIgnoreCase (paths2[i]);
         if (rel != 0)
-        {
           return rel;
-        }
       }
 
       rel = paths1.length - paths2.length;
       if (rel != 0)
-      {
         return rel;
-      }
 
       return paths1[paths1.length - 1].compareToIgnoreCase (paths2[paths1.length - 1]);
     }
-
   }
-
 }

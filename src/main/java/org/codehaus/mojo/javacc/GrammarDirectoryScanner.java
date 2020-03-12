@@ -43,8 +43,8 @@ class GrammarDirectoryScanner
 
   /**
    * The absolute path to the output directory used to detect stale target files
-   * by timestamp checking, may be <code>null</code> if no stale detection should
-   * be performed.
+   * by timestamp checking, may be <code>null</code> if no stale detection
+   * should be performed.
    */
   private File outputDirectory;
 
@@ -100,8 +100,8 @@ class GrammarDirectoryScanner
    * Sets the package name for the generated parser.
    *
    * @param packageName
-   *        The package name for the generated parser, may be <code>null</code> to
-   *        use the package declaration from the grammar file.
+   *        The package name for the generated parser, may be <code>null</code>
+   *        to use the package declaration from the grammar file.
    */
   public void setParserPackage (final String packageName)
   {
@@ -138,22 +138,20 @@ class GrammarDirectoryScanner
    * files.
    *
    * @param directory
-   *        The absolute path to the output directory used to detect stale target
-   *        files by timestamp checking, may be <code>null</code> if no stale
-   *        detection should be performed.
+   *        The absolute path to the output directory used to detect stale
+   *        target files by timestamp checking, may be <code>null</code> if no
+   *        stale detection should be performed.
    */
   public void setOutputDirectory (final File directory)
   {
     if (directory != null && !directory.isAbsolute ())
-    {
       throw new IllegalArgumentException ("output directory is not absolute: " + directory);
-    }
     this.outputDirectory = directory;
   }
 
   /**
-   * Sets the granularity in milliseconds of the last modification date for stale
-   * file detection.
+   * Sets the granularity in milliseconds of the last modification date for
+   * stale file detection.
    *
    * @param milliseconds
    *        The granularity in milliseconds of the last modification date for
@@ -168,7 +166,8 @@ class GrammarDirectoryScanner
   /**
    * Scans the source directory for grammar files that match at least one
    * inclusion pattern but no exclusion pattern, optionally performing timestamp
-   * checking to exclude grammars whose corresponding parser files are up to date.
+   * checking to exclude grammars whose corresponding parser files are up to
+   * date.
    *
    * @throws IOException
    *         If a grammar file could not be analyzed for metadata.
@@ -227,8 +226,9 @@ class GrammarDirectoryScanner
    * Gets the grammar files that were included by the scanner during the last
    * invocation of <code>scan()</code>
    *
-   * @return An array of grammar infos describing the included grammar files, will
-   *         be empty if no files were included but is never <code>null</code>.
+   * @return An array of grammar infos describing the included grammar files,
+   *         will be empty if no files were included but is never
+   *         <code>null</code>.
    */
   public GrammarInfo [] getIncludedGrammars ()
   {

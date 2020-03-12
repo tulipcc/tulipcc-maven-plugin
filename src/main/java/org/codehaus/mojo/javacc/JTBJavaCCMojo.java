@@ -223,13 +223,8 @@ public class JTBJavaCCMojo extends AbstractJavaCCMojo
   protected String [] getIncludes ()
   {
     if (this.includes != null)
-    {
       return this.includes;
-    }
-    else
-    {
-      return new String [] { "**/*.jj", "**/*.JJ", "**/*.jtb", "**/*.JTB" };
-    }
+    return new String [] { "**/*.jj", "**/*.JJ", "**/*.jtb", "**/*.JTB" };
   }
 
   /**
