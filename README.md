@@ -10,6 +10,15 @@ It is licensed under the Apache 2 license.
 
 I'm using it e.g. in [ph-css](https://github.com/phax/ph-css) for CSS parsing.
 
+## Upgrading from the original plugin
+
+The following list is member-gathered when they update to this plugin and is not comprehensive 
+
+* Requires at least Java 1.5
+* use the constructor with "InputStream, Charset", the one with only "InputStream" throws an Exception
+* change `TokenMgrError` into `TokenMgrException`
+
+
 # Maven usage
 
 Example with 3 executions (two javacc and one jjtree-javacc), try with `mvn clean process-resources`:
