@@ -48,14 +48,6 @@ class GrammarDirectoryScanner
    */
   private File outputDirectory;
 
-  // TODO: Once the parameter "packageName" from the javacc mojo has been
-  // deleted, remove this field, too.
-  /**
-   * The package name for the generated parser, may be <code>null</code> to use
-   * the package declaration from the grammar file.
-   */
-  private String parserPackage;
-
   /**
    * The granularity in milliseconds of the last modification date for testing
    * whether a grammar file needs recompilation because its corresponding target
@@ -94,18 +86,6 @@ class GrammarDirectoryScanner
       throw new IllegalArgumentException ("source directory is not absolute: " + directory);
     }
     this.scanner.setBasedir (directory);
-  }
-
-  /**
-   * Sets the package name for the generated parser.
-   *
-   * @param packageName
-   *        The package name for the generated parser, may be <code>null</code>
-   *        to use the package declaration from the grammar file.
-   */
-  public void setParserPackage (final String packageName)
-  {
-    this.parserPackage = packageName;
   }
 
   /**
@@ -180,7 +160,7 @@ class GrammarDirectoryScanner
     final String [] includedFiles = this.scanner.getIncludedFiles ();
     for (final String includedFile : includedFiles)
     {
-      final GrammarInfo grammarInfo = new GrammarInfo (this.scanner.getBasedir (), includedFile, this.parserPackage);
+      final GrammarInfo grammarInfo = new GrammarInfo (this.scanner.getBasedir (), includedFile);
       if (this.outputDirectory != null)
       {
         final File sourceFile = grammarInfo.getGrammarFile ();

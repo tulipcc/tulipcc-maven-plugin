@@ -560,12 +560,15 @@ class JavaCC extends AbstractToolFacade
     LOCK.lock ();
     try
     {
-      return com.helger.pgcc.parser.Main.mainProgram (args);
+      if (com.helger.pgcc.parser.Main.mainProgram (args).isFailure ())
+        return ESuccess.FAILURE;
     }
     finally
     {
       LOCK.unlock ();
     }
+
+    return ESuccess.SUCCESS;
   }
 
   /**

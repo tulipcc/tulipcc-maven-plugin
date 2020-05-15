@@ -61,13 +61,6 @@ public class GrammarInfoTest extends TestCase
     assertEquals (grammarFile.getName (), info.getRelativeGrammarFile ());
   }
 
-  public void testGetPackageNameDeclaredPackageOverwrite () throws Exception
-  {
-    final File grammarFile = getGrammar ("Parser1.jj");
-    final GrammarInfo info = new GrammarInfo (grammarFile.getParentFile (), grammarFile.getName (), "org.test");
-    assertEquals ("org.test", info.getParserPackage ());
-  }
-
   public void testGetPackageNameDeclaredPackage () throws Exception
   {
     final GrammarInfo info = newGrammarInfo ("Parser1.jj");
