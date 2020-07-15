@@ -162,10 +162,7 @@ public class JavaCCMojo extends AbstractJavaCCMojo
     javacc.run ();
 
     // copy parser files from JavaCC
-    copyGrammarOutput (getOutputDirectory (),
-                       grammarInfo.getParserPackage (),
-                       parserDirectory,
-                       grammarInfo.getParserName () + "*");
+    copyGrammarOutput (getOutputDirectory (), grammarInfo.getParserPackage (), parserDirectory, grammarInfo.getParserName () + "*");
 
     // copy source files which are next to grammar unless the grammar resides in
     // an ordinary source root

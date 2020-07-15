@@ -355,8 +355,7 @@ public class JJDocMojo extends AbstractMavenReport
           final File grammarFile = grammarInfo.getGrammarFile ();
 
           String relativeOutputFileName = grammarInfo.getRelativeGrammarFile ();
-          relativeOutputFileName = relativeOutputFileName.replaceAll ("(?i)\\.(jj|jjt|jtb)$",
-                                                                      getOutputFileExtension ());
+          relativeOutputFileName = relativeOutputFileName.replaceAll ("(?i)\\.(jj|jjt|jtb)$", getOutputFileExtension ());
 
           final File jjdocOutputFile = new File (getJJDocOutputDirectory (), relativeOutputFileName);
 
@@ -446,10 +445,7 @@ public class JJDocMojo extends AbstractMavenReport
    * @param sLinkPath
    *        The path to the JJDoc output.
    */
-  private void createReportLink (final Sink sink,
-                                 final File sourceDirectory,
-                                 final File grammarFile,
-                                 final String sLinkPath)
+  private void createReportLink (final Sink sink, final File sourceDirectory, final File grammarFile, final String sLinkPath)
   {
     sink.tableRow ();
     sink.tableCell ();
