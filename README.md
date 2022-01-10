@@ -111,6 +111,8 @@ Supported goals with the respective parameters are:
 
 # News and noteworthy
 
+* v4.1.5 - 2022-01-10
+    * Updated to ParserGeneratorCC 1.1.4
 * v4.1.4 - 2020-05-13
     * Updated to ParserGeneratorCC 1.1.3
 * v4.1.3 - 2019-05-02
