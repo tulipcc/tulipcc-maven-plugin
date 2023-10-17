@@ -10,7 +10,7 @@ public class SubScheme {
     SubScheme parser;
 
     System.out.println("Reading from standard input. . .");
-    parser = new SubScheme(System.in);
+    parser = new SubScheme(System.in, "UTF-8");
 
     try {
       Node root = parser.Unit();

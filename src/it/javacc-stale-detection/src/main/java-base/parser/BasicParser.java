@@ -4,7 +4,7 @@ package parser;
 public class BasicParser implements BasicParserConstants {
 
   public static void main(String args[]) throws ParseException {
-    BasicParser parser = new BasicParser(System.in);
+    BasicParser parser = new BasicParser(System.in, "UTF-8");
     parser.Input();
   }
 

@@ -5,7 +5,7 @@ package org;
 public class Parser {
 
   public static void main(String args[]) throws ParseException {
-    Parser parser = new Parser(System.in);
+    Parser parser = new Parser(System.in, "UTF-8");
     parser.Input();
   }
 

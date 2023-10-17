@@ -3,7 +3,7 @@ PARSER_BEGIN(Simple)
 class Simple {
   public static void main(String args[]) {
     System.out.println("Reading from standard input...");
-    Simple t = new Simple(System.in);
+    Simple t = new Simple(System.in, "UTF-8");
     try {
       SimpleNode n = t.Start();
       n.dump("");
