@@ -28,4 +28,4 @@ jobs:
     - uses: actions/upload-artifact@v3
       with:
         name: build-jdk-${{ matrix.java }}
-        path: target/commons-network-*.jar
+        path: target/ph-javacc-maven-plugin-*.jar
