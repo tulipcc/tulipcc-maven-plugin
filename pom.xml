@@ -183,6 +183,14 @@
               <debug>false</debug>
               <showErrors>true</showErrors>
               <streamLogs>true</streamLogs>
+              <mavenOpts>-Djava.io.tmpdir=${project.build.directory}</mavenOpts>
+              <properties>
+                <maven.compiler.source>1.8</maven.compiler.source>
+                <maven.compiler.target>1.8</maven.compiler.target>
+                <!-- in order to stop Jenkins to recognized reports from test as project report -->
+                <invoker.reportsDirectory>target/invoker-reports-test</invoker.reportsDirectory>
+                <invoker.streamLogsOnFailures>true</invoker.streamLogsOnFailures>
+              </properties>
             </configuration>
             <executions>
               <execution>
