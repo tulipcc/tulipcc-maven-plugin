@@ -26,7 +26,7 @@
   </parent>
   <groupId>io.github.tulipcc</groupId>
   <artifactId>tulipcc-maven-plugin</artifactId>
-  <version>5.0.0-SNAPSHOT</version>
+  <version>5.0.0</version>
   <packaging>maven-plugin</packaging>
   <name>JavaCC Maven Plugin</name>
   <description>Maven 3 Plugin for processing JavaCC grammar files.</description>
@@ -45,7 +45,7 @@
     <connection>scm:git:https://github.com/tulipcc/tulipcc-maven-plugin.git</connection>
     <developerConnection>scm:git:https://github.com/tulipcc/tulipcc-maven-plugin.git</developerConnection>
     <url>http://github.com/tulipcc/tulipcc-maven-plugin</url>
-    <tag>HEAD</tag>
+    <tag>tulipcc-maven-plugin-5.0.0</tag>
   </scm>
 
   <organization>
