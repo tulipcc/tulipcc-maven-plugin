@@ -36,4 +36,4 @@ jobs:
     - uses: actions/upload-artifact@v3
       with:
         name: build-jdk-${{ matrix.java }}
-        path: target/ph-javacc-maven-plugin-*.jar
+        path: target/tulipcc-maven-plugin-*.jar

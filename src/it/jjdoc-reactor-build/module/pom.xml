@@ -15,8 +15,8 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>com.helger.maven</groupId>
-        <artifactId>ph-javacc-maven-plugin</artifactId>
+        <groupId>io.github.tulipcc</groupId>
+        <artifactId>tulipcc-maven-plugin</artifactId>
       </plugin>
     </plugins>
   </build>
@@ -24,8 +24,8 @@
   <reporting>
     <plugins>
       <plugin>
-        <groupId>com.helger.maven</groupId>
-        <artifactId>ph-javacc-maven-plugin</artifactId>
+        <groupId>io.github.tulipcc</groupId>
+        <artifactId>tulipcc-maven-plugin</artifactId>
         <configuration>
           <sourceDirectories>
             <sourceDirectory>src/javacc</sourceDirectory>

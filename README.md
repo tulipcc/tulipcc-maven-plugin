@@ -1,4 +1,4 @@
-# ph-javacc-maven-plugin
+# tulipcc-maven-plugin
 
 An updated version of the [javacc-maven-plugin](https://github.com/mojohaus/javacc-maven-plugin).
 Originally it was JavaCC 6.1.3, than updated to JavaCC 7.0 but in the meantime the underlying code is the [ParserGeneratorCC](https://github.com/phax/ParserGeneratorCC/) project which is a fork of JavaCC 7.0.3 but with slightly improved code and output quality.
@@ -27,8 +27,8 @@ Example with 3 executions (two javacc and one jjtree-javacc), try with `mvn clea
     <build>
       ...
       <plugin>
-        <groupId>com.helger.maven</groupId>
-        <artifactId>ph-javacc-maven-plugin</artifactId>
+        <groupId>io.github.tulipcc</groupId>
+        <artifactId>tulipcc-maven-plugin</artifactId>
         <version>4.1.4</version>
         <executions>
           <execution>
@@ -111,6 +111,9 @@ Supported goals with the respective parameters are:
 
 # News and noteworthy
 
+* v5.0.0 - 2023-01-10
+    * Migrated artifact id from `com.helger.maven:ph-javacc-maven-plugin` to `io.github.tulipcc:tulipcc-maven-plugin`
+    * Support Java 21 (upgraded dependencies)
 * v4.1.5 - 2022-01-10
     * Updated to ParserGeneratorCC 1.1.4
 * v4.1.4 - 2020-05-13
@@ -121,7 +124,7 @@ Supported goals with the respective parameters are:
     * Updated to ParserGeneratorCC 1.1.1 - had an error in the modern templates
 * v4.1.1 - 2018-12-03
     * JJDoc now runs without forking
-    * Made plugin threadsafe (see [issue #14](https://github.com/phax/ph-javacc-maven-plugin/issues/14)) 
+    * Made plugin threadsafe (see [issue #14](https://github.com/phax/tulipcc-maven-plugin/issues/14)) 
 * v4.1.0 - 2018-10-25
     * Updated to ParserGeneratorCC 1.1.0 - INCOMPATIBLE!
     * Changed PGCC templates - INCOMPATIBLE!
