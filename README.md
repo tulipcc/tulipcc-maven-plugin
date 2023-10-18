@@ -111,7 +111,7 @@ Supported goals with the respective parameters are:
 
 # News and noteworthy
 
-* v5.0.0 - 2023-01-10
+* v5.0.0 - 2023-10-18
     * Migrated artifact id from `com.helger.maven:ph-javacc-maven-plugin` to `io.github.tulipcc:tulipcc-maven-plugin`
     * Support Java 21 (upgraded dependencies)
 * v4.1.5 - 2022-01-10
