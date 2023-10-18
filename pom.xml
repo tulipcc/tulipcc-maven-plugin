@@ -229,7 +229,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-plugin-plugin</artifactId>
         <configuration>
-          <goalPrefix>ph-javacc</goalPrefix>
+          <goalPrefix>tulipcc</goalPrefix>
         </configuration>
         <executions>
           <execution>
