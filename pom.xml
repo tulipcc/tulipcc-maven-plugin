@@ -22,7 +22,7 @@
   <parent>
     <groupId>com.helger</groupId>
     <artifactId>parent-pom</artifactId>
-    <version>1.11.5</version>
+    <version>2.0.5</version>
   </parent>
   <groupId>io.github.tulipcc</groupId>
   <artifactId>tulipcc-maven-plugin</artifactId>
