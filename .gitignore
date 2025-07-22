@@ -12,17 +12,20 @@
 *.ear
 
 pom.xml.releaseBackup
-/release.properties
+release.properties
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
 target/
 /JavaCCParserTokenManager.java
-/**/.pmd
+.pmd
 /it-local-repo/
 /xxx/
-**/*.iml
-/.settings/ 
-/.project 
-/.classpath 
+*.iml
+
+.settings/ 
+.project 
+.classpath 
+.apt_generated/
+.apt_generated_tests/
